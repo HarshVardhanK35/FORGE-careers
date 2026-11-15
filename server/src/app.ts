@@ -3,6 +3,8 @@ import cookieParser from "cookie-parser";
 
 import healthRouter from "./routes/health";
 import authRouter from "./routes/auth";
+import profileRouter from "./routes/profile";
+import settingsRouter from "./routes/settings";
 
 const app = express();
 
@@ -11,5 +13,7 @@ app.use(cookieParser());
 
 app.use("/health", healthRouter);
 app.use("/auth", authRouter);
+app.use("/profile", profileRouter);
+app.use("/settings", settingsRouter);
 
 export default app;
