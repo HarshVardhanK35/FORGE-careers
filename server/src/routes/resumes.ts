@@ -4,6 +4,8 @@ import { z } from "zod";
 import { isValidObjectId } from "mongoose";
 
 import { Resume } from "../models/Resume";
+import { Application } from "../models/Application";
+
 import { protect, AuthRequest } from "../middleware/protect";
 
 const router = Router();
@@ -94,6 +96,12 @@ router.delete("/:id", async (req: AuthRequest, res) => {
   const id = String(req.params.id);
   if (!isValidObjectId(id)) {
     res.status(400).json({ message: "Invalid id" });
+    return;
+  }
+
+  const inUse = await Application.exists({ userId: req.userId, resumeId: id });
+  if (inUse) {
+    res.status(409).json({ message: "This resume version is used by an application" });
     return;
   }
 
