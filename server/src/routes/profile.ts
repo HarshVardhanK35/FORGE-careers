@@ -29,14 +29,6 @@ const profileInputSchema = z.object({
       language: z.string().optional(),
     })
     .optional(),
-  buckets: z
-    .array(
-      z.object({
-        skillId: z.string().min(1),
-        bucket: z.enum(["primary", "secondary", "later"]),
-      })
-    )
-    .optional(),
 });
 
 router.get("/", async (req: AuthRequest, res) => {

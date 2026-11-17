@@ -8,6 +8,8 @@ import settingsRouter from "./routes/settings";
 import resumesRouter from "./routes/resumes";
 import jobsRouter from "./routes/jobs";
 import applicationsRouter from "./routes/applications";
+import skillsRouter from "./routes/skills";
+import onboardingRouter from "./routes/onboarding";
 
 const app = express();
 
@@ -21,5 +23,7 @@ app.use("/settings", settingsRouter);
 app.use("/resumes", resumesRouter);
 app.use("/jobs", jobsRouter);
 app.use("/applications", applicationsRouter);
+app.use("/skills", skillsRouter);
+app.use("/onboarding", onboardingRouter);
 
 export default app;

@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 
-export type Bucket = "primary" | "secondary" | "later";
+import { Bucket, BUCKETS } from "./Skill";
 
 export interface IBucketItem {
   skillId: string;
@@ -27,6 +27,7 @@ export interface IProfile {
     language?: string;
   };
   buckets: IBucketItem[];
+  onboardingComplete: boolean;
 }
 
 const profileSchema = new Schema<IProfile>(
@@ -106,11 +107,15 @@ const profileSchema = new Schema<IProfile>(
         },
         bucket: {
           type: String,
-          enum: ["primary", "secondary", "later"],
+          enum: BUCKETS,
           required: true
         },
       },
     ],
+    onboardingComplete: {
+      type: Boolean,
+      default: false
+    },
   },
   { timestamps: true }
 );
