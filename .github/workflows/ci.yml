@@ -30,6 +30,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Test
+        run: npm test
+
 # on says when it runs: on every push to master and on every pull request into master. 
 # A job is a list of steps on a fresh Ubuntu machine. 
 # working-directory: server runs every command inside the server folder. 
