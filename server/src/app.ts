@@ -10,6 +10,8 @@ import jobsRouter from "./routes/jobs";
 import applicationsRouter from "./routes/applications";
 import skillsRouter from "./routes/skills";
 import onboardingRouter from "./routes/onboarding";
+import resumeChecksRouter from "./routes/resumeChecks";
+import jobMatchesRouter from "./routes/jobMatches";
 
 const app = express();
 
@@ -25,5 +27,7 @@ app.use("/jobs", jobsRouter);
 app.use("/applications", applicationsRouter);
 app.use("/skills", skillsRouter);
 app.use("/onboarding", onboardingRouter);
+app.use("/resume-checks", resumeChecksRouter);
+app.use("/job-matches", jobMatchesRouter);
 
 export default app;

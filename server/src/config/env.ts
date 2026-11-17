@@ -16,3 +16,4 @@ export const SETUP_SECRET = requireEnv("SETUP_SECRET");
 export const JWT_ACCESS_SECRET = requireEnv("JWT_ACCESS_SECRET");
 export const JWT_REFRESH_SECRET = requireEnv("JWT_REFRESH_SECRET");
 export const NODE_ENV = process.env.NODE_ENV || "development";
+export const GROQ_API_KEY = requireEnv("GROQ_API_KEY");
