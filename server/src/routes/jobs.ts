@@ -4,6 +4,7 @@ import { isValidObjectId } from "mongoose";
 
 import { Job } from "../models/Job";
 import { Application } from "../models/Application";
+import { JobMatch } from "../models/JobMatch";
 
 import { protect, AuthRequest } from "../middleware/protect";
 
@@ -124,7 +125,7 @@ router.delete("/:id", async (req: AuthRequest, res) => {
     res.status(400).json({ message: "Invalid id" });
     return;
   }
-  
+
   const hasApplication = await Application.exists({ userId: req.userId, jobId: id });
   if (hasApplication) {
     res.status(409).json({ message: "This job has an application and cannot be deleted" });
@@ -137,6 +138,8 @@ router.delete("/:id", async (req: AuthRequest, res) => {
     return;
   }
 
+  await JobMatch.deleteMany({ jobId: id, userId: req.userId });
+  
   res.json({ message: "Deleted" });
 });
 

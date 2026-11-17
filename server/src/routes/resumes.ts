@@ -5,6 +5,8 @@ import { isValidObjectId } from "mongoose";
 
 import { Resume } from "../models/Resume";
 import { Application } from "../models/Application";
+import { ResumeCheck } from "../models/ResumeCheck";
+import { JobMatch } from "../models/JobMatch";
 
 import { protect, AuthRequest } from "../middleware/protect";
 
@@ -110,6 +112,9 @@ router.delete("/:id", async (req: AuthRequest, res) => {
     res.status(404).json({ message: "Resume version not found" });
     return;
   }
+  
+  await ResumeCheck.deleteMany({ resumeId: id, userId: req.userId });
+  await JobMatch.deleteMany({ resumeId: id, userId: req.userId });
 
   if (resume.isCurrent) {
     const newest = await Resume.findOne({ userId: req.userId }).sort({ versionNumber: -1 });
