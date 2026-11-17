@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/*
+ * Design rules for FORGE Careers (dark theme only for now)
+ *
+ * Colours (use the names, never raw hex values in components):
+ *   canvas = page background       panel = cards and the side bar
+ *   line   = borders               fg    = main text      muted = secondary text
+ *   accent = links and the active item
+ *   ok / warn / bad = success, warning and error
+ *
+ * Type scale (Tailwind sizes): text-xs 12px, text-sm 14px, text-base 16px,
+ *   text-xl 20px, text-2xl 24px. Body text is text-sm or text-base.
+ * Spacing: Tailwind steps (4px each): 1, 2, 3, 4, 6, 8.
+ * Corners: rounded-lg for buttons and inputs, rounded-xl for cards.
+ */
+@theme {
+  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-canvas: #0d1117;
+  --color-panel: #161b22;
+  --color-line: #30363d;
+  --color-fg: #e6edf3;
+  --color-muted: #8b949e;
+  --color-accent: #2f81f7;
+  --color-ok: #3fb950;
+  --color-warn: #d29922;
+  --color-bad: #f85149;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
