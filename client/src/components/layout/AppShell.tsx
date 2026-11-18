@@ -3,6 +3,7 @@ import { Briefcase, FileText, LayoutDashboard, ListChecks, Target, User } from "
 import type { LucideIcon } from "lucide-react";
 
 import { PageHeaderProvider, usePageHeaderState } from "../../context/PageHeaderContext";
+import SessionWarning from "../session/SessionWarning";
 import AccountMenu from "./AccountMenu";
 import AppliedTodayChip from "./AppliedTodayChip";
 import Logo from "./Logo";
@@ -85,6 +86,8 @@ function Shell() {
           ))}
         </nav>
       </div>
+
+      <SessionWarning />
     </div>
   );
 }
