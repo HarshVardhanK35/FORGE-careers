@@ -1,6 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
+import { RedirectIfSignedIn, RequireAuth } from "./components/auth/RouteGuards";
 import AppShell from "./components/layout/AppShell";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
 // a temporary page; each one is replaced by the real page in a later batch
 function Placeholder({ title }: { title: string }) {
@@ -15,13 +18,22 @@ function Placeholder({ title }: { title: string }) {
 export default function App() {
   return (
     <Routes>
-      <Route element={<AppShell />}>
-        <Route index element={<Placeholder title="Home" />} />
-        <Route path="jobs" element={<Placeholder title="Jobs" />} />
-        <Route path="resumes" element={<Placeholder title="Resumes" />} />
-        <Route path="tracker" element={<Placeholder title="Tracker" />} />
-        <Route path="skills" element={<Placeholder title="Skills" />} />
-        <Route path="profile" element={<Placeholder title="Profile" />} />
+      {/* sign-in and sign-up: for signed-out visitors only */}
+      <Route element={<RedirectIfSignedIn />}>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignupPage />} />
+      </Route>
+
+      {/* everything else needs a signed-in user */}
+      <Route element={<RequireAuth />}>
+        <Route element={<AppShell />}>
+          <Route index element={<Placeholder title="Home" />} />
+          <Route path="jobs" element={<Placeholder title="Jobs" />} />
+          <Route path="resumes" element={<Placeholder title="Resumes" />} />
+          <Route path="tracker" element={<Placeholder title="Tracker" />} />
+          <Route path="skills" element={<Placeholder title="Skills" />} />
+          <Route path="profile" element={<Placeholder title="Profile" />} />
+        </Route>
       </Route>
     </Routes>
   );

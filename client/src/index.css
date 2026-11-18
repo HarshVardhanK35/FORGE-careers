@@ -35,10 +35,25 @@
     height: 100%;
   }
 
+  /* tells the browser this is a dark page, so its own controls and autofill use dark colours */
+  html {
+    color-scheme: dark;
+  }
+
   body {
     background-color: var(--color-canvas);
     color: var(--color-fg);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* a field the browser filled in (a saved password) keeps the dark look instead of turning light blue */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-fg);
+    caret-color: var(--color-fg);
+    box-shadow: 0 0 0 1000px var(--color-canvas) inset;
+    transition: background-color 9999s ease-in-out 0s;
   }
 }
