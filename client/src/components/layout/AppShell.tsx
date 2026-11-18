@@ -2,6 +2,9 @@ import { NavLink, Outlet } from "react-router-dom";
 import { Briefcase, FileText, LayoutDashboard, ListChecks, Target, User } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
+import { PageHeaderProvider, usePageHeaderState } from "../../context/PageHeaderContext";
+import AccountMenu from "./AccountMenu";
+import AppliedTodayChip from "./AppliedTodayChip";
 import Logo from "./Logo";
 
 interface NavItem {
@@ -19,9 +22,6 @@ const MAIN_ITEMS: NavItem[] = [
   { to: "/skills", label: "Skills", icon: Target },
 ];
 
-// the profile sits at the bottom of the side bar, and in the top bar on a phone
-const PROFILE_ITEM: NavItem = { to: "/profile", label: "Profile", icon: User };
-
 function sideClass({ isActive }: { isActive: boolean }) {
   const base = "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium";
   return isActive
@@ -34,7 +34,9 @@ function tabClass({ isActive }: { isActive: boolean }) {
   return isActive ? `${base} text-accent` : `${base} text-muted`;
 }
 
-export default function AppShell() {
+function Shell() {
+  const { title, setActionSlot } = usePageHeaderState();
+
   return (
     <div className="flex h-full">
       {/* desktop: the side bar */}
@@ -52,19 +54,21 @@ export default function AppShell() {
           ))}
         </nav>
 
-        <NavLink to={PROFILE_ITEM.to} className={sideClass}>
-          <PROFILE_ITEM.icon size={18} />
-          {PROFILE_ITEM.label}
+        <NavLink to="/profile" className={sideClass}>
+          <User size={18} />
+          Profile
         </NavLink>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* phone: the top bar */}
-        <header className="flex items-center justify-between border-b border-line bg-panel px-4 py-3 md:hidden">
-          <Logo />
-          <NavLink to={PROFILE_ITEM.to} aria-label={PROFILE_ITEM.label} className="text-muted">
-            <PROFILE_ITEM.icon size={20} />
-          </NavLink>
+        {/* the header, on a desktop and on a phone: the page title, then the chip,
+            the page's main button and the account menu */}
+        <header className="flex items-center gap-3 border-b border-line bg-panel px-4 py-3 md:px-8">
+          <h1 className="min-w-0 flex-1 truncate text-lg font-semibold">{title}</h1>
+          <AppliedTodayChip />
+          {/* an empty box: a page fills it with <HeaderAction> */}
+          <div ref={setActionSlot} className="flex items-center gap-2" />
+          <AccountMenu />
         </header>
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
@@ -82,5 +86,13 @@ export default function AppShell() {
         </nav>
       </div>
     </div>
+  );
+}
+
+export default function AppShell() {
+  return (
+    <PageHeaderProvider>
+      <Shell />
+    </PageHeaderProvider>
   );
 }

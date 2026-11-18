@@ -2,17 +2,14 @@ import { Route, Routes } from "react-router-dom";
 
 import { RedirectIfSignedIn, RequireAuth } from "./components/auth/RouteGuards";
 import AppShell from "./components/layout/AppShell";
+import { usePageTitle } from "./context/PageHeaderContext";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
 // a temporary page; each one is replaced by the real page in a later batch
 function Placeholder({ title }: { title: string }) {
-  return (
-    <div>
-      <h1 className="text-2xl font-semibold">{title}</h1>
-      <p className="mt-2 text-sm text-muted">This page is built in a later batch.</p>
-    </div>
-  );
+  usePageTitle(title); // the title appears in the header
+  return <p className="text-sm text-muted">The {title} page is built in a later batch.</p>;
 }
 
 export default function App() {
