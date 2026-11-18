@@ -3,6 +3,7 @@ import type { KeyboardEvent } from "react";
 
 import Button from "../ui/Button";
 import { useAuth } from "../../context/AuthContext";
+import { useActivityRenewal } from "../../hooks/useActivityRenewal";
 
 // the warning opens this long before the access token ends
 const WARNING_MS = 5 * 60 * 1000;
@@ -32,12 +33,17 @@ function keepFocusInside(event: KeyboardEvent<HTMLDivElement>) {
 
 // A box that opens 5 minutes before the session ends and offers two choices:
 // stay signed in (get a new access token) or sign out.
+// It opens only when the user has been inactive: an active user is renewed quietly
+// (see useActivityRenewal), so the end time never gets close.
 export default function SessionWarning() {
   const { expiresAt, staySignedIn, logout } = useAuth();
 
   const [open, setOpen] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [working, setWorking] = useState(false);
+
+  // while the user is active, renew quietly; while the box is open, only the buttons decide
+  useActivityRenewal(!open, expiresAt);
 
   // Whenever the end time changes (sign-in, or a new token after "Stay signed in"),
   // close the box and plan the next warning.
