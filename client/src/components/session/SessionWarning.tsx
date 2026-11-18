@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { KeyboardEvent } from "react";
 
 import Button from "../ui/Button";
 import { useAuth } from "../../context/AuthContext";
 import { useActivityRenewal } from "../../hooks/useActivityRenewal";
+import { keepFocusInside } from "../../lib/focusTrap";
 
 // the warning opens this long before the access token ends
 const WARNING_MS = 5 * 60 * 1000;
@@ -12,23 +12,6 @@ function formatTime(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = String(totalSeconds % 60).padStart(2, "0");
   return `${minutes}:${seconds}`;
-}
-
-// keeps the Tab key inside the box: from the last button it goes back to the first
-function keepFocusInside(event: KeyboardEvent<HTMLDivElement>) {
-  if (event.key !== "Tab") return;
-
-  const buttons = event.currentTarget.querySelectorAll<HTMLButtonElement>("button:not(:disabled)");
-  const first = buttons[0];
-  const last = buttons[buttons.length - 1];
-
-  if (event.shiftKey && document.activeElement === first) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && document.activeElement === last) {
-    event.preventDefault();
-    first.focus();
-  }
 }
 
 // A box that opens 5 minutes before the session ends and offers two choices:

@@ -34,6 +34,10 @@ async function seed(): Promise<void> {
   console.log(
     `Skills in the file: ${skills.length}. New: ${result.upsertedCount}. Updated: ${result.modifiedCount}.`
   );
+
+  // skills that are no longer in the file are removed from the database
+  const removed = await Skill.deleteMany({ skillId: { $nin: skills.map((skill) => skill.skillId) } });
+  console.log(`Removed from the database: ${removed.deletedCount}.`);
 }
 
 seed()

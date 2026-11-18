@@ -9,6 +9,20 @@ import { Schema, model } from "mongoose";
 export const LAYERS = ["technical", "professional"] as const;
 export const BUCKETS = ["primary", "secondary", "later"] as const;
 
+// the sections of the onboarding list, in the order they are shown
+export const CATEGORIES = [
+  { id: "language-web", label: "Language and web basics" },
+  { id: "frontend", label: "Frontend" },
+  { id: "backend", label: "Backend and APIs" },
+  { id: "databases", label: "Databases" },
+  { id: "tools", label: "Tools, testing and delivery" },
+  { id: "ai", label: "AI" },
+  { id: "professional", label: "Professional skills (behavioural)" },
+] as const;
+
+export type Category = (typeof CATEGORIES)[number]["id"];
+const CATEGORY_IDS: string[] = CATEGORIES.map((category) => category.id);
+
 /**
  * typeof LAYERS takes that tuple's type
  * (typeof LAYERS)[number] means "type of any item in it", which is "technical" | "professional"
@@ -24,6 +38,7 @@ export interface ISkill {
   name: string;
   description: string;
   layer: Layer;
+  category: Category;
   suggestedBucket: Bucket;
   order: number;
   roles: string[];
@@ -49,6 +64,11 @@ const skillSchema = new Schema<ISkill>(
     layer: {
       type: String,
       enum: LAYERS,
+      required: true
+    },
+    category: {
+      type: String,
+      enum: CATEGORY_IDS,
       required: true
     },
     suggestedBucket: {
