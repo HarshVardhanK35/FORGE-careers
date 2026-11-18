@@ -7,6 +7,7 @@ import "@fontsource-variable/inter";
 import "./index.css";
 
 import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
 
 // one query client holds all the data TanStack Query fetches from the server
 const queryClient = new QueryClient();
@@ -14,9 +15,11 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>
 );

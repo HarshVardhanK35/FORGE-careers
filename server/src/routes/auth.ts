@@ -9,8 +9,7 @@ import { protect, AuthRequest } from "../middleware/protect";
 
 import { NODE_ENV, SETUP_SECRET, JWT_REFRESH_SECRET } from "../config/env";
 
-import { signAccessToken, signRefreshToken, hashToken } from "../utils/tokens";
-
+import { signAccessToken, signRefreshToken, hashToken, ACCESS_TOKEN_MINUTES, accessExpiresAt } from "../utils/tokens";
 
 const router = Router();
 
@@ -28,9 +27,14 @@ const router = Router();
 
 // signup 
 const signupSchema = z.object({
-  email: z.string().email(),     // text, and it must look like an email
-  password: z.string().min(8),   // text, at least 8 characters
-  setupSecret: z.string(),       // text, any length
+  email: z.string().email(),    // text, and it must look like an email
+  password: z
+    .string()
+    .min(8)
+    .regex(/[A-Za-z]/)          // letters
+    .regex(/\d/)                // number
+    .regex(/[^A-Za-z0-9]/),     //  symbol
+  setupSecret: z.string(),      // text, any length
 });
 
 // sign up route
@@ -74,7 +78,7 @@ const cookieOptions = {
 };
 
 function setAuthCookies(res: Response, accessToken: string, refreshToken: string): void {
-  res.cookie("accessToken", accessToken, { ...cookieOptions, maxAge: 15 * 60 * 1000 });
+  res.cookie("accessToken", accessToken, { ...cookieOptions, maxAge: ACCESS_TOKEN_MINUTES * 60 * 1000 });
   res.cookie("refreshToken", refreshToken, { ...cookieOptions, maxAge: 7 * 24 * 60 * 60 * 1000 });
 }
 
@@ -103,7 +107,7 @@ router.post("/login", async (req, res) => {
   await user.save();
 
   setAuthCookies(res, accessToken, refreshToken);
-  res.json({ message: "Logged in" });
+  res.json({ message: "Logged in", accessExpiresAt: accessExpiresAt() });
 });
 
 // get logged in user
@@ -143,7 +147,7 @@ router.post("/refresh", async (req, res) => {
     await user.save();
 
     setAuthCookies(res, accessToken, refreshToken);
-    res.json({ message: "Session refreshed" });
+    res.json({ message: "Session refreshed", accessExpiresAt: accessExpiresAt() });
   } catch {
     res.status(401).json({ message: "Invalid or expired session" });
   }
