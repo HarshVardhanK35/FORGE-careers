@@ -4,416 +4,503 @@
     "name": "JavaScript core and ES6+",
     "description": "Scope, this, prototypes, the event loop, array and object methods, destructuring, optional chaining, fetch and AbortController. Mandatory: closures, promises, async and await, and modules (ES modules).",
     "layer": "technical",
+    "category": "language-web",
     "suggestedBucket": "primary",
     "order": 1,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "browser-web-fundamentals",
     "name": "Browser and web fundamentals",
     "description": "The DOM, events, rendering, HTTP and HTTPS, how a request travels, and postMessage between a page and an iframe. Mandatory: storage (localStorage, IndexedDB), cookies (including sameSite), CORS (including with credentials) and HTTP caching.",
     "layer": "technical",
+    "category": "language-web",
     "suggestedBucket": "primary",
     "order": 2,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "react",
     "name": "React",
     "description": "Props, and practice: modals and confirm dialogs, toasts, accordions, drag and drop and long-press select. Mandatory: functional components and hooks only (useState, useEffect, useRef, useMemo), state, effects, routing (React Router, protected routes), forms with validation and performance (memoisation).",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "primary",
     "order": 3,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "nodejs",
     "name": "Node.js",
     "description": "Modules in Node (CommonJS and ES modules), the event loop, streams and error handling. Theory only: services and background jobs and an RSS feed proxy with size and time limits. Mandatory: environment settings, and working with files.",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "primary",
     "order": 4,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "express",
     "name": "Express",
     "description": "Monolith and microservices (what they are), controllers and services, route-level auth, cookie-parser, helmet, and express-rate-limit behind proxies. Mandatory: routing, middleware, error handling, CORS (with credentials) and validation (input length limits).",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "primary",
     "order": 5,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "rest-http",
     "name": "REST APIs and HTTP",
     "description": "Methods, idempotency, pagination, and rewrite rules that serve the API through the frontend's address. Mandatory: status codes (including 409 and 429) and designing endpoints (resource routes).",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "primary",
     "order": 6,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "mongodb",
     "name": "MongoDB",
     "description": "The aggregation pipeline, transactions, replication, atomic updates and deleteMany. Mandatory: documents and collections, queries (including queries by owner), indexes (including TTL indexes) and data modelling (references).",
     "layer": "technical",
+    "category": "databases",
     "suggestedBucket": "primary",
     "order": 7,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "mongoose",
     "name": "Mongoose",
     "description": "Queries (the query builder), hooks and query performance. Mandatory: schemas and models (learned as logic with your own examples), validation (including field-length validation) and references (populate).",
     "layer": "technical",
+    "category": "databases",
     "suggestedBucket": "primary",
     "order": 8,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "auth-security",
     "name": "Authentication, authorization and security",
     "description": "Sessions, XSS, CSRF, NoSQL injection and secrets in environment variables. Mandatory: JWT (access token and refresh token in an httpOnly cookie), bcrypt hashing, email verification and password reset, failed-login lock, role-based access and owner-only resources.",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "primary",
     "order": 9,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "git-github",
     "name": "Git and GitHub",
     "description": "Rebase, stash, reset and resolving conflicts. Mandatory: branches (feature branches), merging (to master) and pull requests.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "primary",
     "order": 10,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "ci-cd",
     "name": "CI/CD and deployment",
     "description": "Environments, building images on every merge to master, promoting to production when a version tag is pushed, and re-running transient failures. Mandatory: writing GitHub Actions pipeline files, and deploying to a host (staging first, then production).",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "primary",
     "order": 11,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "docker",
     "name": "Docker",
     "description": "Containers, volumes, running an app in a container, and pushing the image to the GitHub container registry. Mandatory: Dockerfiles and images.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "primary",
     "order": 12,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "typescript",
     "name": "TypeScript",
     "description": "Interfaces, generics, strict mode, and typing API responses and hooks. Mandatory: types (typing configuration and data).",
     "layer": "technical",
+    "category": "language-web",
     "suggestedBucket": "primary",
     "order": 13,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
-
   {
     "skillId": "html-css",
     "name": "HTML and CSS",
     "description": "Semantic HTML, layout with flexbox and grid, container queries and media queries. Mandatory: responsive design (phone, tablet, desktop).",
     "layer": "technical",
+    "category": "language-web",
     "suggestedBucket": "secondary",
     "order": 14,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "testing",
     "name": "Testing",
     "description": "Vitest, what makes a test useful, and testing basics. Mandatory: API tests, and unit tests with Jest.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "secondary",
     "order": 15,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "ai-api",
     "name": "AI tools and calling an AI API",
     "description": "Using AI coding tools well, and calling an AI API with structured output.",
     "layer": "technical",
+    "category": "ai",
     "suggestedBucket": "secondary",
     "order": 16,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "cloud-basics",
     "name": "Cloud basics",
     "description": "A cloud provider such as AWS, a domain registrar and DNS. Mandatory: hosting, and storage (a media storage service).",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "secondary",
     "order": 17,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "graphql-websockets",
     "name": "GraphQL and WebSockets",
     "description": "GraphQL queries and schemas, real-time connections with WebSockets, and server-sent events.",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "secondary",
     "order": 18,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "mqtt-basics",
     "name": "MQTT basics",
     "description": "Publish and subscribe, topics, retained messages, keepalive and reconnect, publishers and listeners, a cloud MQTT broker, and MQTT over WebSocket from the browser.",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "secondary",
     "order": 19,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "react-state-data",
     "name": "React state management and data fetching",
     "description": "Context, Redux basics, and when each fits.",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "secondary",
     "order": 20,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "file-uploads",
     "name": "File uploads and media storage",
     "description": "multer, handling a file upload request, size and dimension checks before upload, resized delivery URLs, and deleting a file together with its record.",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "secondary",
     "order": 21,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "web-performance",
     "name": "Web performance",
     "description": "Code splitting (including lazy and Suspense), lazy images, idle prefetch, small chunks and Lighthouse basics.",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "secondary",
     "order": 22,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "accessibility",
     "name": "Accessibility basics",
     "description": "Buttons and labels, aria-expanded, focus handling and keyboard use.",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "secondary",
     "order": 23,
-    "roles": ["js-fullstack"]
-  },
-
-  {
-    "skillId": "nextjs",
-    "name": "Next.js",
-    "description": "Routing, server and client rendering, and data fetching in a React framework.",
-    "layer": "technical",
-    "suggestedBucket": "later",
-    "order": 24,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "sql-postgresql",
     "name": "SQL and PostgreSQL basics",
     "description": "Tables, joins, queries and when a relational database fits better.",
     "layer": "technical",
+    "category": "databases",
     "suggestedBucket": "later",
     "order": 25,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "linux-cli",
     "name": "Linux and the command line",
     "description": "Shell commands, files, permissions and processes beyond what Git needs.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "later",
     "order": 26,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "tailwind-css",
     "name": "Tailwind CSS",
     "description": "Utility classes and breakpoints.",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "later",
     "order": 27,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "service-workers",
     "name": "Service workers and offline basics",
     "description": "A service worker, the Cache API and serving saved files offline.",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "later",
     "order": 28,
-    "roles": ["js-fullstack"]
-  },
-  {
-    "skillId": "vue-angular",
-    "name": "Vue and Angular",
-    "description": "Angular, and how the two frameworks compare. Mandatory: Vue (Vue 3).",
-    "layer": "technical",
-    "suggestedBucket": "later",
-    "order": 29,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "kubernetes-terraform",
     "name": "Kubernetes and Terraform",
     "description": "Container orchestration and infrastructure as code.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "later",
     "order": 30,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "e2e-testing",
     "name": "End-to-end testing",
     "description": "Browser tests with Playwright or Cypress.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "later",
     "order": 31,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "logging-monitoring",
     "name": "Logging and monitoring basics",
     "description": "Structured logging. Mandatory: watching an app (a heartbeat with offline detection).",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "later",
     "order": 32,
-    "roles": ["js-fullstack"]
-  },
-  {
-    "skillId": "seo-web",
-    "name": "SEO and web basics",
-    "description": "Page titles, meta description, canonical links, Open Graph tags, JSON-LD structured data, robots.txt, sitemaps and Search Console.",
-    "layer": "technical",
-    "suggestedBucket": "later",
-    "order": 33,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "docker-compose",
     "name": "Docker Compose",
     "description": "Running several containers together.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "later",
     "order": 34,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "redis-caching-queues",
     "name": "Redis, caching and queues",
     "description": "In-memory caches, job queues and when a server needs them.",
     "layer": "technical",
+    "category": "backend",
     "suggestedBucket": "later",
     "order": 35,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "build-tooling",
     "name": "Build tooling",
     "description": "Vite, ESLint, npm scripts and package-lock.json.",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "later",
     "order": 36,
-    "roles": ["js-fullstack"]
-  },
-  {
-    "skillId": "old-browser-support",
-    "name": "Old-browser support and polyfills",
-    "description": "Targeting older JavaScript, polyfills and fallbacks for missing CSS features.",
-    "layer": "technical",
-    "suggestedBucket": "later",
-    "order": 37,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "browser-ml",
     "name": "In-browser machine learning",
     "description": "TensorFlow.js with a small open-source image model.",
     "layer": "technical",
+    "category": "frontend",
     "suggestedBucket": "later",
     "order": 38,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "npm-package",
     "name": "Publishing an npm package",
     "description": "Building a small shared library, publishing it and testing it with Jest.",
     "layer": "technical",
+    "category": "tools",
     "suggestedBucket": "later",
     "order": 39,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
-
   {
     "skillId": "debugging",
     "name": "Debugging",
     "description": "Reading errors, breakpoints, and code you wrote and code you did not. Mandatory: reading logs (on real devices) and isolating a bug (reproducing it).",
     "layer": "professional",
+    "category": "professional",
     "suggestedBucket": "primary",
     "order": 1,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "code-review",
     "name": "Code review",
     "description": "Reading code critically, testing it and saying why it is right or wrong, including AI-written code.",
     "layer": "professional",
+    "category": "professional",
     "suggestedBucket": "primary",
     "order": 2,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "problem-solving",
     "name": "Problem solving",
     "description": "JavaScript logic and approach: clarify, plan, think aloud, solve, verify and handle edge cases.",
     "layer": "professional",
+    "category": "professional",
     "suggestedBucket": "primary",
     "order": 3,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "communication",
     "name": "Communication",
     "description": "Explaining your work and decisions clearly, and answering behavioural questions in the STAR format.",
     "layer": "professional",
+    "category": "professional",
     "suggestedBucket": "primary",
     "order": 4,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "system-design-basics",
     "name": "System design basics",
     "description": "Reasoning about structure and trade-offs for a small system.",
     "layer": "professional",
+    "category": "professional",
     "suggestedBucket": "primary",
     "order": 5,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "ownership",
     "name": "Ownership",
     "description": "Taking responsibility for outcomes, following through and learning from mistakes.",
     "layer": "professional",
+    "category": "professional",
     "suggestedBucket": "secondary",
     "order": 6,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   },
   {
     "skillId": "agile-teamwork",
     "name": "Agile and teamwork",
     "description": "Scrum basics, Jira, stand-ups and working well in a team.",
     "layer": "professional",
+    "category": "professional",
     "suggestedBucket": "secondary",
     "order": 7,
-    "roles": ["js-fullstack"]
+    "roles": [
+      "js-fullstack"
+    ]
   }
 ]

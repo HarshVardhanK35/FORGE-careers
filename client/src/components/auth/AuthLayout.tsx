@@ -7,18 +7,28 @@ interface AuthLayoutProps {
   // a message above the form, for example "Your session ended"
   notice?: string;
   // the line under the card, for example a link to the other page
-  footer: ReactNode;
+  footer?: ReactNode;
+  // a wider card, for screens with a long list
+  wide?: boolean;
   children: ReactNode;
 }
 
 // the centred card shared by the sign-in and sign-up pages (no side bar, no header)
-export default function AuthLayout({ title, notice, footer, children }: AuthLayoutProps) {
+export default function AuthLayout({ title, notice, footer, wide = false, children }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-full flex-col items-center justify-center gap-6 p-4">
+    <div
+      className={`flex min-h-full flex-col items-center justify-center p-4 ${
+        wide ? "gap-4 md:gap-3 md:py-3" : "gap-6"
+      }`}
+    >
       <Logo />
 
-      <div className="w-full max-w-sm rounded-xl border border-line bg-panel p-6">
-        <h1 className="mb-4 text-xl font-semibold">{title}</h1>
+      <div
+        className={`w-full rounded-xl border border-line bg-panel ${
+          wide ? "max-w-3xl p-4 md:p-5" : "max-w-sm p-6"
+        }`}
+      >
+        <h1 className={`text-xl font-semibold ${wide ? "mb-2 md:mb-3" : "mb-4"}`}>{title}</h1>
 
         {notice && (
           <p
@@ -32,7 +42,7 @@ export default function AuthLayout({ title, notice, footer, children }: AuthLayo
         {children}
       </div>
 
-      <p className="text-sm text-muted">{footer}</p>
+      {footer && <p className="text-sm text-muted">{footer}</p>}
     </div>
   );
 }

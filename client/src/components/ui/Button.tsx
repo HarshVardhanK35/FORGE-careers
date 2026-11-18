@@ -2,9 +2,11 @@ import type { ButtonHTMLAttributes } from "react";
 import { LoaderCircle } from "lucide-react";
 
 type Variant = "primary" | "secondary" | "danger" | "ghost";
+type Size = "md" | "sm";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
+  size?: Size;
   // shows a spinner and disables the button while an action is running
   loading?: boolean;
 }
@@ -16,13 +18,19 @@ const VARIANT_CLASSES: Record<Variant, string> = {
   ghost: "text-muted hover:bg-line/40 hover:text-fg",
 };
 
+const SIZE_CLASSES: Record<Size, string> = {
+  md: "px-4 py-2 text-sm",
+  sm: "px-3 py-1.5 text-xs",
+};
+
 const BASE_CLASSES =
-  "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium " +
+  "inline-flex items-center justify-center gap-2 rounded-lg font-medium " +
   "transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 " +
   "focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50";
 
 export default function Button({
   variant = "primary",
+  size = "md",
   loading = false,
   type = "button", // "button" by default, so a button never submits a form by accident
   disabled,
@@ -35,7 +43,7 @@ export default function Button({
       type={type}
       disabled={disabled || loading}
       aria-busy={loading}
-      className={`${BASE_CLASSES} ${VARIANT_CLASSES[variant]} ${className}`}
+      className={`${BASE_CLASSES} ${SIZE_CLASSES[size]} ${VARIANT_CLASSES[variant]} ${className}`}
       {...rest}
     >
       {loading && <LoaderCircle size={16} className="animate-spin" aria-hidden="true" />}

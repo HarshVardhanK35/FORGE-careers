@@ -5,19 +5,24 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
   hint?: string;
+  // a small text on the far right of the label row, for example a character count like "12/30"
+  counter?: string;
   // something shown inside the field on the right, for example the show-password button
   rightSlot?: ReactNode;
 }
 
-export default function Input({ label, error, hint, rightSlot, className = "", ...rest }: InputProps) {
+export default function Input({ label, error, hint, counter, rightSlot, className = "", ...rest }: InputProps) {
   const id = useId();
   const messageId = `${id}-message`;
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-fg">
-        {label}
-      </label>
+      <div className="flex items-baseline justify-between gap-2">
+        <label htmlFor={id} className="text-sm font-medium text-fg">
+          {label}
+        </label>
+        {counter && <span className="text-xs text-muted">{counter}</span>}
+      </div>
 
       <div className="relative">
         <input

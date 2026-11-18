@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 
-import { RedirectIfSignedIn, RequireAuth } from "./components/auth/RouteGuards";
+import { RedirectIfSignedIn, RequireAuth, RequireOnboarding } from "./components/auth/RouteGuards";
 import AppShell from "./components/layout/AppShell";
 import { usePageTitle } from "./context/PageHeaderContext";
 import LoginPage from "./pages/LoginPage";
+import OnboardingPage from "./pages/OnboardingPage";
 import SignupPage from "./pages/SignupPage";
 
 // a temporary page; each one is replaced by the real page in a later batch
@@ -23,13 +24,19 @@ export default function App() {
 
       {/* everything else needs a signed-in user */}
       <Route element={<RequireAuth />}>
-        <Route element={<AppShell />}>
-          <Route index element={<Placeholder title="Home" />} />
-          <Route path="jobs" element={<Placeholder title="Jobs" />} />
-          <Route path="resumes" element={<Placeholder title="Resumes" />} />
-          <Route path="tracker" element={<Placeholder title="Tracker" />} />
-          <Route path="skills" element={<Placeholder title="Skills" />} />
-          <Route path="profile" element={<Placeholder title="Profile" />} />
+        {/* onboarding: a full-screen flow, outside the app shell */}
+        <Route path="onboarding" element={<OnboardingPage />} />
+
+        {/* the app itself: only after onboarding is complete */}
+        <Route element={<RequireOnboarding />}>
+          <Route element={<AppShell />}>
+            <Route index element={<Placeholder title="Home" />} />
+            <Route path="jobs" element={<Placeholder title="Jobs" />} />
+            <Route path="resumes" element={<Placeholder title="Resumes" />} />
+            <Route path="tracker" element={<Placeholder title="Tracker" />} />
+            <Route path="skills" element={<Placeholder title="Skills" />} />
+            <Route path="profile" element={<Placeholder title="Profile" />} />
+          </Route>
         </Route>
       </Route>
     </Routes>
