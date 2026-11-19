@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { LoaderCircle } from "lucide-react";
+
+import Spinner from "../ui/Spinner";
 
 import Button from "../ui/Button";
 import { useAuth } from "../../context/AuthContext";
@@ -8,7 +9,7 @@ import { useOnboarding } from "../../hooks/useOnboarding";
 function FullScreenLoader() {
   return (
     <div role="status" aria-label="Loading" className="flex h-full items-center justify-center text-muted">
-      <LoaderCircle size={24} className="animate-spin" />
+      <Spinner size={24} />
     </div>
   );
 }

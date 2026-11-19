@@ -9,13 +9,13 @@ interface ModalProps {
   children: ReactNode;
 }
 
-// A box over a dimmed page. It fills the screen on a phone.
+// A box in the centre of a dimmed page, with a margin around it (also on a phone).
 // The parent shows it only while it is open: {open && <Modal ...>}.
 // Escape or a click on the dark area closes it; the Tab key stays inside it.
 export default function Modal({ title, onClose, children }: ModalProps) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-stretch justify-center bg-black/60 backdrop-blur-md sm:items-center sm:p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-5 backdrop-blur-md"
       onClick={onClose}
     >
       <div
@@ -28,10 +28,10 @@ export default function Modal({ title, onClose, children }: ModalProps) {
           if (event.key === "Escape") onClose();
           else keepFocusInside(event);
         }}
-        className="flex h-full w-full flex-col bg-panel sm:h-auto sm:max-h-[85vh] sm:max-w-xl sm:rounded-xl sm:border sm:border-line"
+        className="flex max-h-[85vh] w-full max-w-xl flex-col rounded-xl border border-line bg-panel"
       >
-        <div className="flex items-center justify-between border-b border-line px-5 py-4">
-          <h2 className="text-lg font-semibold">{title}</h2>
+        <div className="flex items-center justify-between border-b border-line px-4 py-3 md:px-5 md:py-4">
+          <h2 className="text-base font-semibold md:text-lg">{title}</h2>
           <button
             type="button"
             autoFocus
@@ -43,7 +43,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-4">{children}</div>
+        <div className="flex-1 overflow-y-auto px-4 py-3 md:px-5 md:py-4">{children}</div>
       </div>
     </div>
   );

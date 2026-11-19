@@ -1,11 +1,11 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { LoaderCircle } from "lucide-react";
 
 import Button from "../ui/Button";
 import Input from "../ui/Input";
-import { api, isApiFailure } from "../../lib/api";
+import Spinner from "../ui/Spinner";
+import { api, errorMessage, isApiFailure } from "../../lib/api";
 import type { Profile, ProfileInput } from "../../lib/types";
 
 // the longest name the form accepts
@@ -65,11 +65,7 @@ function ProfileForm({ initial, onSaved }: ProfileFormProps) {
     });
   }
 
-  const saveError = save.error
-    ? isApiFailure(save.error)
-      ? save.error.message
-      : "Something went wrong. Please try again."
-    : "";
+  const saveError = save.error ? errorMessage(save.error) : "";
 
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
@@ -128,7 +124,7 @@ export default function ProfileStep({ onSaved }: { onSaved: () => void }) {
   if (profile.isPending) {
     return (
       <div role="status" aria-label="Loading" className="flex justify-center py-8 text-muted">
-        <LoaderCircle size={24} className="animate-spin" />
+        <Spinner size={24} />
       </div>
     );
   }

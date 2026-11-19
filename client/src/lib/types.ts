@@ -50,6 +50,49 @@ export interface OnboardingData {
   skills: OnboardingSkill[];
 }
 
+// one resume version in the list (GET /resumes leaves the text out)
+export interface ResumeSummary {
+  _id: string;
+  versionNumber: number;
+  note: string;
+  isCurrent: boolean;
+  createdAt: string;
+}
+
+// one resume version with its text (GET /resumes/:id)
+export interface Resume extends ResumeSummary {
+  text: string;
+}
+
+// what the new-version form sends to POST /resumes
+export interface NewResumeInput {
+  text: string;
+  note: string; // required, up to 60 characters; the server names the version v1, v2, v3 ...
+}
+
+export type Severity = "high" | "medium" | "low";
+
+export interface ResumeIssue {
+  section: string;
+  problem: string;
+  suggestion: string;
+  severity: Severity;
+}
+
+// one AI check of a resume version (POST /resume-checks, GET /resume-checks?resumeId=)
+export interface ResumeCheck {
+  _id: string;
+  resumeId: string;
+  provider: string;
+  model: string;
+  targetRole: string;
+  summary: string;
+  strengths: string[];
+  issues: ResumeIssue[];
+  keywordGaps: string[];
+  createdAt: string;
+}
+
 // what the onboarding form sends to PUT /profile
 export interface ProfileInput {
   name: string;
