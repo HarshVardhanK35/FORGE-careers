@@ -40,6 +40,12 @@
     color-scheme: dark;
   }
 
+  /* thin, dark scrollbars everywhere (the default ones are wide, light and have arrows) */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line) transparent;
+  }
+
   body {
     background-color: var(--color-canvas);
     color: var(--color-fg);

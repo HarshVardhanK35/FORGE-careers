@@ -1,20 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, FileText, Plus } from "lucide-react";
 
+import SplitLayout from "../components/layout/SplitLayout";
 import NewVersionModal from "../components/resumes/NewVersionModal";
 import Button from "../components/ui/Button";
 import MobileActionBar from "../components/ui/MobileActionBar";
 import { LoadingText } from "../components/ui/Spinner";
-import { HeaderAction, usePageTitle } from "../context/PageHeaderContext";
+import { HeaderAction } from "../context/PageHeaderContext";
 import { api } from "../lib/api";
-import { formatDate, versionTitle } from "../lib/resumes";
+import { formatDate } from "../lib/dates";
+import { versionTitle } from "../lib/resumes";
 import type { ResumeSummary } from "../lib/types";
 
-// The list of resume versions, newest first, with a button to add one.
-export default function ResumesPage() {
-  usePageTitle("Resumes");
+// the left side: the versions, newest first, with a button to add one
+function ResumeList() {
   const [adding, setAdding] = useState(false);
 
   // useQuery: loads the list, keeps it in a cache and tells us if it is loading or failed
@@ -26,7 +27,7 @@ export default function ResumesPage() {
   const nextNumber = data && data.length > 0 ? data[0].versionNumber + 1 : 1;
 
   return (
-    <div className="mx-auto flex min-h-full max-w-3xl flex-col">
+    <div className="flex flex-1 flex-col">
       {/* the header button is for a desktop; a phone has the bar at the bottom */}
       <HeaderAction>
         <div className="hidden md:block">
@@ -37,9 +38,7 @@ export default function ResumesPage() {
         </div>
       </HeaderAction>
 
-      {isPending && (
-        <LoadingText>Loading your resume versions…</LoadingText>
-      )}
+      {isPending && <LoadingText>Loading your resume versions…</LoadingText>}
 
       {isError && (
         <div className="flex flex-col items-start gap-3">
@@ -65,9 +64,14 @@ export default function ResumesPage() {
         <ul className="flex flex-col gap-3">
           {data.map((resume) => (
             <li key={resume._id}>
-              <Link
+              {/* NavLink knows when its address is the open one, so the chosen row is highlighted */}
+              <NavLink
                 to={`/resumes/${resume._id}`}
-                className="flex items-stretch gap-3 rounded-xl border border-line bg-panel p-4 hover:border-muted focus-visible:outline-2 focus-visible:outline-accent"
+                className={({ isActive }) =>
+                  `flex items-stretch gap-3 rounded-xl border bg-panel p-4 focus-visible:outline-2 focus-visible:outline-accent ${
+                    isActive ? "border-accent" : "border-line hover:border-muted"
+                  }`
+                }
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -83,7 +87,7 @@ export default function ResumesPage() {
                   <ChevronRight size={16} className="text-muted" aria-hidden="true" />
                   <span className="text-xs text-muted">{formatDate(resume.createdAt)}</span>
                 </div>
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -102,4 +106,9 @@ export default function ResumesPage() {
       {adding && <NewVersionModal nextNumber={nextNumber} onClose={() => setAdding(false)} />}
     </div>
   );
+}
+
+// the Resumes page: the list on the left and the chosen version on the right
+export default function ResumesPage() {
+  return <SplitLayout basePath="/resumes" list={<ResumeList />} />;
 }

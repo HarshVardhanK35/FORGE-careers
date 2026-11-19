@@ -93,6 +93,73 @@ export interface ResumeCheck {
   createdAt: string;
 }
 
+// one job in the list (GET /jobs leaves the description out)
+export interface JobSummary {
+  _id: string;
+  company: string;
+  title: string;
+  source: string;
+  link: string;
+  note: string;
+  location: string;
+  salaryRange: string;
+  createdAt: string;
+}
+
+// one job with its description (GET /jobs/:id)
+export interface Job extends JobSummary {
+  description: string;
+}
+
+// what the job form sends to POST /jobs and PATCH /jobs/:id
+export interface JobInput {
+  company: string;
+  title: string;
+  source: string;
+  link: string;
+  location: string;
+  salaryRange: string;
+  description: string;
+  note: string;
+}
+
+// the answer of POST /jobs: the saved job, and whether the same company and title existed already
+export interface SavedJob {
+  job: Job;
+  duplicate: boolean;
+}
+
+// the answer of POST /job-matches/prompt: the text to paste into ChatGPT or Claude
+export interface MatchPrompt {
+  prompt: string;
+  resumeVersion: number;
+}
+
+// one match of a job with a resume version (POST /job-matches, GET /job-matches?jobId=)
+export interface JobMatch {
+  _id: string;
+  jobId: string;
+  resumeId: string;
+  source: string;
+  matchedRequired: string[];
+  missingRequired: string[];
+  matchedNiceToHave: string[];
+  missingNiceToHave: string[];
+  percent: number;
+  decision: "apply" | "skip";
+  threshold: number;
+  yearsNote: string;
+  createdAt: string;
+}
+
+// one application in the list (GET /applications); the job is filled in by the server
+export interface ApplicationSummary {
+  _id: string;
+  jobId: { _id: string; company: string; title: string; location: string };
+  stage: string;
+  appliedAt: string;
+}
+
 // what the onboarding form sends to PUT /profile
 export interface ProfileInput {
   name: string;
