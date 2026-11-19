@@ -13,9 +13,9 @@ const router = Router();
 router.use(protect);
 
 const createJobSchema = z.object({
-  company: z.string().trim().min(1).max(100),
-  title: z.string().trim().min(1).max(150),
-  source: z.string().trim().max(50).optional(),
+  company: z.string().trim().min(1).max(50),
+  title: z.string().trim().min(1).max(60),
+  source: z.string().trim().max(25).optional(),
 
   // URL type is checked here (from response object)
   // This accepts a valid link or an empty text
@@ -23,9 +23,9 @@ const createJobSchema = z.object({
   link: z.union([z.string().trim().url().max(500), z.literal("")]).optional(),
 
   description: z.string().trim().min(1).max(20000),
-  note: z.string().max(500).optional(),
-  location: z.string().trim().max(100).optional(),
-  salaryRange: z.string().trim().max(100).optional(),
+  note: z.string().trim().max(100).optional(),
+  location: z.string().trim().max(30).optional(),
+  salaryRange: z.string().trim().max(10).optional(),
 });
 
 // .partial() makes every field opt, so an edit can send just the fields that change
@@ -139,7 +139,7 @@ router.delete("/:id", async (req: AuthRequest, res) => {
   }
 
   await JobMatch.deleteMany({ jobId: id, userId: req.userId });
-  
+
   res.json({ message: "Deleted" });
 });
 

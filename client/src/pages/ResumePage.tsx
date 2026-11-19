@@ -4,9 +4,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Check, Pencil, Play, Trash2 } from "lucide-react";
 
 import CheckPanel from "../components/resumes/CheckPanel";
-import DeleteVersionModal from "../components/resumes/DeleteVersionModal";
 import EditNoteModal from "../components/resumes/EditNoteModal";
 import Button from "../components/ui/Button";
+import ConfirmModal from "../components/ui/ConfirmModal";
 import MobileActionBar from "../components/ui/MobileActionBar";
 import { LoadingText } from "../components/ui/Spinner";
 import { HeaderAction, usePageTitle } from "../context/PageHeaderContext";
@@ -91,7 +91,7 @@ export default function ResumePage() {
   const version = resume.data;
 
   return (
-    <div className="mx-auto flex min-h-full max-w-3xl flex-col gap-6">
+    <div className="flex w-full flex-1 flex-col gap-4">
       {/* the header button is for a desktop; a phone has the bar at the bottom */}
       <HeaderAction>
         <div className="hidden md:block">
@@ -102,31 +102,13 @@ export default function ResumePage() {
         </div>
       </HeaderAction>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <Link to="/resumes" className="flex items-center gap-1 text-sm text-muted hover:text-fg">
-          <ArrowLeft size={14} aria-hidden="true" />
-          All versions
-        </Link>
-        {version.isCurrent ? (
-          <span className="rounded-full bg-ok/15 px-2 py-0.5 text-xs font-medium text-ok">Current</span>
-        ) : (
-          <Button variant="secondary" size="sm" loading={makeCurrent.isPending} onClick={() => makeCurrent.mutate()}>
-            <Check size={14} aria-hidden="true" />
-            Make current
-          </Button>
-        )}
+      {/* the list is on the left on a desktop, so the back link is for a phone only */}
+      <Link to="/resumes" className="flex w-fit items-center gap-1 text-sm text-muted hover:text-fg md:hidden">
+        <ArrowLeft size={14} aria-hidden="true" />
+        All versions
+      </Link>
 
-        {/* the trash icon sits at the top right */}
-        <button
-          type="button"
-          aria-label="Delete this version"
-          onClick={() => setConfirmingDelete(true)}
-          className="ml-auto rounded-lg p-2 text-muted hover:bg-line/40 hover:text-bad focus-visible:outline-2 focus-visible:outline-accent"
-        >
-          <Trash2 size={16} />
-        </button>
-      </div>
-
+      {/* the note with its edit icon, and the trash icon at the far right on the same line */}
       <div className="flex items-center gap-1">
         <p className="min-w-0 break-words text-sm text-muted">{version.note || "No note yet."}</p>
         <button
@@ -137,6 +119,44 @@ export default function ResumePage() {
         >
           <Pencil size={14} />
         </button>
+        <button
+          type="button"
+          aria-label="Delete this version"
+          onClick={() => setConfirmingDelete(true)}
+          className="ml-auto shrink-0 rounded-lg p-1.5 text-muted hover:bg-line/40 hover:text-bad focus-visible:outline-2 focus-visible:outline-accent"
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
+
+      {/* the status of this version: green when it is the current one, blue with a button when it is not */}
+      <div
+        className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border px-4 py-3 ${
+          version.isCurrent ? "border-ok/40 bg-ok/10" : "border-accent/40 bg-accent/10"
+        }`}
+      >
+        {version.isCurrent ? (
+          <>
+            <p className="flex items-center gap-2 text-sm font-medium text-ok">
+              <Check size={16} aria-hidden="true" />
+              Current version
+            </p>
+            <p className="text-xs text-muted">Used when you mark a job as applied.</p>
+          </>
+        ) : (
+          <>
+            <p className="text-sm">This is not the current version.</p>
+            <Button
+              size="sm"
+              className="max-md:w-full"
+              loading={makeCurrent.isPending}
+              onClick={() => makeCurrent.mutate()}
+            >
+              <Check size={14} aria-hidden="true" />
+              Make current
+            </Button>
+          </>
+        )}
       </div>
 
       <CheckPanel
@@ -168,9 +188,11 @@ export default function ResumePage() {
       )}
 
       {confirmingDelete && (
-        <DeleteVersionModal
-          title={versionTitle(version)}
-          deleting={remove.isPending}
+        <ConfirmModal
+          title="Delete this version?"
+          message={`${versionTitle(version)} and its checks will be deleted. This cannot be undone.`}
+          note="Later versions are renumbered."
+          busy={remove.isPending}
           error={remove.isError ? errorMessage(remove.error) : ""}
           onConfirm={() => remove.mutate()}
           onClose={() => setConfirmingDelete(false)}

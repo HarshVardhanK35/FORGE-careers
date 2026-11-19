@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-
 interface FitTitleProps {
   text: string;
   className?: string;
@@ -7,40 +5,25 @@ interface FitTitleProps {
   minSize?: number; // the smallest size; below it the text ends with "..."
 }
 
-// A heading that shrinks its font size when the text does not fit its box.
-// It measures the box: while the text is wider than the room, the size goes down by half a pixel,
-// until the text fits or the smallest size is reached.
+// An average letter of a bold sans-serif font is about 0.58 of the font size wide.
+// 0.6 keeps a little room to spare.
+const CHAR_WIDTH = 0.6;
+
+// A heading that shrinks its font size when the text is too long for its box.
+// The size is calculated by the browser from the room and the number of characters:
+//   size = room / (characters x 0.6), never above maxSize and never below minSize.
+// "container-type: inline-size" makes the wrapper a container, and 100cqw is 100% of its width,
+// so the size follows the room at every screen width with no script to run or wait for.
+// If the text still does not fit at minSize, it ends with "...".
 export default function FitTitle({ text, className = "", maxSize = 18, minSize = 12 }: FitTitleProps) {
-  // useRef: a handle on the heading, to measure it (scrollWidth = the text width, clientWidth = the room)
-  const ref = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    function fit() {
-      if (!element) return;
-      let size = maxSize;
-      element.style.fontSize = `${size}px`;
-      while (element.scrollWidth > element.clientWidth && size > minSize) {
-        size -= 0.5;
-        element.style.fontSize = `${size}px`;
-      }
-    }
-
-    fit();
-    // the room changes when the window is resized or the buttons beside the title change
-    const observer = new ResizeObserver(fit);
-    observer.observe(element);
-    // the text is measured again once the font has loaded
-    document.fonts?.ready.then(fit);
-
-    return () => observer.disconnect();
-  }, [text, maxSize, minSize]);
+  const characters = Math.max(text.length, 1);
+  const fontSize = `clamp(${minSize}px, calc(100cqw / ${characters * CHAR_WIDTH}), ${maxSize}px)`;
 
   return (
-    <h1 ref={ref} className={`truncate ${className}`}>
-      {text}
-    </h1>
+    <div className={className} style={{ containerType: "inline-size" }}>
+      <h1 className="truncate leading-6" style={{ fontSize }}>
+        {text}
+      </h1>
+    </div>
   );
 }

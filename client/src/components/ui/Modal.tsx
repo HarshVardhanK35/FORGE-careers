@@ -4,15 +4,17 @@ import { X } from "lucide-react";
 import { keepFocusInside } from "../../lib/focusTrap";
 
 interface ModalProps {
-  title: string;
+  title: string; // also the name read by a screen reader
   onClose: () => void;
   children: ReactNode;
+  // a small box with no title bar: the content draws its own heading (the confirm question uses it)
+  compact?: boolean;
 }
 
 // A box in the centre of a dimmed page, with a margin around it (also on a phone).
 // The parent shows it only while it is open: {open && <Modal ...>}.
 // Escape or a click on the dark area closes it; the Tab key stays inside it.
-export default function Modal({ title, onClose, children }: ModalProps) {
+export default function Modal({ title, onClose, children, compact = false }: ModalProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-5 backdrop-blur-md"
@@ -28,22 +30,30 @@ export default function Modal({ title, onClose, children }: ModalProps) {
           if (event.key === "Escape") onClose();
           else keepFocusInside(event);
         }}
-        className="flex max-h-[85vh] w-full max-w-xl flex-col rounded-xl border border-line bg-panel"
+        className={`flex max-h-[85vh] w-full flex-col rounded-xl border border-line bg-panel shadow-2xl ${
+          compact ? "max-w-md" : "max-w-xl"
+        }`}
       >
-        <div className="flex items-center justify-between border-b border-line px-4 py-3 md:px-5 md:py-4">
-          <h2 className="text-base font-semibold md:text-lg">{title}</h2>
-          <button
-            type="button"
-            autoFocus
-            aria-label="Close"
-            onClick={onClose}
-            className="rounded p-1 text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-accent"
-          >
-            <X size={18} />
-          </button>
-        </div>
+        {compact ? (
+          children
+        ) : (
+          <>
+            <div className="flex items-center justify-between border-b border-line px-4 py-3 md:px-5 md:py-4">
+              <h2 className="text-base font-semibold md:text-lg">{title}</h2>
+              <button
+                type="button"
+                autoFocus
+                aria-label="Close"
+                onClick={onClose}
+                className="rounded p-1 text-muted hover:text-fg focus-visible:outline-2 focus-visible:outline-accent"
+              >
+                <X size={18} />
+              </button>
+            </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-3 md:px-5 md:py-4">{children}</div>
+            <div className="flex-1 overflow-y-auto px-4 py-3 md:px-5 md:py-4">{children}</div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import type { UseQueryResult } from "@tanstack/react-query";
 
-import { formatDateTime } from "../../lib/resumes";
+import { formatDateTime } from "../../lib/dates";
 import type { ResumeCheck } from "../../lib/types";
 import SelectMenu from "../ui/SelectMenu";
 import { LoadingText } from "../ui/Spinner";

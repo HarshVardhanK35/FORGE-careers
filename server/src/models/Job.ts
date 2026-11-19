@@ -23,19 +23,19 @@ const jobSchema = new Schema<IJob>(
       type: String,
       required: true,
       trim: true,
-      maxlength: 100
+      maxlength: 50
     },
     title: {
       type: String,
       required: true,
       trim: true,
-      maxlength: 150
+      maxlength: 60
     },
     source: {
       type: String,
       default: "",
       trim: true,
-      maxlength: 50
+      maxlength: 25
     },
     link: {
       type: String,
@@ -51,19 +51,19 @@ const jobSchema = new Schema<IJob>(
     note: {
       type: String,
       default: "",
-      maxlength: 500
+      maxlength: 100
     },
     location: {
       type: String,
       default: "",
       trim: true,
-      maxlength: 100
+      maxlength: 30
     },
     salaryRange: {
       type: String,
       default: "",
       trim: true,
-      maxlength: 100
+      maxlength: 10
     },
   },
   { timestamps: true }
