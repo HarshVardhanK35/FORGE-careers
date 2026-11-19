@@ -7,7 +7,7 @@ import PasswordInput from "../components/auth/PasswordInput";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { useAuth } from "../context/AuthContext";
-import { isApiFailure } from "../lib/api";
+import { errorMessage } from "../lib/api";
 import { isValidEmail } from "../lib/validation";
 
 export default function LoginPage() {
@@ -36,7 +36,7 @@ export default function LoginPage() {
       await login(email.trim(), password);
       // signed in: the page guard moves us to Home
     } catch (error) {
-      setFormError(isApiFailure(error) ? error.message : "Something went wrong. Please try again.");
+      setFormError(errorMessage(error));
       setSubmitting(false);
     }
   }

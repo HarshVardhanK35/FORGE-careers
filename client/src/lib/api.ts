@@ -14,6 +14,11 @@ export function isApiFailure(value: unknown): value is ApiFailure {
   return typeof value === "object" && value !== null && "status" in value && "message" in value;
 }
 
+// the sentence to show when a call failed: the server's own message, or a general one
+export function errorMessage(error: unknown): string {
+  return isApiFailure(error) ? error.message : "Something went wrong. Please try again.";
+}
+
 // the auth code registers these two, so the API client can report session news
 interface SessionHandlers {
   onRefreshed: (accessExpiresAt: number) => void;

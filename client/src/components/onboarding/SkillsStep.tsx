@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { LoaderCircle } from "lucide-react";
 
 import Button from "../ui/Button";
+import Spinner from "../ui/Spinner";
 import SkillPicker from "./SkillPicker";
 import SlotCard from "./SlotCard";
 import { useOnboarding } from "../../hooks/useOnboarding";
-import { api, isApiFailure } from "../../lib/api";
+import { api, errorMessage } from "../../lib/api";
 import type { Bucket, FocusLimits, Layer, OnboardingData, OnboardingSkill } from "../../lib/types";
 
 // the three groups of focus slots; "bucket" is the level a skill gets when it is put in the group
@@ -102,11 +102,7 @@ function SkillsForm({ data, onBack }: SkillsFormProps) {
     },
   });
 
-  const finishError = finish.error
-    ? isApiFailure(finish.error)
-      ? finish.error.message
-      : "Something went wrong. Please try again."
-    : "";
+  const finishError = finish.error ? errorMessage(finish.error) : "";
 
   // one group: its heading with the count, and its slots in a row
   // (columnsClass sets how many slots sit side by side on a wide screen)
@@ -197,7 +193,7 @@ export default function SkillsStep({ onBack }: { onBack: () => void }) {
   if (onboarding.isPending) {
     return (
       <div role="status" aria-label="Loading" className="flex justify-center py-8 text-muted">
-        <LoaderCircle size={24} className="animate-spin" />
+        <Spinner size={24} />
       </div>
     );
   }

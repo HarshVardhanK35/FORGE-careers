@@ -14,10 +14,15 @@ const router = Router();
 
 router.use(protect);
 
+const noteSchema = z.string().trim().min(1).max(60);
+
 const createResumeSchema = z.object({
-  label: z.string().trim().min(1).max(100).optional(),
   text: z.string().trim().min(1).max(20000),
-  note: z.string().max(500).optional(),
+  note: noteSchema,
+});
+
+const updateNoteSchema = z.object({
+  note: noteSchema,
 });
 
 // saving a resume
@@ -38,9 +43,8 @@ router.post("/", async (req: AuthRequest, res) => {
   const resume = await Resume.create({
     userId: req.userId,
     versionNumber,
-    label: parsed.data.label ?? `v${versionNumber}`,
+    note: parsed.data.note,
     text: parsed.data.text,
-    note: parsed.data.note ?? "",
     isCurrent: true,
   });
 
@@ -93,6 +97,34 @@ router.patch("/:id/current", async (req: AuthRequest, res) => {
   res.json({ message: "Current version changed" });
 });
 
+// change the note of a version (the text never changes)
+router.patch("/:id/note", async (req: AuthRequest, res) => {
+  const id = String(req.params.id);
+  if (!isValidObjectId(id)) {
+    res.status(400).json({ message: "Invalid id" });
+    return;
+  }
+
+  const parsed = updateNoteSchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ message: "Invalid input" });
+    return;
+  }
+
+  const resume = await Resume.findOneAndUpdate(
+    { _id: id, userId: req.userId },
+    { note: parsed.data.note },
+    { new: true }
+  ).select("-text");
+
+  if (!resume) {
+    res.status(404).json({ message: "Resume version not found" });
+    return;
+  }
+
+  res.json(resume);
+});
+
 // delete a resume
 router.delete("/:id", async (req: AuthRequest, res) => {
   const id = String(req.params.id);
@@ -112,7 +144,7 @@ router.delete("/:id", async (req: AuthRequest, res) => {
     res.status(404).json({ message: "Resume version not found" });
     return;
   }
-  
+
   await ResumeCheck.deleteMany({ resumeId: id, userId: req.userId });
   await JobMatch.deleteMany({ resumeId: id, userId: req.userId });
 
@@ -121,6 +153,21 @@ router.delete("/:id", async (req: AuthRequest, res) => {
     if (newest) {
       newest.isCurrent = true;
       await newest.save();
+    }
+  }
+
+  // close the gap: v2 becomes v1, v3 becomes v2 ...
+  const remaining = await Resume.find({ userId: req.userId })
+    .sort({ versionNumber: 1 })
+    .select("versionNumber");
+
+  for (let i = 0; i < remaining.length; i++) {
+    const wanted = i + 1;
+    if (remaining[i].versionNumber !== wanted) {
+      await Resume.updateOne(
+        { _id: remaining[i]._id },
+        { versionNumber: wanted }
+      );
     }
   }
 

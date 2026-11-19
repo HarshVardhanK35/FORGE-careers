@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
-import { LoaderCircle } from "lucide-react";
+
+import Spinner from "./Spinner";
 
 type Variant = "primary" | "secondary" | "danger" | "ghost";
 type Size = "md" | "sm";
@@ -46,7 +47,7 @@ export default function Button({
       className={`${BASE_CLASSES} ${SIZE_CLASSES[size]} ${VARIANT_CLASSES[variant]} ${className}`}
       {...rest}
     >
-      {loading && <LoaderCircle size={16} className="animate-spin" aria-hidden="true" />}
+      {loading && <Spinner />}
       {children}
     </button>
   );

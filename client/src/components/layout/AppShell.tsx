@@ -3,6 +3,8 @@ import { Briefcase, FileText, LayoutDashboard, ListChecks, Target, User } from "
 import type { LucideIcon } from "lucide-react";
 
 import { PageHeaderProvider, usePageHeaderState } from "../../context/PageHeaderContext";
+import { ToastProvider } from "../../context/ToastContext";
+import FitTitle from "../ui/FitTitle";
 import SessionWarning from "../session/SessionWarning";
 import AccountMenu from "./AccountMenu";
 import AppliedTodayChip from "./AppliedTodayChip";
@@ -65,7 +67,7 @@ function Shell() {
         {/* the header, on a desktop and on a phone: the page title, then the chip,
             the page's main button and the account menu */}
         <header className="flex items-center gap-3 border-b border-line bg-panel px-4 py-3 md:px-8">
-          <h1 className="min-w-0 flex-1 truncate text-lg font-semibold">{title}</h1>
+          <FitTitle text={title} className="min-w-0 flex-1 font-semibold" />
           <AppliedTodayChip />
           {/* an empty box: a page fills it with <HeaderAction> */}
           <div ref={setActionSlot} className="flex items-center gap-2" />
@@ -95,7 +97,9 @@ function Shell() {
 export default function AppShell() {
   return (
     <PageHeaderProvider>
-      <Shell />
+      <ToastProvider>
+        <Shell />
+      </ToastProvider>
     </PageHeaderProvider>
   );
 }
