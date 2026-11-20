@@ -1,5 +1,7 @@
 // other spellings of a skill (lower case) -> the standard name
 export const SKILL_ALIASES: Record<string, string> = {
+  es2015: "JavaScript",
+  es2020: "JavaScript",
   js: "JavaScript",
   es6: "JavaScript",
   ecmascript: "JavaScript",
@@ -39,4 +41,20 @@ export const SKILL_ALIASES: Record<string, string> = {
   "json web token": "JWT",
   "github actions": "GitHub Actions",
   "amazon web services": "AWS",
+  "java script": "JavaScript",
+  "vanilla javascript": "JavaScript",
+  "javascript es6": "JavaScript",
+  "react hooks": "React",
+  "react context api": "Context API",
+  "react context": "Context API",
+  "express js": "Express",
+  "mongoose odm": "Mongoose",
+  "type script": "TypeScript",
+  "restful web services": "REST APIs",
+  "restful services": "REST APIs",
+  "ci-cd": "CI/CD",
+  cicd: "CI/CD",
+  "continuous integration": "CI/CD",
+  "continuous deployment": "CI/CD",
+  "git hub": "GitHub",
 };

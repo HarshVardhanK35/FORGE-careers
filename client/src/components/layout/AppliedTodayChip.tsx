@@ -1,10 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../lib/api";
-
-interface ApplicationStats {
-  today: number;
-}
+import type { ApplicationStats } from "../../lib/types";
 
 // "Applied today: 15" on a desktop, "15 today" on a phone
 export default function AppliedTodayChip() {

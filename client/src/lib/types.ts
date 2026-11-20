@@ -152,12 +152,71 @@ export interface JobMatch {
   createdAt: string;
 }
 
+export type Stage =
+  | "applied"
+  | "response_received"
+  | "shortlisted"
+  | "interviewing"
+  | "hold"
+  | "rejected"
+  | "succeeded";
+
+export type RoundType = "technical" | "hr" | "managerial" | "other";
+export type RoundResult = "pending" | "passed" | "failed";
+
 // one application in the list (GET /applications); the job is filled in by the server
 export interface ApplicationSummary {
   _id: string;
   jobId: { _id: string; company: string; title: string; location: string };
-  stage: string;
+  stage: Stage;
   appliedAt: string;
+  followUpDate?: string;
+}
+
+// one interview round of an application
+export interface Round {
+  _id: string;
+  number: number;
+  date: string;
+  type: RoundType;
+  notes: string;
+  result: RoundResult;
+  feedback: string;
+}
+
+// one entry of the stage history: the stage, and the day it was reached
+export interface StageChange {
+  stage: Stage;
+  date: string;
+}
+
+// one application with everything (GET /applications/:id); the job and the resume version are filled in
+export interface ApplicationDetail {
+  _id: string;
+  jobId: Job;
+  resumeId: { _id: string; versionNumber: number } | null;
+  stage: Stage;
+  appliedAt: string;
+  followUpDate?: string;
+  history: StageChange[];
+  rounds: Round[];
+}
+
+// the counts of GET /applications/stats
+export interface ApplicationStats {
+  total: number;
+  today: number;
+  perStage: Record<Stage, number>;
+  perDay: { date: string; count: number }[];
+}
+
+// what the round form sends to POST and PATCH /applications/:id/rounds
+export interface RoundInput {
+  date: string; // for example 2026-11-23
+  type: RoundType;
+  notes: string;
+  result?: RoundResult; // only when a round is edited
+  feedback?: string; // only when a round is edited
 }
 
 // what the onboarding form sends to PUT /profile

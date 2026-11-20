@@ -1,4 +1,4 @@
-import { scoreMatch, normaliseSkill, yearsNote } from "../src/services/jobMatch/scoring";
+import { scoreMatch, normaliseSkill, splitSkills, yearsNote } from "../src/services/jobMatch/scoring";
 
 describe("scoreMatch", () => {
   it("gives 100 and apply for a full match", () => {
@@ -97,6 +97,16 @@ describe("normaliseSkill", () => {
   it("collapses extra spaces before looking up an alias", () => {
     expect(normaliseSkill("node   js")).toBe("Node.js");
   });
+
+  it("removes a note in brackets at the end", () => {
+    expect(normaliseSkill("JavaScript (ES6+)")).toBe("JavaScript");
+    expect(normaliseSkill("State management (Redux, Context API)")).toBe("State management");
+  });
+
+  it("removes a plus after a number but keeps C++", () => {
+    expect(normaliseSkill("ES6+")).toBe("JavaScript");
+    expect(normaliseSkill("C++")).toBe("C++");
+  });
 });
 
 describe("yearsNote", () => {
@@ -111,5 +121,32 @@ describe("yearsNote", () => {
 
   it("says you are below the requirement", () => {
     expect(yearsNote(3, 2)).toBe("The job asks for 3+ years. Your profile shows 2: below it.");
+  });
+});
+
+describe("splitSkills", () => {
+  it("splits a name that holds several skills", () => {
+    expect(splitSkills("HTML/CSS")).toEqual(["HTML", "CSS"]);
+    expect(splitSkills("Redux, Context API")).toEqual(["Redux", "Context API"]);
+  });
+
+  it("drops a note in brackets", () => {
+    expect(splitSkills("JavaScript (ES6+)")).toEqual(["JavaScript"]);
+  });
+
+  it("keeps CI/CD as one skill", () => {
+    expect(splitSkills("CI/CD")).toEqual(["CI/CD"]);
+  });
+});
+
+describe("scoreMatch with combined names", () => {
+  it("matches a skill inside a combined name", () => {
+    const result = scoreMatch({
+      required: ["HTML/CSS", "JavaScript (ES6+)"],
+      niceToHave: [],
+      resume: ["HTML", "CSS", "JavaScript"],
+      threshold: 85,
+    });
+    expect(result.percent).toBe(100);
   });
 });
