@@ -6,6 +6,8 @@ import { Application, STAGES, ROUND_TYPES, ROUND_RESULTS } from "../models/Appli
 import { Job } from "../models/Job";
 import { Resume } from "../models/Resume";
 
+import { goesBack } from "../services/applications/stageRules";
+
 import { protect, AuthRequest } from "../middleware/protect";
 
 const router = Router();
@@ -34,15 +36,15 @@ const followUpSchema = z.object({
 const createRoundSchema = z.object({
   date: z.coerce.date(),
   type: z.enum(ROUND_TYPES),
-  notes: z.string().max(2000).optional(),
+  notes: z.string().max(300).optional(),
 });
 
 const updateRoundSchema = z.object({
   date: z.coerce.date().optional(),
   type: z.enum(ROUND_TYPES).optional(),
-  notes: z.string().max(2000).optional(),
+  notes: z.string().max(300).optional(),
   result: z.enum(ROUND_RESULTS).optional(),
-  feedback: z.string().max(2000).optional(),
+  feedback: z.string().max(500).optional(),
 });
 
 const TIMEZONE = "Asia/Kolkata";
@@ -214,6 +216,11 @@ router.patch("/:id/stage", async (req: AuthRequest, res) => {
 
   if (application.stage === parsed.data.stage) {
     res.status(400).json({ message: "Already in this stage" });
+    return;
+  }
+
+  if (goesBack(application.history, parsed.data.stage)) {
+    res.status(400).json({ message: "An application cannot go back to an earlier stage" });
     return;
   }
 

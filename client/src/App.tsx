@@ -4,6 +4,7 @@ import { RedirectIfSignedIn, RequireAuth, RequireOnboarding } from "./components
 import AppShell from "./components/layout/AppShell";
 import NothingSelected from "./components/layout/NothingSelected";
 import { usePageTitle } from "./context/PageHeaderContext";
+import ApplicationPage from "./pages/ApplicationPage";
 import JobFormPage from "./pages/JobFormPage";
 import JobPage from "./pages/JobPage";
 import JobsPage from "./pages/JobsPage";
@@ -12,6 +13,7 @@ import OnboardingPage from "./pages/OnboardingPage";
 import ResumePage from "./pages/ResumePage";
 import ResumesPage from "./pages/ResumesPage";
 import SignupPage from "./pages/SignupPage";
+import TrackerPage from "./pages/TrackerPage";
 
 // a temporary page; each one is replaced by the real page in a later batch
 function Placeholder({ title }: { title: string }) {
@@ -48,7 +50,13 @@ export default function App() {
               <Route index element={<NothingSelected title="Resumes" message="Select a version to see its checks." />} />
               <Route path=":id" element={<ResumePage />} />
             </Route>
-            <Route path="tracker" element={<Placeholder title="Tracker" />} />
+            <Route path="tracker" element={<TrackerPage />}>
+              <Route
+                index
+                element={<NothingSelected title="Tracker" message="Select an application to see its stage, follow-up and rounds." />}
+              />
+              <Route path=":id" element={<ApplicationPage />} />
+            </Route>
             <Route path="skills" element={<Placeholder title="Skills" />} />
             <Route path="profile" element={<Placeholder title="Profile" />} />
           </Route>

@@ -108,7 +108,7 @@ const applicationSchema = new Schema<IApplication>(
         notes: {
           type: String,
           default: "",
-          maxlength: 2000
+          maxlength: 300
         },
         result: {
           type: String,
@@ -118,7 +118,7 @@ const applicationSchema = new Schema<IApplication>(
         feedback: {
           type: String,
           default: "",
-          maxlength: 2000
+          maxlength: 500
         },
       },
     ],
