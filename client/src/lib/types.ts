@@ -1,11 +1,30 @@
 // The shapes of what the server sends and expects.
 // They are written by hand to match the server; the app does not check them while running.
 
+// one period without work (months are 1 to 12)
+export interface CareerGap {
+  text: string;
+  fromMonth: number;
+  fromYear: number;
+  toMonth: number;
+  toYear: number;
+}
+
 export interface Profile {
   name: string;
   targetRole: string;
-  yearsOfExperience: number;
+  yearsOfExperience: number; // years and months together, for example 2.75
   hoursPerDay: number;
+  careerGaps: CareerGap[];
+}
+
+// what GET /settings sends
+export interface Settings {
+  applyThreshold: number;
+  dailyApplicationGoal: number;
+  dailyAiCallCap: number;
+  aiModel: string;
+  aiUsedToday: number; // AI calls made today
 }
 
 export type Bucket = "primary" | "secondary" | "later";
@@ -170,6 +189,14 @@ export interface ApplicationSummary {
   jobId: { _id: string; company: string; title: string; location: string };
   stage: Stage;
   appliedAt: string;
+  followUpDate?: string;
+}
+
+// one item of GET /applications/follow-ups (the job has only a company and a title here)
+export interface FollowUp {
+  _id: string;
+  jobId: { _id: string; company: string; title: string };
+  stage: Stage;
   followUpDate?: string;
 }
 

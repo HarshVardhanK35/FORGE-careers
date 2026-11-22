@@ -20,7 +20,7 @@ const router = Router();
 
 router.use(protect);
 
-const DEFAULT_APPLY_THRESHOLD = 85;
+const DEFAULT_APPLY_THRESHOLD = 60;
 
 const promptSchema = z.object({
   jobId: z.string().refine(isValidObjectId, "Invalid id"),

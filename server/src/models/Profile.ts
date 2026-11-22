@@ -7,19 +7,24 @@ export interface IBucketItem {
   bucket: Bucket;
 }
 
+export const DEFAULT_TARGET_ROLE = "MERN stack developer";
+
+// one period without work: a short text and the months it covers (months are 1 to 12)
+export interface ICareerGap {
+  text: string;
+  fromMonth: number;
+  fromYear: number;
+  toMonth: number;
+  toYear: number;
+}
+
 export interface IProfile {
   userId: Types.ObjectId;
   name: string;
   targetRole: string;
   yearsOfExperience: number;
   background: string;
-  careerGap: {
-    text: string;
-    fromMonth?: number;
-    fromYear?: number;
-    toMonth?: number;
-    toYear?: number;
-  };
+  careerGaps: ICareerGap[];
   hoursPerDay: number;
   resourceLanguage: string;
   dsa: {
@@ -45,7 +50,7 @@ const profileSchema = new Schema<IProfile>(
     },
     targetRole: {
       type: String,
-      default: "MERN stack developer",
+      default: DEFAULT_TARGET_ROLE,
       trim: true
     },
     yearsOfExperience: {
@@ -57,28 +62,16 @@ const profileSchema = new Schema<IProfile>(
       type: String,
       default: ""
     },
-    careerGap: {
-      text: {
-        type: String,
-        default: ""
+    careerGaps: [
+      {
+        _id: false,
+        text: { type: String, default: "" },
+        fromMonth: { type: Number, required: true, min: 1, max: 12 },
+        fromYear: { type: Number, required: true },
+        toMonth: { type: Number, required: true, min: 1, max: 12 },
+        toYear: { type: Number, required: true },
       },
-      fromMonth: {
-        type: Number,
-        min: 1,
-        max: 12
-      },
-      fromYear: {
-        type: Number
-      },
-      toMonth: {
-        type: Number,
-        min: 1,
-        max: 12
-      },
-      toYear: {
-        type: Number
-      },
-    },
+    ],
     hoursPerDay: {
       type: Number,
       min: 0,

@@ -48,10 +48,15 @@ export async function callAi<T>(options: CallAiOptions<T>): Promise<CallAiResult
   const cap = settings?.dailyAiCallCap ?? DEFAULT_DAILY_CAP;
   const override = settings?.modelOverrides?.[options.task];
 
-  const candidates: ModelChoice[] = [
+  // the model chosen in Settings goes first, then the recommended ones (each model once)
+  const wanted: ModelChoice[] = [
     ...(override ? [{ provider: override.provider, model: override.model }] : []),
+    ...(settings?.aiModel ? [{ provider: "groq", model: settings.aiModel }] : []),
     ...DEFAULT_MODELS[options.task],
   ];
+  const candidates = wanted.filter(
+    (choice, index) => wanted.findIndex((other) => other.model === choice.model) === index
+  );
 
   await reserveCall(options.userId, cap);
 
