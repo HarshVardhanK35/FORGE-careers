@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { LogOut, User } from "lucide-react";
 
 import Dropdown from "../ui/Dropdown";
 import { useAuth } from "../../context/AuthContext";
+import { api } from "../../lib/api";
+import type { Profile } from "../../lib/types";
 
 const ITEM_CLASS =
   "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm text-fg " +
   "hover:bg-line/40 focus-visible:bg-line/40 focus-visible:outline-none";
 
-// A round button with the first letter of the email. Its menu has Profile and Sign out.
+// A round button with the first letter of the name (the email until the profile is loaded). Its menu has Profile and Sign out.
 export default function AccountMenu() {
   const { user, logout } = useAuth();
-  const initial = user?.email.charAt(0).toUpperCase() ?? "?";
+  const profile = useQuery({ queryKey: ["profile"], queryFn: () => api.get<Profile>("/profile") });
+  const initial = (profile.data?.name.trim() || user?.email || "?").charAt(0).toUpperCase();
 
   return (
     <Dropdown
@@ -43,6 +47,7 @@ export default function AccountMenu() {
           <button
             type="button"
             role="menuitem"
+            data-leave-guard
             onClick={() => {
               close();
               logout();

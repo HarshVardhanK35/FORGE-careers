@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Briefcase, ChevronRight, Plus } from "lucide-react";
 
 import JobFacts from "../components/jobs/JobFacts";
+import AutoOpenFirst from "../components/layout/AutoOpenFirst";
 import SplitLayout from "../components/layout/SplitLayout";
 import Button from "../components/ui/Button";
 import MobileActionBar from "../components/ui/MobileActionBar";
@@ -102,4 +103,22 @@ function JobList() {
 // the Jobs page: the list on the left and the chosen job (or the add and edit form) on the right
 export default function JobsPage() {
   return <SplitLayout basePath="/jobs" list={<JobList />} />;
+}
+
+// the right side with no job chosen: on a desktop the newest job opens
+export function JobsIndex() {
+  const { data, isPending } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: () => api.get<JobSummary[]>("/jobs"),
+  });
+
+  return (
+    <AutoOpenFirst
+      title="Jobs"
+      emptyMessage="No jobs yet. Add one to see its details here."
+      basePath="/jobs"
+      firstId={data?.[0]?._id}
+      loading={isPending}
+    />
+  );
 }

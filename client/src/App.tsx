@@ -2,18 +2,19 @@ import { Route, Routes } from "react-router-dom";
 
 import { RedirectIfSignedIn, RequireAuth, RequireOnboarding } from "./components/auth/RouteGuards";
 import AppShell from "./components/layout/AppShell";
-import NothingSelected from "./components/layout/NothingSelected";
 import { usePageTitle } from "./context/PageHeaderContext";
 import ApplicationPage from "./pages/ApplicationPage";
+import HomePage from "./pages/HomePage";
 import JobFormPage from "./pages/JobFormPage";
 import JobPage from "./pages/JobPage";
-import JobsPage from "./pages/JobsPage";
+import JobsPage, { JobsIndex } from "./pages/JobsPage";
 import LoginPage from "./pages/LoginPage";
 import OnboardingPage from "./pages/OnboardingPage";
+import ProfilePage from "./pages/ProfilePage";
 import ResumePage from "./pages/ResumePage";
-import ResumesPage from "./pages/ResumesPage";
+import ResumesPage, { ResumesIndex } from "./pages/ResumesPage";
 import SignupPage from "./pages/SignupPage";
-import TrackerPage from "./pages/TrackerPage";
+import TrackerPage, { TrackerIndex } from "./pages/TrackerPage";
 
 // a temporary page; each one is replaced by the real page in a later batch
 function Placeholder({ title }: { title: string }) {
@@ -38,27 +39,24 @@ export default function App() {
         {/* the app itself: only after onboarding is complete */}
         <Route element={<RequireOnboarding />}>
           <Route element={<AppShell />}>
-            <Route index element={<Placeholder title="Home" />} />
+            <Route index element={<HomePage />} />
             {/* Jobs and Resumes are split pages: the list is the parent, the chosen item is the child */}
             <Route path="jobs" element={<JobsPage />}>
-              <Route index element={<NothingSelected title="Jobs" message="Select a job to see its details and match." />} />
+              <Route index element={<JobsIndex />} />
               <Route path="new" element={<JobFormPage />} />
               <Route path=":id" element={<JobPage />} />
               <Route path=":id/edit" element={<JobFormPage />} />
             </Route>
             <Route path="resumes" element={<ResumesPage />}>
-              <Route index element={<NothingSelected title="Resumes" message="Select a version to see its checks." />} />
+              <Route index element={<ResumesIndex />} />
               <Route path=":id" element={<ResumePage />} />
             </Route>
             <Route path="tracker" element={<TrackerPage />}>
-              <Route
-                index
-                element={<NothingSelected title="Tracker" message="Select an application to see its stage, follow-up and rounds." />}
-              />
+              <Route index element={<TrackerIndex />} />
               <Route path=":id" element={<ApplicationPage />} />
             </Route>
             <Route path="skills" element={<Placeholder title="Skills" />} />
-            <Route path="profile" element={<Placeholder title="Profile" />} />
+            <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Route>
       </Route>

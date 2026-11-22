@@ -2,10 +2,12 @@ import { useId } from "react";
 import { Check, ChevronDown } from "lucide-react";
 
 import Dropdown from "./Dropdown";
+import InfoTip from "./InfoTip";
 
 export interface SelectOption {
   value: string;
   label: string;
+  tip?: string; // an (i) beside the option, with a short explanation
 }
 
 interface SelectMenuProps {
@@ -48,20 +50,25 @@ export default function SelectMenu({ label, value, options, onChange }: SelectMe
             {options.map((option) => {
               const selected = option.value === value;
               return (
-                <button
+                <div
                   key={option.value}
-                  type="button"
-                  role="option"
-                  aria-selected={selected}
-                  onClick={() => {
-                    onChange(option.value);
-                    close();
-                  }}
-                  className="flex w-full items-center justify-between gap-2 rounded-md px-3 py-2 text-left text-sm text-fg hover:bg-line/40 focus-visible:bg-line/40 focus-visible:outline-none"
+                  className="flex items-center gap-1 rounded-md pr-2 hover:bg-line/40 focus-within:bg-line/40"
                 >
-                  <span>{option.label}</span>
-                  {selected && <Check size={14} className="shrink-0 text-accent" />}
-                </button>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={selected}
+                    onClick={() => {
+                      onChange(option.value);
+                      close();
+                    }}
+                    className="flex min-w-0 flex-1 items-center justify-between gap-2 rounded-md px-3 py-2 text-left text-sm text-fg focus-visible:outline-none"
+                  >
+                    <span>{option.label}</span>
+                    {selected && <Check size={14} className="shrink-0 text-accent" />}
+                  </button>
+                  {option.tip && <InfoTip label={`About ${option.label}`} text={option.tip} />}
+                </div>
               );
             })}
           </div>

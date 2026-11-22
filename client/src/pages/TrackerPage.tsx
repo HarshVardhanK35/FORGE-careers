@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { BellRing, ChevronRight, ListChecks } from "lucide-react";
 
+import AutoOpenFirst from "../components/layout/AutoOpenFirst";
 import SplitLayout from "../components/layout/SplitLayout";
 import StageBadge from "../components/tracker/StageBadge";
 import Button from "../components/ui/Button";
@@ -11,13 +12,18 @@ import { LoadingText } from "../components/ui/Spinner";
 import { api } from "../lib/api";
 import { formatDate, isDue } from "../lib/dates";
 import { STAGE_LABELS, STAGE_ORDER, isFinalStage } from "../lib/stages";
-import type { ApplicationStats, ApplicationSummary } from "../lib/types";
+import type { ApplicationStats, ApplicationSummary, Stage } from "../lib/types";
 
 const ALL = "all";
 
 // the left side: the applications, newest first, with a filter by stage
 function ApplicationList() {
-  const [stage, setStage] = useState<string>(ALL);
+  // the Home page links here with ?stage=applied, so the filter can start on a stage
+  const [searchParams] = useSearchParams();
+  const fromAddress = searchParams.get("stage");
+  const [stage, setStage] = useState<string>(
+    fromAddress && STAGE_ORDER.includes(fromAddress as Stage) ? fromAddress : ALL,
+  );
 
   // the numbers for the filter ("Applied (4)"); the same data as the "Applied today" chip
   const stats = useQuery({
@@ -115,4 +121,22 @@ function ApplicationList() {
 // the Tracker page: the list on the left and the chosen application on the right
 export default function TrackerPage() {
   return <SplitLayout basePath="/tracker" list={<ApplicationList />} />;
+}
+
+// the right side with no application chosen: on a desktop the newest application opens
+export function TrackerIndex() {
+  const { data, isPending } = useQuery({
+    queryKey: ["applications", "list", ALL],
+    queryFn: () => api.get<ApplicationSummary[]>("/applications"),
+  });
+
+  return (
+    <AutoOpenFirst
+      title="Tracker"
+      emptyMessage="No applications yet. Mark a job as applied to see it here."
+      basePath="/tracker"
+      firstId={data?.[0]?._id}
+      loading={isPending}
+    />
+  );
 }

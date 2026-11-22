@@ -1,5 +1,7 @@
 import { Schema, model, Types } from "mongoose";
 
+import { AI_MODEL_IDS, DEFAULT_AI_MODEL } from "../services/ai/tasks";
+
 export interface IModelChoice {
   provider: string;
   model: string;
@@ -8,7 +10,9 @@ export interface IModelChoice {
 export interface ISettings {
   userId: Types.ObjectId;
   applyThreshold: number;
+  dailyApplicationGoal: number;
   dailyAiCallCap: number;
+  aiModel: string;
   modelOverrides: {
     resumeCheck?: IModelChoice;
     jobMatch?: IModelChoice;
@@ -42,12 +46,24 @@ const settingsSchema = new Schema<ISettings>(
       type: Number,
       min: 0,
       max: 100,
-      default: 85
+      default: 60
+    },
+    dailyApplicationGoal: {
+      type: Number,
+      min: 1,
+      max: 50,
+      default: 10
     },
     dailyAiCallCap: {
       type: Number,
       min: 0,
+      max: 500,
       default: 50
+    },
+    aiModel: {
+      type: String,
+      enum: AI_MODEL_IDS,
+      default: DEFAULT_AI_MODEL
     },
     modelOverrides: {
       resumeCheck: modelChoiceSchema,

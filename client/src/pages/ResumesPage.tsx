@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronRight, FileText, Plus } from "lucide-react";
 
+import AutoOpenFirst from "../components/layout/AutoOpenFirst";
 import SplitLayout from "../components/layout/SplitLayout";
 import NewVersionModal from "../components/resumes/NewVersionModal";
 import Button from "../components/ui/Button";
@@ -111,4 +112,22 @@ function ResumeList() {
 // the Resumes page: the list on the left and the chosen version on the right
 export default function ResumesPage() {
   return <SplitLayout basePath="/resumes" list={<ResumeList />} />;
+}
+
+// the right side with no version chosen: on a desktop the current version opens
+export function ResumesIndex() {
+  const { data, isPending } = useQuery({
+    queryKey: ["resumes"],
+    queryFn: () => api.get<ResumeSummary[]>("/resumes"),
+  });
+
+  return (
+    <AutoOpenFirst
+      title="Resumes"
+      emptyMessage="No resume yet. Add a version to see its checks here."
+      basePath="/resumes"
+      firstId={(data?.find((resume) => resume.isCurrent) ?? data?.[0])?._id}
+      loading={isPending}
+    />
+  );
 }

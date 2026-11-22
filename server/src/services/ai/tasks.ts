@@ -16,3 +16,7 @@ export const DEFAULT_MODELS: Record<AiTask, ModelChoice[]> = {
   jobMatch: [GPT_OSS_20B, GPT_OSS_120B, QWEN_27B],
   answerFeedback: [GPT_OSS_120B, GPT_OSS_20B, QWEN_27B],
 };
+
+// the models the user can choose in Settings (one choice for every task)
+export const AI_MODEL_IDS = [GPT_OSS_120B.model, GPT_OSS_20B.model, QWEN_27B.model] as const;
+export const DEFAULT_AI_MODEL: string = GPT_OSS_120B.model;
