@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 
 import { RedirectIfSignedIn, RequireAuth, RequireOnboarding } from "./components/auth/RouteGuards";
 import AppShell from "./components/layout/AppShell";
-import { usePageTitle } from "./context/PageHeaderContext";
 import ApplicationPage from "./pages/ApplicationPage";
 import HomePage from "./pages/HomePage";
 import JobFormPage from "./pages/JobFormPage";
@@ -14,13 +13,9 @@ import ProfilePage from "./pages/ProfilePage";
 import ResumePage from "./pages/ResumePage";
 import ResumesPage, { ResumesIndex } from "./pages/ResumesPage";
 import SignupPage from "./pages/SignupPage";
+import SkillsPage from "./pages/SkillsPage";
+import SkillTestPage from "./pages/SkillTestPage";
 import TrackerPage, { TrackerIndex } from "./pages/TrackerPage";
-
-// a temporary page; each one is replaced by the real page in a later batch
-function Placeholder({ title }: { title: string }) {
-  usePageTitle(title); // the title appears in the header
-  return <p className="text-sm text-muted">The {title} page is built in a later batch.</p>;
-}
 
 export default function App() {
   return (
@@ -35,6 +30,10 @@ export default function App() {
       <Route element={<RequireAuth />}>
         {/* onboarding: a full-screen flow, outside the app shell */}
         <Route path="onboarding" element={<OnboardingPage />} />
+
+        {/* a test (and the practice sets) open in their own browser tab, outside the app shell */}
+        <Route path="skills/:skillId/test" element={<SkillTestPage />} />
+        <Route path="skills/:skillId/practice" element={<SkillTestPage />} />
 
         {/* the app itself: only after onboarding is complete */}
         <Route element={<RequireOnboarding />}>
@@ -55,7 +54,7 @@ export default function App() {
               <Route index element={<TrackerIndex />} />
               <Route path=":id" element={<ApplicationPage />} />
             </Route>
-            <Route path="skills" element={<Placeholder title="Skills" />} />
+            <Route path="skills" element={<SkillsPage />} />
             <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Route>
