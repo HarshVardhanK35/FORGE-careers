@@ -252,3 +252,58 @@ export interface ProfileInput {
   yearsOfExperience?: number;
   hoursPerDay: number;
 }
+
+// ---- the skill roadmap (what GET /roadmap sends) ----
+
+export type SkillTier = "required" | "moderate" | "skippable";
+export type LevelState = "locked" | "open" | "waiting" | "passed" | "skipped";
+
+export interface RoadmapTopic {
+  id: string;
+  title: string;
+  category: string;
+  priority: "must" | "common";
+  done: boolean;
+  resource: string; // his own link or note; empty at first
+}
+
+export interface RoadmapLevel {
+  level: 1 | 2 | 3;
+  name: string;
+  state: LevelState;
+  reason: string; // why it cannot be taken yet
+  canTake: boolean;
+  attempts: number;
+  bestScore: number | null;
+  nextAttemptAt: string | null; // when the wait after a failed attempt ends
+  attemptSet: number | null; // 1 to 3 = a fixed set; null = random questions
+  passMark: number;
+  needed: number;
+  total: number;
+  waitHours: number; // the wait after a failed attempt
+}
+
+export interface RoadmapSkill {
+  id: string;
+  name: string;
+  tier: SkillTier;
+  order: number;
+  unlocked: boolean;
+  topicsDone: number;
+  topicsTotal: number;
+  topics: RoadmapTopic[];
+  levels: RoadmapLevel[];
+}
+
+export interface RoadmapProject {
+  id: string;
+  name: string;
+  flowsStudied: number;
+  flowsTotal: number;
+  ready: boolean;
+}
+
+export interface Roadmap {
+  skills: RoadmapSkill[];
+  projects: RoadmapProject[];
+}
