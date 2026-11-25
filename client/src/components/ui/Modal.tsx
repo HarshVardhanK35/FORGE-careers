@@ -9,12 +9,14 @@ interface ModalProps {
   children: ReactNode;
   // a small box with no title bar: the content draws its own heading (the confirm question uses it)
   compact?: boolean;
+  // a wide box for reading long content (the Learn notes)
+  wide?: boolean;
 }
 
 // A box in the centre of a dimmed page, with a margin around it (also on a phone).
 // The parent shows it only while it is open: {open && <Modal ...>}.
 // Escape or a click on the dark area closes it; the Tab key stays inside it.
-export default function Modal({ title, onClose, children, compact = false }: ModalProps) {
+export default function Modal({ title, onClose, children, compact = false, wide = false }: ModalProps) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-5 backdrop-blur-md"
@@ -31,7 +33,7 @@ export default function Modal({ title, onClose, children, compact = false }: Mod
           else keepFocusInside(event);
         }}
         className={`flex max-h-[85vh] w-full flex-col rounded-xl border border-line bg-panel shadow-2xl ${
-          compact ? "max-w-md" : "max-w-xl"
+          compact ? "max-w-md" : wide ? "max-w-3xl" : "max-w-xl"
         }`}
       >
         {compact ? (

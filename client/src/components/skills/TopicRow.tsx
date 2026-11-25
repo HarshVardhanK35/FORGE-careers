@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Check, Link as LinkIcon, Pencil, Plus, StickyNote } from "lucide-react";
+import { BookOpen, Check, Link as LinkIcon, Pencil, Plus, StickyNote } from "lucide-react";
 
 import Button from "../ui/Button";
 import Input from "../ui/Input";
+import LearnModal from "./LearnModal";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
 import { errorMessage } from "../../lib/api";
 import type { RoadmapTopic } from "../../lib/types";
@@ -22,6 +23,7 @@ const isLink = (text: string) => /^https?:\/\//.test(text);
 // One topic: a tick, its title, and a field for the resource he finds himself (a link or a short note).
 export default function TopicRow({ number, topic, locked, onTick, onSaveResource }: TopicRowProps) {
   const desktop = useIsDesktop();
+  const [learning, setLearning] = useState(false);
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
@@ -73,6 +75,16 @@ export default function TopicRow({ number, topic, locked, onTick, onSaveResource
       <div className={`flex min-h-8 min-w-0 flex-1 items-center gap-2 text-sm md:flex-[1_1_200px] ${locked ? "text-muted" : ""}`}>
         <span className="min-w-[18px] text-muted tabular-nums">{number}</span>
         <span>{topic.title}</span>
+        {topic.hasNotes && (
+          <button
+            type="button"
+            onClick={() => setLearning(true)}
+            className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 text-xs font-medium text-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-accent"
+          >
+            <BookOpen size={14} aria-hidden="true" />
+            Learn
+          </button>
+        )}
       </div>
 
       <div className="min-w-0 basis-full md:flex-[1_1_260px] md:basis-0">
@@ -157,6 +169,7 @@ export default function TopicRow({ number, topic, locked, onTick, onSaveResource
           </button>
         )}
       </div>
+      {learning && <LearnModal topicId={topic.id} title={topic.title} onClose={() => setLearning(false)} />}
     </li>
   );
 }

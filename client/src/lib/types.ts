@@ -263,6 +263,7 @@ export interface RoadmapTopic {
   title: string;
   category: string;
   priority: "must" | "common";
+  hasNotes: boolean; // true when the Learn button has notes to show
   done: boolean;
   resource: string; // his own link or note; empty at first
 }
@@ -306,4 +307,24 @@ export interface RoadmapProject {
 export interface Roadmap {
   skills: RoadmapSkill[];
   projects: RoadmapProject[];
+}
+
+// ---- the learning notes of one topic (what GET /roadmap/topics/:id/learn sends) ----
+
+export interface TopicNotes {
+  topicId: string;
+  summary: string;
+  explanation: { heading: string; points: string[] }[];
+  terms: { term: string; meaning: string }[];
+  examples: {
+    title: string;
+    environment: "node" | "browser";
+    html?: string; // for a browser example: the page the code runs on
+    code: string;
+    walkthrough: string[];
+    output: string;
+  }[];
+  keyPoints: string[];
+  commonMistakes: string[];
+  links: { title: string; url: string; kind: "article" | "video" | "docs"; why: string }[];
 }
