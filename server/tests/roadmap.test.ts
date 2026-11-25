@@ -189,3 +189,18 @@ describe("topics and resources", () => {
     expect(js(progress).topicsDone).toBe(1);
   });
 });
+
+describe("fractional points (a question can be half right)", () => {
+  it("passes L1 with 19 points and fails with a little less", () => {
+    const progress = withJsTicked();
+    expect(recordAttempt(progress, "javascript", 1, 18.83, NOW).passed).toBe(false);
+    expect(js(progress, hours(3)).levels[0].bestScore).toBe(90);
+
+    const other = withJsTicked();
+    expect(recordAttempt(other, "javascript", 1, 19, NOW).passed).toBe(true);
+  });
+
+  it("refuses more points than the level has", () => {
+    expect(code(() => recordAttempt(withJsTicked(), "javascript", 1, 21.5, NOW))).toBe(400);
+  });
+});
