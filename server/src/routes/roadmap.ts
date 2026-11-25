@@ -2,6 +2,7 @@ import { Router } from "express";
 import type { Response } from "express";
 import { z } from "zod";
 
+import { getNotes } from "../data/content";
 import { RoadmapProgress } from "../models/RoadmapProgress";
 import { protect, AuthRequest } from "../middleware/protect";
 import { buildView, emptyProgress, recordAttempt, RESOURCE_MAX, RuleError, unlockSkill, updateTopic } from "../services/roadmap/rules";
@@ -47,6 +48,16 @@ function sendRuleError(error: unknown, res: Response): void {
 
 router.get("/", async (req: AuthRequest, res) => {
   res.json(buildView(await loadProgress(req.userId)));
+});
+
+// the learning notes of one topic (the Learn button on the Skills page)
+router.get("/topics/:topicId/learn", (req: AuthRequest, res) => {
+  const notes = getNotes(String(req.params.topicId));
+  if (!notes) {
+    res.status(404).json({ message: "There are no notes for this topic yet" });
+    return;
+  }
+  res.json(notes);
 });
 
 const topicPatchSchema = z
@@ -113,6 +124,8 @@ export default router;
 /**
  * GET / answers with the whole roadmap, already worked out: which skill is open, which level is locked, waiting,
  *  passed or skipped, and when the next attempt opens. The client only draws it.
+ *
+ * GET /topics/:topicId/learn answers with the notes of one topic (data/content), or 404 when there are none yet.
  *
  * Every change loads his progress as plain data, applies one rule from services/roadmap/rules.ts, saves it
  *  and answers with the new roadmap. A broken rule (a locked skill, a level not open) answers 409 with a sentence.

@@ -2,6 +2,7 @@
 // What is open, locked, waiting, passed or skipped is worked out here from what he DID
 // (his ticks, results and unlocks), every time; none of it is stored.
 
+import { hasNotes } from "../../data/content";
 import { ROADMAP_PROJECTS, ROADMAP_SKILLS } from "../../data/roadmap";
 import type { RoadmapSkill, Tier } from "../../data/roadmap";
 
@@ -136,7 +137,7 @@ export interface SkillView {
   unlocked: boolean;
   topicsDone: number;
   topicsTotal: number;
-  topics: { id: string; title: string; category: string; priority: "must" | "common"; done: boolean; resource: string }[];
+  topics: { id: string; title: string; category: string; priority: "must" | "common"; hasNotes: boolean; done: boolean; resource: string }[];
   levels: LevelView[];
 }
 
@@ -152,6 +153,7 @@ export function buildView(progress: ProgressData, now: Date = new Date()): Roadm
       title: topic.title,
       category: topic.category,
       priority: topic.priority,
+      hasNotes: hasNotes(topic.id), // true when the Learn button has notes to show
       done: progress.doneTopics.includes(topic.id),
       resource: progress.resources.find((item) => item.topicId === topic.id)?.text ?? "",
     }));
