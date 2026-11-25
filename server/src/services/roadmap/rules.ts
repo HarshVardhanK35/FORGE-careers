@@ -247,8 +247,8 @@ export function unlockSkill(progress: ProgressData, skillId: string): void {
   progress.manualUnlocks = [...progress.manualUnlocks, skillId];
 }
 
-// Record the result of one attempt: how many answers were correct out of the level's total.
-// (Later the server will grade the test itself; for now the number comes from the caller.)
+// Record the result of one attempt: the points of the questions answered right, out of the level's total.
+// The points may be fractions (a question can be half right). The test routes grade the test and call this.
 export function recordAttempt(
   progress: ProgressData,
   skillId: string,
@@ -261,8 +261,8 @@ export function recordAttempt(
   const skill = ROADMAP_SKILLS[index];
   const rule = LEVEL_RULES[level - 1];
 
-  if (!Number.isInteger(correct) || correct < 0 || correct > rule.total) {
-    throw new RuleError(400, `Correct answers must be a whole number from 0 to ${rule.total}`);
+  if (!Number.isFinite(correct) || correct < 0 || correct > rule.total) {
+    throw new RuleError(400, `The points must be from 0 to ${rule.total}`);
   }
 
   const { state, reason } = levelState(progress, skill, index, level, now);
@@ -272,7 +272,7 @@ export function recordAttempt(
 
   const record = levelRecord(progress, skillId, level);
   const scorePercent = Math.round((correct / rule.total) * 100);
-  const passed = correct >= rule.needed;
+  const passed = correct >= rule.needed - 1e-9; // a tiny margin for fractions
 
   record.attempts += 1;
   record.bestScore = Math.max(record.bestScore ?? 0, scorePercent);

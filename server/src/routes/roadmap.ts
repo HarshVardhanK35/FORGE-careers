@@ -3,39 +3,13 @@ import type { Response } from "express";
 import { z } from "zod";
 
 import { getNotes } from "../data/content";
-import { RoadmapProgress } from "../models/RoadmapProgress";
 import { protect, AuthRequest } from "../middleware/protect";
-import { buildView, emptyProgress, recordAttempt, RESOURCE_MAX, RuleError, unlockSkill, updateTopic } from "../services/roadmap/rules";
-import type { LevelNumber, ProgressData } from "../services/roadmap/rules";
+import { loadProgress, saveProgress } from "../services/roadmap/progressStore";
+import { buildView, RESOURCE_MAX, RuleError, unlockSkill, updateTopic } from "../services/roadmap/rules";
 
 const router = Router();
 
 router.use(protect);
-
-// his progress as plain data (an empty one when he has not started)
-async function loadProgress(userId: string | undefined): Promise<ProgressData> {
-  const saved = await RoadmapProgress.findOne({ userId });
-  if (!saved) return emptyProgress();
-
-  return {
-    doneTopics: [...saved.doneTopics],
-    resources: saved.resources.map(({ topicId, text }) => ({ topicId, text })),
-    levels: saved.levels.map((item) => ({
-      skillId: item.skillId,
-      level: item.level,
-      status: item.status,
-      attempts: item.attempts,
-      bestScore: item.bestScore,
-      nextAttemptAt: item.nextAttemptAt,
-    })),
-    manualUnlocks: [...saved.manualUnlocks],
-    studiedFlows: [...saved.studiedFlows],
-  };
-}
-
-async function saveProgress(userId: string | undefined, progress: ProgressData): Promise<void> {
-  await RoadmapProgress.findOneAndUpdate({ userId }, { $set: progress }, { upsert: true, setDefaultsOnInsert: true });
-}
 
 // a broken rule becomes its own answer; anything else is a real error
 function sendRuleError(error: unknown, res: Response): void {
@@ -97,28 +71,6 @@ router.post("/skills/:skillId/unlock", async (req: AuthRequest, res) => {
   }
 });
 
-const attemptSchema = z.object({ correct: z.number().int().min(0) });
-
-// Record one test attempt (how many answers were correct). The test screen will call this later;
-// until then it lets the rules be tried in Postman.
-router.post("/skills/:skillId/levels/:level/attempts", async (req: AuthRequest, res) => {
-  const level = Number(req.params.level);
-  const parsed = attemptSchema.safeParse(req.body);
-  if (!parsed.success || ![1, 2, 3].includes(level)) {
-    res.status(400).json({ message: "Invalid input" });
-    return;
-  }
-
-  try {
-    const progress = await loadProgress(req.userId);
-    const result = recordAttempt(progress, String(req.params.skillId), level as LevelNumber, parsed.data.correct);
-    await saveProgress(req.userId, progress);
-    res.json({ ...result, roadmap: buildView(progress) });
-  } catch (error) {
-    sendRuleError(error, res);
-  }
-});
-
 export default router;
 
 /**
@@ -126,6 +78,8 @@ export default router;
  *  passed or skipped, and when the next attempt opens. The client only draws it.
  *
  * GET /topics/:topicId/learn answers with the notes of one topic (data/content), or 404 when there are none yet.
+ *
+ * A test result is recorded by the test routes (routes/tests.ts), never by the client.
  *
  * Every change loads his progress as plain data, applies one rule from services/roadmap/rules.ts, saves it
  *  and answers with the new roadmap. A broken rule (a locked skill, a level not open) answers 409 with a sentence.

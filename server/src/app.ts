@@ -13,6 +13,7 @@ import onboardingRouter from "./routes/onboarding";
 import resumeChecksRouter from "./routes/resumeChecks";
 import jobMatchesRouter from "./routes/jobMatches";
 import roadmapRouter from "./routes/roadmap";
+import testsRouter from "./routes/tests";
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.use("/onboarding", onboardingRouter);
 app.use("/resume-checks", resumeChecksRouter);
 app.use("/job-matches", jobMatchesRouter);
 app.use("/roadmap", roadmapRouter);
+app.use("/tests", testsRouter);
 
 export default app;
