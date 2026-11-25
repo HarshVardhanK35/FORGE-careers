@@ -328,3 +328,47 @@ export interface TopicNotes {
   commonMistakes: string[];
   links: { title: string; url: string; kind: "article" | "video" | "docs"; why: string }[];
 }
+
+// ---- a level test (what the /tests routes send) ----
+
+export interface TestQuestion {
+  id: string;
+  number: number;
+  topicId: string;
+  topicTitle: string;
+  environment: "node" | "browser";
+  html?: string; // for a browser question: the page the code runs on
+  code: string;
+  partA: { ask: string; answer?: string; locked: boolean };
+  partB?: { ask: string; options: string[]; chosen?: number }; // appears after Part A is saved
+  partC?: { ask: string; answer?: string; maxLength: number }; // appears after Part B is chosen
+  complete: boolean;
+}
+
+export interface TestAttempt {
+  id: string;
+  skillId: string;
+  skillName: string;
+  level: number;
+  levelName: string;
+  attemptNumber: number;
+  total: number;
+  needed: number;
+  reached: number; // how many questions are open
+  current: number; // the question to show first
+  startedAt: string;
+  questions: TestQuestion[]; // only the reached ones
+}
+
+export interface TestResult {
+  passed: boolean;
+  points: number;
+  total: number;
+  needed: number;
+  scorePercent: number;
+  timeMs: number;
+  activeMs: number;
+  waitHours: number | null;
+  nextAttemptAt: string | null;
+  nextLevelOpen: boolean;
+}
