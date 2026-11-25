@@ -1,6 +1,6 @@
 // The skill roadmap: the skills in the order they open, and their topics.
 // Topics are DATA: a correction here needs no change in the code.
-// Only JavaScript has topics so far (38, chosen from recent interview guides and the JavaScript React needs; to be checked by the user); the other skills get theirs later.
+// JavaScript (38 topics) and HTML+CSS (29 topics) have topics so far, chosen from recent interview guides and what React needs; to be checked by the user; the other skills get theirs later.
 // A skill without topics shows "Topics coming soon" and keeps its tests locked.
 
 export type Tier = "required" | "moderate" | "skippable";
@@ -66,7 +66,42 @@ export const ROADMAP_SKILLS: RoadmapSkill[] = [
       { id: "js-array-utilities", title: "Array and object utilities (flatten, group by, unique)", category: "Coding round", priority: "common" },
     ],
   },
-  { id: "css", name: "CSS", tier: "required", topics: [] },
+  {
+    id: "css", // the id stays "css" so that saved progress keeps working; the name is HTML+CSS
+    name: "HTML+CSS",
+    tier: "required",
+    topics: [
+      { id: "hc-document-structure", title: "Document structure, elements, attributes and block versus inline", category: "HTML", priority: "must" },
+      { id: "hc-semantic-html", title: "Semantic HTML (header, nav, main, section, article, footer)", category: "HTML", priority: "must" },
+      { id: "hc-links-images-media", title: "Links, images and media (alt text, responsive images)", category: "HTML", priority: "must" },
+      { id: "hc-forms", title: "Forms and inputs (labels, input types, validation attributes, button types)", category: "HTML", priority: "must" },
+      { id: "hc-lists-tables", title: "Lists and tables", category: "HTML", priority: "common" },
+      { id: "hc-html-accessibility", title: "HTML accessibility basics (headings, landmarks, labels, focus order, ARIA only when needed)", category: "HTML", priority: "must" },
+      { id: "hc-selectors", title: "Selectors and combinators", category: "CSS basics", priority: "must" },
+      { id: "hc-cascade-specificity", title: "The cascade, specificity and inheritance", category: "CSS basics", priority: "must" },
+      { id: "hc-box-model", title: "The box model and box-sizing", category: "CSS basics", priority: "must" },
+      { id: "hc-units", title: "Units (px, rem, em, %, vw, vh, dvh)", category: "CSS basics", priority: "must" },
+      { id: "hc-display", title: "display (block, inline, inline-block, none) and visibility", category: "CSS basics", priority: "must" },
+      { id: "hc-positioning", title: "Positioning (relative, absolute, fixed, sticky)", category: "CSS basics", priority: "must" },
+      { id: "hc-z-index-stacking", title: "z-index and the stacking context", category: "CSS basics", priority: "must" },
+      { id: "hc-pseudo", title: "Pseudo-classes and pseudo-elements (:hover, :focus-visible, ::before)", category: "CSS basics", priority: "must" },
+      { id: "hc-backgrounds-borders", title: "Backgrounds, borders, shadows and gradients", category: "CSS basics", priority: "common" },
+      { id: "hc-transitions-animations", title: "Transitions and animations (including prefers-reduced-motion)", category: "CSS basics", priority: "common" },
+      { id: "hc-flexbox-basics", title: "Flexbox basics and alignment", category: "Layout", priority: "must" },
+      { id: "hc-flexbox-practice", title: "Flexbox in practice (grow, shrink, basis, wrap, gap)", category: "Layout", priority: "must" },
+      { id: "hc-grid-basics", title: "CSS Grid basics", category: "Layout", priority: "must" },
+      { id: "hc-grid-practice", title: "Grid in practice (areas, auto-fit with minmax, subgrid)", category: "Layout", priority: "must" },
+      { id: "hc-layout-patterns", title: "Centering and common layout patterns (navbar, cards, holy grail)", category: "Layout", priority: "must" },
+      { id: "hc-mobile-first-media", title: "Mobile-first design and media queries", category: "Responsive", priority: "must" },
+      { id: "hc-fluid-sizing", title: "Fluid sizing and responsive images (clamp, aspect-ratio, object-fit, srcset)", category: "Responsive", priority: "common" },
+      { id: "hc-container-queries", title: "Container queries", category: "Responsive", priority: "common" },
+      { id: "hc-custom-properties", title: "Custom properties (variables) and theming, including dark mode", category: "Modern CSS", priority: "must" },
+      { id: "hc-css-architecture", title: "CSS architecture and styling in React (BEM, utility-first like Tailwind, CSS Modules)", category: "Modern CSS", priority: "must" },
+      { id: "hc-rendering-performance", title: "Browser rendering and CSS performance (reflow versus repaint, will-change, critical CSS)", category: "Practice", priority: "common" },
+      { id: "hc-debugging-crossbrowser", title: "Debugging with DevTools and cross-browser issues", category: "Practice", priority: "must" },
+      { id: "hc-css-accessibility", title: "CSS and accessibility (focus styles, contrast, hiding content for screen readers)", category: "Practice", priority: "must" },
+    ],
+  },
   { id: "react", name: "React", tier: "required", topics: [] },
   { id: "typescript", name: "TypeScript", tier: "required", topics: [] },
   { id: "tanstack-query", name: "TanStack Query", tier: "required", topics: [] },

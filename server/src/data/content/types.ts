@@ -9,7 +9,8 @@ export interface TopicNotes {
   examples: {
     title: string;
     environment: "node" | "browser";
-    html?: string; // for a browser example: the page the code runs on
+    language?: "javascript" | "html" | "css"; // what the code is; JavaScript when left out (HTML and CSS topics use html and css)
+    html?: string; // for a browser example: the page the code runs on (for CSS: the markup the CSS styles)
     code: string;
     walkthrough: string[]; // the code explained step by step, in running order
     output: string; // exactly what the code prints

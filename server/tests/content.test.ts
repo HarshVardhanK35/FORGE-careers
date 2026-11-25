@@ -15,6 +15,7 @@ const notesSchema = z.object({
       z.object({
         title: z.string().min(1),
         environment: z.enum(["node", "browser"]),
+        language: z.enum(["javascript", "html", "css"]).optional(),
         html: z.string().optional(),
         code: z.string().min(1),
         walkthrough: z.array(z.string().min(3)).min(1),
@@ -48,10 +49,17 @@ describe("topic notes", () => {
     for (const topic of javascript?.topics ?? []) expect(hasNotes(topic.id)).toBe(true);
   });
 
-  it("gives a browser example the page it runs on", () => {
+  it("covers every HTML+CSS topic", () => {
+    const htmlCss = ROADMAP_SKILLS.find((skill) => skill.id === "css");
+    expect(htmlCss?.topics.length).toBe(29);
+    for (const topic of htmlCss?.topics ?? []) expect(hasNotes(topic.id)).toBe(true);
+  });
+
+  it("gives a browser example the page it runs on (except an HTML example, which is the page)", () => {
     for (const notes of allNotes()) {
       for (const example of notes.examples) {
-        if (example.environment === "browser") expect(example.html).toBeTruthy();
+        // an HTML example is the page itself; every other browser example needs its page
+        if (example.environment === "browser" && example.language !== "html") expect(example.html).toBeTruthy();
       }
     }
   });

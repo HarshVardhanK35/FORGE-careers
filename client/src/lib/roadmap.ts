@@ -64,8 +64,3 @@ export function skillStatus(skill: RoadmapSkill, now: number): SkillStatus {
   if (skill.topicsDone > 0) return { kind: "progress", text: "Topics in progress", tone: "accent", action: null };
   return { kind: "new", text: "Not started", tone: "accent", action: null };
 }
-
-// The skill he is working on now: the first open skill that is not fully passed (also used by Home later).
-export function currentSkill(skills: RoadmapSkill[], now: number): RoadmapSkill | undefined {
-  return skills.find((skill) => skill.unlocked && !skill.levels.every((level) => stateNow(level, now) === "passed"));
-}

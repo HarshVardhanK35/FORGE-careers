@@ -61,24 +61,38 @@ function Notes({ notes }: { notes: TopicNotes }) {
         </Part>
       )}
 
-      {notes.examples.map((example, index) => (
-        <Part key={example.title} title={`Example ${index + 1}: ${example.title}`}>
-          {example.environment === "browser" && example.html && (
-            <CodeBlock label="The page this code runs on (HTML)" code={example.html} />
-          )}
-          <CodeBlock label={example.environment === "browser" ? "Code (runs in the browser)" : "Code (runs in Node)"} code={example.code} />
+      {notes.examples.map((example, index) => {
+        const language = example.language ?? "javascript";
+        return (
+          <Part key={example.title} title={`Example ${index + 1}: ${example.title}`}>
+            {example.environment === "browser" && example.html && language !== "html" && (
+              <CodeBlock code={example.html} label={language === "css" ? "The page the CSS styles (HTML)" : "The page this code runs on (HTML)"} />
+            )}
+            <CodeBlock
+              code={example.code}
+              label={
+                language === "css"
+                  ? "CSS"
+                  : language === "html"
+                    ? "HTML"
+                    : example.environment === "browser"
+                      ? "Code (runs in the browser)"
+                      : "Code (runs in Node)"
+              }
+            />
 
-          <ol className="flex flex-col gap-1.5 text-sm leading-relaxed">
-            {example.walkthrough.map((step, index) => (
-              <li key={index} className="rounded-lg bg-panel px-3 py-1.5">
-                {step}
-              </li>
-            ))}
-          </ol>
+            <ol className="flex flex-col gap-1.5 text-sm leading-relaxed">
+              {example.walkthrough.map((step, stepIndex) => (
+                <li key={stepIndex} className="rounded-lg bg-panel px-3 py-1.5">
+                  {step}
+                </li>
+              ))}
+            </ol>
 
-          <CodeBlock label="Output" code={example.output} />
-        </Part>
-      ))}
+            <CodeBlock label={language === "javascript" ? "Output" : "What you see"} code={example.output} />
+          </Part>
+        );
+      })}
 
       <Part title="Remember">
         <ul className="flex flex-col gap-2 text-sm">
