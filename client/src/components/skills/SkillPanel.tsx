@@ -36,12 +36,9 @@ interface SkillPanelProps {
 
 // What opens under a skill row: the lock banner, the topics grouped by category, and the three level cards.
 export default function SkillPanel({ skill, previousName, now, onUnlock, onTick, onSaveResource }: SkillPanelProps) {
-  // an accordion: one category is open at a time; at first the first category that is not finished
-  // (it is chosen once, so ticking the last topic of a category does not move the page under his finger)
+  // an accordion: one category is open at a time; at first all are closed
   const groups = groupByCategory(skill.topics);
-  const [openName, setOpenName] = useState<string | null>(
-    () => (groups.find((group) => group.topics.some(({ topic }) => !topic.done)) ?? groups[0])?.name ?? null
-  );
+  const [openName, setOpenName] = useState<string | null>(null);
 
   const allTicked = skill.topicsTotal > 0 && skill.topicsDone === skill.topicsTotal;
   const testsNote =

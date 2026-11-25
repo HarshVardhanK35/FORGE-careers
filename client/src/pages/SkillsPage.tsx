@@ -11,7 +11,7 @@ import { usePageTitle } from "../context/PageHeaderContext";
 import { useToast } from "../context/ToastContext";
 import { useNow } from "../hooks/useNow";
 import { api, errorMessage } from "../lib/api";
-import { currentSkill, TIER_LABELS, TIERS } from "../lib/roadmap";
+import { TIER_LABELS, TIERS } from "../lib/roadmap";
 import type { Roadmap } from "../lib/types";
 
 // grey blocks while the roadmap loads
@@ -48,8 +48,8 @@ export default function SkillsPage() {
 
   const roadmap = useQuery({ queryKey: ["roadmap"], queryFn: () => api.get<Roadmap>("/roadmap") });
 
-  // undefined = nothing chosen yet, so the skill he is working on is open; null = all closed
-  const [openId, setOpenId] = useState<string | null | undefined>(undefined);
+  // the skill that is open (null = all closed, which is how the page starts)
+  const [openId, setOpenId] = useState<string | null>(null);
   const [unlockId, setUnlockId] = useState<string | null>(null);
 
   // every change answers with the new roadmap, which replaces the cached one
@@ -114,7 +114,7 @@ export default function SkillsPage() {
     );
   }
 
-  const expandedId = openId === undefined ? currentSkill(skills, now)?.id ?? null : openId;
+  const expandedId = openId;
   const unlockSkillIndex = skills.findIndex((skill) => skill.id === unlockId);
   const unlockTarget = unlockSkillIndex >= 0 ? skills[unlockSkillIndex] : null;
   const unlockPrevious = unlockSkillIndex > 0 ? skills[unlockSkillIndex - 1] : null;

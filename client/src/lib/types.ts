@@ -319,10 +319,11 @@ export interface TopicNotes {
   examples: {
     title: string;
     environment: "node" | "browser";
-    html?: string; // for a browser example: the page the code runs on
+    language?: "javascript" | "html" | "css"; // what the code is; JavaScript when left out
+    html?: string; // for a browser example: the page the code runs on (for CSS: the markup the CSS styles)
     code: string;
     walkthrough: string[];
-    output: string;
+    output: string; // what it prints, or for HTML and CSS what the browser shows, in words
   }[];
   keyPoints: string[];
   commonMistakes: string[];
