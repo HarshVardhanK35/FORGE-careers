@@ -198,6 +198,12 @@ describe("what the screen is sent", () => {
     expect(text).not.toContain("modelAnswer");
   });
 
+  it("names the skill and the level, and the points needed, for the title and the result", () => {
+    const { attempt, questions } = newAttempt();
+    const view = buildAttemptView(attempt, questions, "abc");
+    expect(view).toMatchObject({ id: "abc", skillName: "JavaScript", levelName: "Basics", needed: 19, total: 21 });
+  });
+
   it("is complete when every question is answered", () => {
     const { attempt, questions } = newAttempt();
     expect(allComplete(questions, attempt.answers)).toBe(false);

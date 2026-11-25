@@ -3,7 +3,7 @@
 
 import { ROADMAP_SKILLS } from "../../data/roadmap";
 import type { Question, QuestionBank } from "../../data/questions/types";
-import { RuleError } from "../roadmap/rules";
+import { LEVEL_RULES, RuleError } from "../roadmap/rules";
 
 export const PART_A_MAX = 300;
 export const PART_C_MAX = 600;
@@ -148,10 +148,13 @@ export interface QuestionView {
 export interface AttemptView {
   id: string; // the id of the saved attempt: the screen uses it in every later call
   skillId: string;
+  skillName: string; // for the title of the screen
   level: number;
+  levelName: string; // Basics, Intermediate or Hard
   attemptNumber: number;
   set: number | null;
   total: number;
+  needed: number; // the points needed to pass
   reached: number; // how many questions are open
   current: number; // the number (from 1) of the question to show first
   startedAt: string;
@@ -203,10 +206,13 @@ export function buildAttemptView(attempt: AttemptData, questions: Question[], id
   return {
     id,
     skillId: attempt.skillId,
+    skillName: ROADMAP_SKILLS.find((skill) => skill.id === attempt.skillId)?.name ?? attempt.skillId,
     level: attempt.level,
+    levelName: LEVEL_RULES[attempt.level - 1].name,
     attemptNumber: attempt.attemptNumber,
     set: attempt.set,
     total: questions.length,
+    needed: LEVEL_RULES[attempt.level - 1].needed,
     reached,
     current: reached,
     startedAt: attempt.startedAt.toISOString(),

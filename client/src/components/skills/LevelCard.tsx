@@ -21,11 +21,11 @@ const SECONDARY_LINK = `${LINK_BASE} w-full border border-line bg-panel px-4 py-
 // the sentence under "Attempt"
 function attemptText(level: RoadmapLevel, state: LevelState): string {
   const next = level.attempts + 1;
-  const set = level.attemptSet ? `fixed set ${level.attemptSet}` : "random questions";
+  const set = level.attemptSet ? `set ${level.attemptSet}` : "random";
   if (state === "passed") return `Passed on attempt ${level.attempts}`;
   if (state === "skipped") return "Not taken";
   if (state === "locked") return "Not started";
-  if (state === "waiting") return `Next: attempt ${next} · ${set}`;
+  // the badge already says "Waiting", so the line is the same for both: the attempt and its set
   return `Attempt ${next} · ${set}`;
 }
 
@@ -56,7 +56,7 @@ export default function LevelCard({ skillId, level, now }: { skillId: string; le
 
         <dt className="text-muted">Attempt</dt>
         <dd className="flex items-start gap-1.5">
-          <span className="min-w-0 flex-1">{attemptText(level, state)}</span>
+          <span className="min-w-0 flex-1 whitespace-nowrap">{attemptText(level, state)}</span>
           <InfoTip
             label="About attempts and waiting times"
             text={`Attempts 1 to 3 use fixed sets. From attempt 4, questions are drawn at random. After a failed attempt, the next one opens after ${level.waitHours} hours.`}

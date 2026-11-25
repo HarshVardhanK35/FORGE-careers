@@ -13,6 +13,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ResumePage from "./pages/ResumePage";
 import ResumesPage, { ResumesIndex } from "./pages/ResumesPage";
 import SignupPage from "./pages/SignupPage";
+import SkillPracticePage from "./pages/SkillPracticePage";
 import SkillsPage from "./pages/SkillsPage";
 import SkillTestPage from "./pages/SkillTestPage";
 import TrackerPage, { TrackerIndex } from "./pages/TrackerPage";
@@ -31,9 +32,9 @@ export default function App() {
         {/* onboarding: a full-screen flow, outside the app shell */}
         <Route path="onboarding" element={<OnboardingPage />} />
 
-        {/* a test (and the practice sets) open in their own browser tab, outside the app shell */}
+        {/* the test and the practice sets open in their own browser tab, outside the app shell */}
         <Route path="skills/:skillId/test" element={<SkillTestPage />} />
-        <Route path="skills/:skillId/practice" element={<SkillTestPage />} />
+        <Route path="skills/:skillId/practice" element={<SkillPracticePage />} />
 
         {/* the app itself: only after onboarding is complete */}
         <Route element={<RequireOnboarding />}>

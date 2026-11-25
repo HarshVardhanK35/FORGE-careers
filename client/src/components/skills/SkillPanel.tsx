@@ -50,7 +50,7 @@ export default function SkillPanel({ skill, previousName, now, onUnlock, onTick,
       : "Tick every topic to open the tests.";
 
   return (
-    <div className="flex flex-col gap-6 border-t border-line bg-canvas px-3 pb-4 pt-3 md:pb-5 md:pl-12 md:pr-5 md:pt-4">
+    <div className="flex flex-col gap-6 border-t border-line bg-canvas px-3 pb-4 pt-3 md:px-5 md:pb-5 md:pt-4">
       {!skill.unlocked && (
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line bg-panel px-4 py-3">
           <Lock size={20} className="text-muted" aria-hidden="true" />
