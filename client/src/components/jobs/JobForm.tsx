@@ -20,12 +20,13 @@ interface JobFormProps {
 // true when the text is a full link, for example https://example.com/job/1
 function isLink(text: string): boolean {
   try {
-    new URL(text);
-    return true;
+    const url = new URL(text);
+    return url.protocol === "http:" || url.protocol === "https:";
   } catch {
     return false;
   }
 }
+
 
 // The form used to add a job and to edit one. The page decides what happens on submit.
 // The fields sit in a card, and the buttons stay at the bottom of the screen while the form scrolls.
