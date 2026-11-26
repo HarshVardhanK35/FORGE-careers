@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import path from "path";
 
 import healthRouter from "./routes/health";
 import authRouter from "./routes/auth";
@@ -41,7 +42,7 @@ app.use(
         formAction: ["'self'"],
         frameAncestors: ["'none'"],
         // forces https for everything the page loads: right on Render, but it would break http://localhost
-        upgradeInsecureRequests: NODE_ENV === "production" ? [] : null,
+        upgradeInsecureRequests: process.env.RENDER ? [] : null,
       },
     },
   })
@@ -50,19 +51,38 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/health", healthRouter);
-app.use("/auth", authRouter);
-app.use("/profile", profileRouter);
-app.use("/settings", settingsRouter);
-app.use("/resumes", resumesRouter);
-app.use("/jobs", jobsRouter);
-app.use("/applications", applicationsRouter);
-app.use("/skills", skillsRouter);
-app.use("/onboarding", onboardingRouter);
-app.use("/resume-checks", resumeChecksRouter);
-app.use("/job-matches", jobMatchesRouter);
-app.use("/roadmap", roadmapRouter);
-app.use("/tests", testsRouter);
+const api = express.Router();
+
+api.use("/health", healthRouter);
+api.use("/auth", authRouter);
+api.use("/profile", profileRouter);
+api.use("/settings", settingsRouter);
+api.use("/resumes", resumesRouter);
+api.use("/jobs", jobsRouter);
+api.use("/applications", applicationsRouter);
+api.use("/skills", skillsRouter);
+api.use("/onboarding", onboardingRouter);
+api.use("/resume-checks", resumeChecksRouter);
+api.use("/job-matches", jobMatchesRouter);
+api.use("/roadmap", roadmapRouter);
+api.use("/tests", testsRouter);
+
+app.use("/api", api);
+
+// an unknown /api address answers in JSON, never with the page
+app.use("/api", (_req, res) => {
+  res.status(404).json({ message: "Not found" });
+});
+
+// In production this one server also serves the built client, so the page and the API share one address.
+if (NODE_ENV === "production") {
+  const clientDist = path.resolve(__dirname, "../../client/dist");
+  app.use(express.static(clientDist));
+  // any other address is a client route (/jobs, /skills ...): the page opens and React decides what to show
+  app.get("/{*splat}", (_req, res) => {
+    res.sendFile(path.join(clientDist, "index.html"));
+  });
+}
 
 // An unknown address answers with plain JSON instead of the Express default page.
 app.use((_req, res) => {
