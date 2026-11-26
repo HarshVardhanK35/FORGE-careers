@@ -35,6 +35,15 @@ describe("Part A and Part B", () => {
     expect(isPartACorrect(withoutC, undefined)).toBe(false);
   });
 
+  it("ignores capital letters in the answer to a page question, but not in a JavaScript output", () => {
+    const colour = getQuestion("css", 1, "hc-cascade-specificity-l1-s1-q07") as Question;
+    expect(isPartACorrect(colour, "Red")).toBe(true);
+    expect(isPartACorrect(colour, " RGB(255,  0, 0) ")).toBe(true);
+    expect(isPartACorrect(colour, "rgb(255,0,0)")).toBe(false); // a missing space still counts as different
+    expect(isPartACorrect(colour, "rgb(255, 0, 0)")).toBe(true);
+    expect(isPartACorrect(withoutC, "String")).toBe(false);
+  });
+
   it("accepts a multi-line output typed with its line breaks", () => {
     const loop = getQuestion("javascript", 1, "js-control-flow-l1-s1-q06") as Question;
     expect(isPartACorrect(loop, "1\n2\n3")).toBe(true);

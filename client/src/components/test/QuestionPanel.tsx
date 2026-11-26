@@ -60,7 +60,16 @@ export default function QuestionPanel({
       {question.environment === "browser" && question.html && (
         <CodeBlock code={question.html} label="The page this code runs on (HTML)" />
       )}
-      <CodeBlock code={question.code} label={question.environment === "browser" ? "Code (runs in the browser)" : undefined} />
+      <CodeBlock
+        code={question.code}
+        label={
+          question.environment === "browser"
+            ? "Code (runs in the browser)"
+            : question.environment === "page"
+              ? "The page, opened in a browser window 800 px wide and 600 px high"
+              : undefined
+        }
+      />
 
       <section className="flex flex-col gap-2">
         <PartHead
@@ -85,7 +94,7 @@ export default function QuestionPanel({
               id="part-a"
               rows={3}
               maxLength={300}
-              placeholder="Type the exact output"
+              placeholder={question.environment === "page" ? "Type your answer" : "Type the exact output"}
               value={draftA}
               onChange={(event) => onDraftA(event.target.value)}
               className={`${TEXTAREA} min-h-22 font-mono`}

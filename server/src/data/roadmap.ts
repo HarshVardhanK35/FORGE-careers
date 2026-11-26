@@ -114,7 +114,6 @@ export const ROADMAP_SKILLS: RoadmapSkill[] = [
   { id: "react-testing-library", name: "React Testing Library", tier: "moderate", topics: [] },
   { id: "accessibility", name: "Accessibility", tier: "moderate", topics: [] },
   { id: "web-performance", name: "Web performance", tier: "moderate", topics: [] },
-  { id: "frontend-system-design", name: "Frontend system design", tier: "moderate", topics: [] },
   { id: "web-security", name: "Web security", tier: "moderate", topics: [] },
   { id: "git-github-actions", name: "Git and GitHub Actions", tier: "moderate", topics: [] },
   { id: "docker", name: "Docker", tier: "moderate", topics: [] },
@@ -135,5 +134,4 @@ export const ROADMAP_PROJECTS: RoadmapProject[] = [
   { id: "forge-client", name: "FORGE client", flows: [] },
   { id: "castwise-server", name: "CastWise server", flows: [] },
   { id: "castwise-client", name: "CastWise client", flows: [] },
-  { id: "castwise-apps", name: "CastWise apps", flows: [] },
 ];
