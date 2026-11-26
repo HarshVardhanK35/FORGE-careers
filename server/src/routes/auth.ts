@@ -2,16 +2,33 @@ import { Router, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import crypto from "crypto";
 
 import { User } from "../models/User";
 
 import { protect, AuthRequest } from "../middleware/protect";
+import { loginLimiter, signupLimiter, refreshLimiter } from "../middleware/rateLimit";
 
 import { NODE_ENV, SETUP_SECRET, JWT_REFRESH_SECRET } from "../config/env";
 
 import { signAccessToken, signRefreshToken, hashToken, ACCESS_TOKEN_MINUTES, accessExpiresAt } from "../utils/tokens";
 
 const router = Router();
+
+// After a refresh the old refresh token still works for this long, so two tabs refreshing together both succeed.
+const REFRESH_GRACE_MS = 30 * 1000;
+
+// A real password hash that nobody knows. A login with an unknown email is checked against it, so the answer
+// takes as long as for a wrong password and the time never shows whether the email exists.
+const DUMMY_HASH = bcrypt.hashSync("not-a-real-password", 12);
+
+// Compares two secrets in a time that does not depend on how many characters match. Both are hashed first,
+// so the two values always have the same length (timingSafeEqual needs that).
+function sameSecret(first: string, second: string): boolean {
+  const a = crypto.createHash("sha256").update(first).digest();
+  const b = crypto.createHash("sha256").update(second).digest();
+  return crypto.timingSafeEqual(a, b);
+}
 
 /**
  * z is "ZOD" and z.string() === value must be text string - rule for one field
@@ -38,7 +55,7 @@ const signupSchema = z.object({
 });
 
 // sign up route
-router.post("/signup", async (req, res) => {
+router.post("/signup", signupLimiter, async (req, res) => {
   const parsed = signupSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ message: "Invalid input" });
@@ -47,7 +64,7 @@ router.post("/signup", async (req, res) => {
 
   const { email, password, setupSecret } = parsed.data;
 
-  if (setupSecret !== SETUP_SECRET) {
+  if (!sameSecret(setupSecret, SETUP_SECRET)) {
     res.status(403).json({ message: "Not allowed" });
     return;
   }
@@ -83,7 +100,7 @@ function setAuthCookies(res: Response, accessToken: string, refreshToken: string
 }
 
 // login route
-router.post("/login", async (req, res) => {
+router.post("/login", loginLimiter, async (req, res) => {
   const parsed = loginSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ message: "Invalid input" });
@@ -93,7 +110,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = parsed.data;
 
   const user = await User.findOne({ email: email.toLowerCase() }).select("+passwordHash");
-  const passwordOk = user ? await bcrypt.compare(password, user.passwordHash) : false;
+  const passwordOk = await bcrypt.compare(password, user ? user.passwordHash : DUMMY_HASH);
 
   if (!user || !passwordOk) {
     res.status(401).json({ message: "Invalid email or password" });
@@ -103,6 +120,7 @@ router.post("/login", async (req, res) => {
   const accessToken = signAccessToken(user.id);
   const refreshToken = signRefreshToken(user.id);
 
+  user.previousRefreshTokenHash = undefined; // a new sign-in forgets the old session
   user.refreshTokenHash = hashToken(refreshToken);
   await user.save();
 
@@ -121,7 +139,7 @@ router.get("/me", protect, async (req: AuthRequest, res) => {
 });
 
 // to get new refresh and access tokens
-router.post("/refresh", async (req, res) => {
+router.post("/refresh", refreshLimiter, async (req, res) => {
   const token = req.cookies?.refreshToken;
   if (!token) {
     res.status(401).json({ message: "Not signed in" });
@@ -135,14 +153,24 @@ router.post("/refresh", async (req, res) => {
       return;
     }
 
-    const user = await User.findById(payload.sub).select("+refreshTokenHash");
-    if (!user || user.refreshTokenHash !== hashToken(token)) {
+    const user = await User.findById(payload.sub).select("+refreshTokenHash +previousRefreshTokenHash +previousRefreshAt");
+    const sent = hashToken(token);
+    const isCurrent = !!user && user.refreshTokenHash === sent;
+    const isRecentPrevious =
+      !!user &&
+      user.previousRefreshTokenHash === sent &&
+      !!user.previousRefreshAt &&
+      Date.now() - user.previousRefreshAt.getTime() < REFRESH_GRACE_MS;
+
+    if (!user || (!isCurrent && !isRecentPrevious)) {
       res.status(401).json({ message: "Invalid session" });
       return;
     }
 
     const accessToken = signAccessToken(user.id);
     const refreshToken = signRefreshToken(user.id);
+    user.previousRefreshTokenHash = user.refreshTokenHash; // the token just used stays valid for a short time
+    user.previousRefreshAt = new Date();
     user.refreshTokenHash = hashToken(refreshToken);
     await user.save();
 
@@ -153,9 +181,24 @@ router.post("/refresh", async (req, res) => {
   }
 });
 
-// logout route
-router.post("/logout", protect, async (req: AuthRequest, res) => {
-  await User.findByIdAndUpdate(req.userId, { $unset: { refreshTokenHash: "" } });
+// logout route: it works from the refresh cookie, so it still works after the 25-minute access token has ended
+router.post("/logout", async (req, res) => {
+  const token = req.cookies?.refreshToken;
+  if (token) {
+    try {
+      const payload = jwt.verify(token, JWT_REFRESH_SECRET);
+      if (typeof payload !== "string" && payload.sub) {
+        const sent = hashToken(token);
+        await User.updateOne(
+          { _id: payload.sub, $or: [{ refreshTokenHash: sent }, { previousRefreshTokenHash: sent }] },
+          { $unset: { refreshTokenHash: "", previousRefreshTokenHash: "", previousRefreshAt: "" } }
+        );
+      }
+    } catch {
+      // an expired or broken token has nothing left to end; the cookies are still cleared below
+    }
+  }
+
   res.clearCookie("accessToken", cookieOptions);
   res.clearCookie("refreshToken", cookieOptions);
   res.json({ message: "Logged out" });

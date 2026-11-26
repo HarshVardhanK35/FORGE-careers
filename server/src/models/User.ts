@@ -4,6 +4,8 @@ export interface IUser {
   email: string;
   passwordHash: string;
   refreshTokenHash?: string;
+  previousRefreshTokenHash?: string;
+  previousRefreshAt?: Date;
 }
 
 const userSchema = new Schema<IUser>(
@@ -23,6 +25,14 @@ const userSchema = new Schema<IUser>(
     },
     refreshTokenHash: {
       type: String,
+      select: false
+    },
+    previousRefreshTokenHash: {
+      type: String,
+      select: false
+    },
+    previousRefreshAt: {
+      type: Date,
       select: false
     },
   },

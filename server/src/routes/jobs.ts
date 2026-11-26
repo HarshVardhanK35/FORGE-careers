@@ -20,7 +20,18 @@ const createJobSchema = z.object({
   // URL type is checked here (from response object)
   // This accepts a valid link or an empty text
   //    Without it, you could never clear a link once it was saved
-  link: z.union([z.string().trim().url().max(500), z.literal("")]).optional(),
+  link: z
+    .union([
+      z
+        .string()
+        .trim()
+        .url()
+        .max(500)
+        .regex(/^https?:\/\//i), // only http or https: a javascript: or data: link could run code when clicked
+      z.literal(""),
+    ])
+    .optional(),
+
 
   description: z.string().trim().min(1).max(20000),
   note: z.string().trim().max(100).optional(),
