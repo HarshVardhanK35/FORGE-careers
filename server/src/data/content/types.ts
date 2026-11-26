@@ -9,7 +9,7 @@ export interface TopicNotes {
   examples: {
     title: string;
     environment: "node" | "browser";
-    language?: "javascript" | "html" | "css"; // what the code is; JavaScript when left out (HTML and CSS topics use html and css)
+    language?: "javascript" | "html" | "css" | "jsx"; // what the code is; JavaScript when left out (HTML and CSS topics use html and css, React uses jsx: one file that defines App)
     html?: string; // for a browser example: the page the code runs on (for CSS: the markup the CSS styles)
     code: string;
     walkthrough: string[]; // the code explained step by step, in running order

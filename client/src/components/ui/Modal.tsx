@@ -32,7 +32,7 @@ export default function Modal({ title, onClose, children, compact = false, wide 
           if (event.key === "Escape") onClose();
           else keepFocusInside(event);
         }}
-        className={`flex max-h-[85vh] w-full flex-col rounded-xl border border-line bg-panel shadow-2xl ${
+        className={`flex max-h-[85dvh] w-full flex-col rounded-xl border border-line bg-panel shadow-2xl ${
           compact ? "max-w-md" : wide ? "max-w-3xl" : "max-w-xl"
         }`}
       >
@@ -53,7 +53,7 @@ export default function Modal({ title, onClose, children, compact = false, wide 
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-4 py-3 md:px-5 md:py-4">{children}</div>
+            <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-3 md:px-5 md:py-4">{children}</div>
           </>
         )}
       </div>

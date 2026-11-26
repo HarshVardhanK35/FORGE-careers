@@ -15,7 +15,7 @@ const notesSchema = z.object({
       z.object({
         title: z.string().min(1),
         environment: z.enum(["node", "browser"]),
-        language: z.enum(["javascript", "html", "css"]).optional(),
+        language: z.enum(["javascript", "html", "css", "jsx"]).optional(),
         html: z.string().optional(),
         code: z.string().min(1),
         walkthrough: z.array(z.string().min(3)).min(1),
@@ -55,11 +55,23 @@ describe("topic notes", () => {
     for (const topic of htmlCss?.topics ?? []) expect(hasNotes(topic.id)).toBe(true);
   });
 
+  it("covers every React topic, with a defined App in every example", () => {
+    const react = ROADMAP_SKILLS.find((skill) => skill.id === "react");
+    expect(react?.topics.length).toBe(30);
+    for (const topic of react?.topics ?? []) {
+      expect(hasNotes(topic.id)).toBe(true);
+      for (const example of getNotes(topic.id)?.examples ?? []) {
+        expect(example.language).toBe("jsx");
+        expect(example.code).toMatch(/function App|const App/);
+      }
+    }
+  });
+
   it("gives a browser example the page it runs on (except an HTML example, which is the page)", () => {
     for (const notes of allNotes()) {
       for (const example of notes.examples) {
-        // an HTML example is the page itself; every other browser example needs its page
-        if (example.environment === "browser" && example.language !== "html") expect(example.html).toBeTruthy();
+        // an HTML example is the page itself and a React example is one file that defines App; every other browser example needs its page
+        if (example.environment === "browser" && example.language !== "html" && example.language !== "jsx") expect(example.html).toBeTruthy();
       }
     }
   });
