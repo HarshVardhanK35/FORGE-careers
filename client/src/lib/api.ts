@@ -1,6 +1,6 @@
 // The one place that talks to the server.
-// The browser calls /api/..., and the Vite proxy (dev) or a rewrite rule (production)
-// forwards it to the server without the /api part.
+// The browser calls /api/... on its own address: the Vite proxy (development) or the server itself (production)
+// forwards it to the API, which lives under /api.
 
 const BASE = "/api";
 
