@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BookOpen, Check, Link as LinkIcon, Pencil, Plus, StickyNote } from "lucide-react";
 
 import Button from "../ui/Button";
+import InfoTip from "../ui/InfoTip";
 import Input from "../ui/Input";
 import LearnModal from "./LearnModal";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
@@ -75,6 +76,13 @@ export default function TopicRow({ number, topic, locked, onTick, onSaveResource
       <div className={`flex min-h-8 min-w-0 flex-1 items-center gap-2 text-sm md:flex-[1_1_200px] ${locked ? "text-muted" : ""}`}>
         <span className="min-w-[18px] text-muted tabular-nums">{number}</span>
         <span>{topic.title}</span>
+        {/* only the less important topics are marked; every other topic is plain */}
+        {topic.priority === "common" && (
+          <span className="inline-flex shrink-0 items-center gap-1">
+            <span className="rounded-full border border-line px-2 py-0.5 text-xs text-muted">Good to know</span>
+            <InfoTip label="About the Good to know tag" text="Asked less often in interviews. Study it after the other topics." />
+          </span>
+        )}
         {topic.hasNotes && (
           <button
             type="button"

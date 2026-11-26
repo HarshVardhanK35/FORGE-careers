@@ -41,7 +41,9 @@ function Shell() {
   const { title, setActionSlot } = usePageHeaderState();
 
   return (
-    <div className="flex h-full">
+    // h-dvh follows the visible height of a phone (the address bar and the keyboard change it); overflow-hidden keeps
+    // the page itself from scrolling, only the main area scrolls
+    <div className="flex h-dvh overflow-hidden">
       {/* desktop: the side bar */}
       <aside className="hidden w-56 flex-col border-r border-line bg-panel p-4 md:flex">
         <div className="px-3 pb-6 pt-2">

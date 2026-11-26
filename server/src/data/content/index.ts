@@ -2,9 +2,10 @@
 
 import { HTML_CSS_NOTES } from "./htmlcss";
 import { JAVASCRIPT_NOTES } from "./javascript";
+import { REACT_NOTES } from "./react";
 import type { TopicNotes } from "./types";
 
-const ALL_NOTES: TopicNotes[] = [...JAVASCRIPT_NOTES, ...HTML_CSS_NOTES];
+const ALL_NOTES: TopicNotes[] = [...JAVASCRIPT_NOTES, ...HTML_CSS_NOTES, ...REACT_NOTES];
 
 const NOTES_BY_TOPIC = new Map<string, TopicNotes>(ALL_NOTES.map((notes) => [notes.topicId, notes]));
 

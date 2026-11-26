@@ -75,7 +75,9 @@ function Notes({ notes }: { notes: TopicNotes }) {
                   ? "CSS"
                   : language === "html"
                     ? "HTML"
-                    : example.environment === "browser"
+                    : language === "jsx"
+                      ? "React code (one file)"
+                      : example.environment === "browser"
                       ? "Code (runs in the browser)"
                       : "Code (runs in Node)"
               }

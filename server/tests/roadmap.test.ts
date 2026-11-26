@@ -48,8 +48,8 @@ describe("the start", () => {
 
   it("never opens the tests of a skill that has no topics yet", () => {
     const progress = withJsTicked();
-    unlockSkill(progress, "react"); // React has no topics yet
-    expect(buildView(progress, NOW).skills[2].levels[0].reason).toBe("Topics coming soon");
+    unlockSkill(progress, "typescript"); // TypeScript has no topics yet
+    expect(buildView(progress, NOW).skills[3].levels[0].reason).toBe("Topics coming soon");
   });
 });
 

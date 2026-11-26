@@ -1,6 +1,6 @@
 // The skill roadmap: the skills in the order they open, and their topics.
 // Topics are DATA: a correction here needs no change in the code.
-// JavaScript (38 topics) and HTML+CSS (29 topics) have topics so far, chosen from recent interview guides and what React needs; to be checked by the user; the other skills get theirs later.
+// JavaScript (38 topics), HTML+CSS (29 topics) and React (30 topics) have topics so far, chosen from recent interview guides and what React needs; to be checked by the user; the other skills get theirs later.
 // A skill without topics shows "Topics coming soon" and keeps its tests locked.
 
 export type Tier = "required" | "moderate" | "skippable";
@@ -102,7 +102,43 @@ export const ROADMAP_SKILLS: RoadmapSkill[] = [
       { id: "hc-css-accessibility", title: "CSS and accessibility (focus styles, contrast, hiding content for screen readers)", category: "Practice", priority: "must" },
     ],
   },
-  { id: "react", name: "React", tier: "required", topics: [] },
+  {
+    id: "react",
+    name: "React",
+    tier: "required",
+    topics: [
+      { id: "react-jsx-rendering", title: "JSX and how React renders", category: "Basics", priority: "must" },
+      { id: "react-components-props", title: "Components and props", category: "Basics", priority: "must" },
+      { id: "react-lists-keys", title: "Lists and keys", category: "Basics", priority: "must" },
+      { id: "react-conditional-rendering", title: "Conditional rendering", category: "Basics", priority: "must" },
+      { id: "react-events", title: "Events and handling user input", category: "Basics", priority: "must" },
+      { id: "react-usestate", title: "useState and updating state (batching, functional updates)", category: "Hooks", priority: "must" },
+      { id: "react-useeffect", title: "useEffect (dependencies, cleanup, common mistakes)", category: "Hooks", priority: "must" },
+      { id: "react-useref", title: "useRef and the DOM", category: "Hooks", priority: "must" },
+      { id: "react-usecontext", title: "useContext and the Context API", category: "Hooks", priority: "must" },
+      { id: "react-usereducer", title: "useReducer", category: "Hooks", priority: "must" },
+      { id: "react-memoization", title: "useMemo, useCallback and React.memo", category: "Hooks", priority: "must" },
+      { id: "react-custom-hooks", title: "Custom hooks and the rules of hooks", category: "Hooks", priority: "must" },
+      { id: "react-concurrent-hooks", title: "useId, useTransition and useDeferredValue", category: "Hooks", priority: "common" },
+      { id: "react-lifting-state", title: "Lifting state up and component communication", category: "Data flow", priority: "must" },
+      { id: "react-forms", title: "Controlled and uncontrolled components, forms", category: "Data flow", priority: "must" },
+      { id: "react-data-fetching", title: "Fetching data (loading, errors, race conditions)", category: "Data flow", priority: "must" },
+      { id: "react-state-location", title: "Choosing where state lives (local, context, external library)", category: "Data flow", priority: "must" },
+      { id: "react-stale-closures", title: "Stale closures in handlers and effects", category: "Data flow", priority: "must" },
+      { id: "react-reconciliation", title: "The virtual DOM, reconciliation and keys", category: "Rendering", priority: "must" },
+      { id: "react-rerenders", title: "Why components re-render and how to avoid extra renders", category: "Rendering", priority: "must" },
+      { id: "react-performance", title: "Performance (Profiler, code splitting with lazy and Suspense)", category: "Rendering", priority: "must" },
+      { id: "react-portals-fragments", title: "Portals and fragments", category: "Rendering", priority: "common" },
+      { id: "react-forwarding-refs", title: "Passing refs to child components", category: "Rendering", priority: "common" },
+      { id: "react-composition", title: "Composition (children, render props, compound components)", category: "Patterns", priority: "must" },
+      { id: "react-error-boundaries", title: "Error boundaries", category: "Patterns", priority: "must" },
+      { id: "react-hoc", title: "Higher-order components", category: "Patterns", priority: "common" },
+      { id: "react-project-structure", title: "Project structure and good practice", category: "Patterns", priority: "common" },
+      { id: "react-router", title: "React Router: routes, links, params, nested and protected routes", category: "Routing", priority: "must" },
+      { id: "react-19-actions", title: "React 19: actions, useActionState, use and useOptimistic", category: "React 19 and beyond", priority: "common" },
+      { id: "react-server-components", title: "Server components and how Next.js uses them", category: "React 19 and beyond", priority: "common" },
+    ],
+  },
   { id: "typescript", name: "TypeScript", tier: "required", topics: [] },
   { id: "tanstack-query", name: "TanStack Query", tier: "required", topics: [] },
   { id: "node-express", name: "Node and Express", tier: "required", topics: [] },
