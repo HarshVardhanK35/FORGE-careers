@@ -337,7 +337,7 @@ export interface TestQuestion {
   number: number;
   topicId: string;
   topicTitle: string;
-  environment: "node" | "browser";
+  environment: "node" | "browser" | "page"; // page: the code is a small HTML and CSS page
   html?: string; // for a browser question: the page the code runs on
   code: string;
   partA: { ask: string; answer?: string; locked: boolean };

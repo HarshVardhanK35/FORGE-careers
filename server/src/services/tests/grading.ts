@@ -17,8 +17,9 @@ export function normalizeOutput(text: string): string {
 
 export function isPartACorrect(question: Question, answer: string | undefined): boolean {
   if (answer === undefined) return false;
-  const typed = normalizeOutput(answer);
-  return question.partA.accepted.some((accepted) => normalizeOutput(accepted) === typed);
+  // a page question (HTML and CSS) is about a word, a number or a colour, so capital letters do not matter there
+  const same = (text: string) => (question.environment === "page" ? normalizeOutput(text).toLowerCase() : normalizeOutput(text));
+  return question.partA.accepted.some((accepted) => same(accepted) === same(answer));
 }
 
 // the option he chose, as its number in the question file (not its position on the screen)

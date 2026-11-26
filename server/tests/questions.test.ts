@@ -2,14 +2,16 @@ import { z } from "zod";
 
 import { allBanks, getQuestion, getQuestionBank } from "../src/data/questions";
 import { ROADMAP_SKILLS } from "../src/data/roadmap";
+import { buildAttemptView } from "../src/services/tests/attempt";
 
 const questionSchema = z.object({
   id: z.string().min(1),
   topicId: z.string().min(1),
   set: z.number().int().min(1).max(3),
-  environment: z.enum(["node", "browser"]),
+  environment: z.enum(["node", "browser", "page"]),
   html: z.string().optional(),
   code: z.string().min(1),
+  check: z.string().optional(),
   partA: z.object({ ask: z.string().min(1), accepted: z.array(z.string()).min(1) }),
   partB: z.object({
     ask: z.string().min(1),
@@ -32,6 +34,16 @@ describe("question banks", () => {
     const bank = getQuestionBank("javascript", 1);
     expect(bank?.questions).toHaveLength(63);
     for (const set of [1, 2, 3]) expect(bank?.questions.filter((question) => question.set === set)).toHaveLength(21);
+  });
+
+  it("has the three sets of 21 questions of HTML+CSS level 1, with 3 Part C questions in each", () => {
+    const bank = getQuestionBank("css", 1);
+    expect(bank?.questions).toHaveLength(63);
+    for (const set of [1, 2, 3]) {
+      const inSet = bank?.questions.filter((question) => question.set === set) ?? [];
+      expect(inSet).toHaveLength(21);
+      expect(inSet.filter((question) => question.partC)).toHaveLength(3);
+    }
   });
 
   it("gives every question a valid shape", () => {
@@ -66,6 +78,19 @@ describe("question banks", () => {
       for (const question of bank.questions) {
         if (question.environment === "browser") expect(question.html).toBeTruthy();
       }
+    }
+  });
+
+  it("gives every page question a check and keeps it off the screen", () => {
+    const bank = getQuestionBank("css", 1);
+    for (const question of bank?.questions ?? []) {
+      expect(question.environment).toBe("page");
+      expect(question.check).toBeTruthy();
+      const view = buildAttemptView(
+        { skillId: "css", level: 1, attemptNumber: 1, set: 1, questionIds: [question.id], optionOrders: [[0, 1, 2, 3]], answers: [], startedAt: new Date() },
+        [question]
+      );
+      expect(JSON.stringify(view)).not.toContain(question.check as string);
     }
   });
 
