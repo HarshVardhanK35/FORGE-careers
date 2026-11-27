@@ -136,7 +136,7 @@ export interface QuestionView {
   number: number;
   topicId: string;
   topicTitle: string;
-  environment: "node" | "browser" | "page";
+  environment: "node" | "browser" | "page" | "react";
   html?: string;
   code: string;
   partA: { ask: string; answer?: string; locked: boolean };

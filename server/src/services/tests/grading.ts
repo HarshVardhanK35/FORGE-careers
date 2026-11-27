@@ -17,8 +17,10 @@ export function normalizeOutput(text: string): string {
 
 export function isPartACorrect(question: Question, answer: string | undefined): boolean {
   if (answer === undefined) return false;
-  // a page question (HTML and CSS) is about a word, a number or a colour, so capital letters do not matter there
-  const same = (text: string) => (question.environment === "page" ? normalizeOutput(text).toLowerCase() : normalizeOutput(text));
+  // a page question (HTML and CSS) or a React question is about a word, a number or a short text shown on a page,
+  // so capital letters do not matter there (a JavaScript output keeps them)
+  const ignoresCase = question.environment === "page" || question.environment === "react";
+  const same = (text: string) => (ignoresCase ? normalizeOutput(text).toLowerCase() : normalizeOutput(text));
   return question.partA.accepted.some((accepted) => same(accepted) === same(answer));
 }
 
