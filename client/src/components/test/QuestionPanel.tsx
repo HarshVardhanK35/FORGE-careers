@@ -67,7 +67,9 @@ export default function QuestionPanel({
             ? "Code (runs in the browser)"
             : question.environment === "page"
               ? "The page, opened in a browser window 800 px wide and 600 px high"
-              : undefined
+              : question.environment === "react"
+                ? "The React component, shown in an empty page (the page does not use Strict Mode)"
+                : undefined
         }
       />
 
@@ -94,7 +96,7 @@ export default function QuestionPanel({
               id="part-a"
               rows={3}
               maxLength={300}
-              placeholder={question.environment === "page" ? "Type your answer" : "Type the exact output"}
+              placeholder={question.environment === "page" || question.environment === "react" ? "Type your answer" : "Type the exact output"}
               value={draftA}
               onChange={(event) => onDraftA(event.target.value)}
               className={`${TEXTAREA} min-h-22 font-mono`}

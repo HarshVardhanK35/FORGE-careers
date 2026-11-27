@@ -44,6 +44,12 @@ describe("Part A and Part B", () => {
     expect(isPartACorrect(withoutC, "String")).toBe(false);
   });
 
+  it("ignores capital letters in the answer to a React question as well", () => {
+    const fare = getQuestion("react", 1, "react-components-props-l1-s1-q02") as Question;
+    expect(isPartACorrect(fare, "18 COINS")).toBe(true);
+    expect(isPartACorrect(fare, "18 coin")).toBe(false);
+  });
+
   it("accepts a multi-line output typed with its line breaks", () => {
     const loop = getQuestion("javascript", 1, "js-control-flow-l1-s1-q06") as Question;
     expect(isPartACorrect(loop, "1\n2\n3")).toBe(true);

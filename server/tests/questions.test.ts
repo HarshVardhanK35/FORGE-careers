@@ -8,7 +8,7 @@ const questionSchema = z.object({
   id: z.string().min(1),
   topicId: z.string().min(1),
   set: z.number().int().min(1).max(3),
-  environment: z.enum(["node", "browser", "page"]),
+  environment: z.enum(["node", "browser", "page", "react"]),
   html: z.string().optional(),
   code: z.string().min(1),
   check: z.string().optional(),
@@ -38,6 +38,16 @@ describe("question banks", () => {
 
   it("has the three sets of 21 questions of HTML+CSS level 1, with 3 Part C questions in each", () => {
     const bank = getQuestionBank("css", 1);
+    expect(bank?.questions).toHaveLength(63);
+    for (const set of [1, 2, 3]) {
+      const inSet = bank?.questions.filter((question) => question.set === set) ?? [];
+      expect(inSet).toHaveLength(21);
+      expect(inSet.filter((question) => question.partC)).toHaveLength(3);
+    }
+  });
+
+  it("has the three sets of 21 questions of React level 1, with 3 Part C questions in each", () => {
+    const bank = getQuestionBank("react", 1);
     expect(bank?.questions).toHaveLength(63);
     for (const set of [1, 2, 3]) {
       const inSet = bank?.questions.filter((question) => question.set === set) ?? [];
@@ -81,10 +91,11 @@ describe("question banks", () => {
     }
   });
 
-  it("gives every page question a check and keeps it off the screen", () => {
-    const bank = getQuestionBank("css", 1);
-    for (const question of bank?.questions ?? []) {
-      expect(question.environment).toBe("page");
+  it("gives every page and React question a check and keeps it off the screen", () => {
+    const questions = [...(getQuestionBank("css", 1)?.questions ?? []), ...(getQuestionBank("react", 1)?.questions ?? [])];
+    expect(questions).toHaveLength(126);
+    for (const question of questions) {
+      expect(["page", "react"]).toContain(question.environment);
       expect(question.check).toBeTruthy();
       const view = buildAttemptView(
         { skillId: "css", level: 1, attemptNumber: 1, set: 1, questionIds: [question.id], optionOrders: [[0, 1, 2, 3]], answers: [], startedAt: new Date() },

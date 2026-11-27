@@ -76,7 +76,9 @@ function Shell() {
           <AccountMenu />
         </header>
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+        {/* relative: the hidden (sr-only) texts inside a page are absolutely positioned; without a positioned parent
+            they escape this scroll area and make the whole document scroll, which shifts the shell up */}
+        <main className="relative flex-1 overflow-y-auto p-4 md:p-8">
           <Outlet />
         </main>
 
