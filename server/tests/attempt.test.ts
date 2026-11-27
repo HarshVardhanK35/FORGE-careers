@@ -71,6 +71,15 @@ describe("pickQuestions", () => {
     }
   });
 
+  it("draws as many questions as the level needs (18 at level 2, 15 at level 3) from attempt 4", () => {
+    for (const [level, size] of [[2, 18], [3, 15]] as const) {
+      const levelBank = getQuestionBank("javascript", level);
+      if (!levelBank) throw new Error("missing bank");
+      expect(pickQuestions(levelBank, 4).questions).toHaveLength(size);
+      expect(pickQuestions(levelBank, 2, steady).questions).toHaveLength(size);
+    }
+  });
+
   it("draws 21 questions at random from the whole bank from attempt 4", () => {
     const picked = pickQuestions(bank, 4);
     expect(picked.set).toBeNull();

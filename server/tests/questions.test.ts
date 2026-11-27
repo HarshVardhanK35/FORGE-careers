@@ -114,6 +114,19 @@ describe("question banks", () => {
   it("finds a question by id", () => {
     expect(getQuestion("javascript", 1, "js-closures-l1-s1-q14")?.topicId).toBe("js-closures");
     expect(getQuestion("javascript", 1, "nope")).toBeUndefined();
-    expect(getQuestionBank("javascript", 2)).toBeUndefined();
+    expect(getQuestionBank("javascript", 4 as never)).toBeUndefined();
+    expect(getQuestionBank("react", 2)).toBeUndefined();
+  });
+
+  it("has the sets of JavaScript level 2 (3 of 18) and level 3 (3 of 15), with 4 and 5 Part C questions in each", () => {
+    for (const [level, size, partC] of [[2, 18, 4], [3, 15, 5]] as const) {
+      const bank = getQuestionBank("javascript", level);
+      expect(bank?.questions).toHaveLength(size * 3);
+      for (const set of [1, 2, 3]) {
+        const inSet = bank?.questions.filter((question) => question.set === set) ?? [];
+        expect(inSet).toHaveLength(size);
+        expect(inSet.filter((question) => question.partC)).toHaveLength(partC);
+      }
+    }
   });
 });

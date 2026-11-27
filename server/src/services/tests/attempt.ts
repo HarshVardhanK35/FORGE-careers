@@ -7,7 +7,6 @@ import { LEVEL_RULES, RuleError } from "../roadmap/rules";
 
 export const PART_A_MAX = 300;
 export const PART_C_MAX = 600;
-const SET_SIZE = 21;
 
 export interface AnswerData {
   questionId: string;
@@ -53,7 +52,8 @@ export function pickQuestions(
     const questions = bank.questions.filter((question) => question.set === attemptNumber);
     if (questions.length > 0) return { set: attemptNumber, questions };
   }
-  return { set: null, questions: shuffle(bank.questions, random).slice(0, SET_SIZE) };
+  // a random attempt has as many questions as the level needs (21, 18 or 15)
+  return { set: null, questions: shuffle(bank.questions, random).slice(0, LEVEL_RULES[bank.level - 1].total) };
 }
 
 export function isComplete(question: Question, answer: AnswerData | undefined): boolean {
