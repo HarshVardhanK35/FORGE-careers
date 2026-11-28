@@ -9,6 +9,35 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-jsx-rendering",
       "summary": "JSX describes the screen inside JavaScript. React calls component functions to find out what should appear.",
+      "syntax": [
+        {
+          "title": "Elements, expressions and a Fragment",
+          "language": "jsx",
+          "code": "const element = (\n  <>\n    <div className={className}>{content}</div>\n    <input />\n  </>\n);",
+          "parts": [
+            {
+              "part": "element",
+              "meaning": "The JSX value describing the elements to render."
+            },
+            {
+              "part": "<>",
+              "meaning": "Starts a Fragment that groups children without adding a DOM element."
+            },
+            {
+              "part": "className={className}",
+              "meaning": "Sets the CSS class attribute from the className variable."
+            },
+            {
+              "part": "{content}",
+              "meaning": "Inserts a JavaScript value that React can render."
+            },
+            {
+              "part": "<input />",
+              "meaning": "Closes an element that has no children."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "The idea",
@@ -140,6 +169,35 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-components-props",
       "summary": "Components split a screen into reusable pieces. Props carry values and functions from a parent to a child.",
+      "syntax": [
+        {
+          "title": "Define and use a component",
+          "language": "jsx",
+          "code": "function ContentBox({ title = 'Title', children }) {\n  return <section><h2>{title}</h2>{children}</section>;\n}\nconst element = <ContentBox title={heading}>{content}</ContentBox>;",
+          "parts": [
+            {
+              "part": "ContentBox",
+              "meaning": "A function component whose capitalized name allows JSX usage."
+            },
+            {
+              "part": "title = 'Title'",
+              "meaning": "Destructures a prop and supplies a default when it is missing or undefined."
+            },
+            {
+              "part": "children",
+              "meaning": "The nested JSX or other renderable content passed between the component tags."
+            },
+            {
+              "part": "heading",
+              "meaning": "The value passed to the title prop."
+            },
+            {
+              "part": "content",
+              "meaning": "The content passed as the children prop."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "The idea",
@@ -267,6 +325,39 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-lists-keys",
       "summary": "Lists turn arrays into repeated screen elements. Keys help React match each item when the list changes.",
+      "syntax": [
+        {
+          "title": "Map items to keyed elements",
+          "language": "jsx",
+          "code": "const list = (\n  <ul>{items.map(item => <li key={item.id}>{item.label}</li>)}</ul>\n);",
+          "parts": [
+            {
+              "part": "list",
+              "meaning": "The JSX value containing the rendered list."
+            },
+            {
+              "part": "items",
+              "meaning": "The array of data to render."
+            },
+            {
+              "part": "map",
+              "meaning": "Transforms each array item into an element."
+            },
+            {
+              "part": "item",
+              "meaning": "The current data item passed to the mapping function."
+            },
+            {
+              "part": "key={item.id}",
+              "meaning": "Gives each sibling a stable, unique identity from its data."
+            },
+            {
+              "part": "item.label",
+              "meaning": "The renderable text or content for the current item."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "The idea",
@@ -403,6 +494,69 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-conditional-rendering",
       "summary": "Conditional rendering chooses which JSX to return using JavaScript conditions. It lets a screen match the current situation.",
+      "syntax": [
+        {
+          "title": "Choose between two branches",
+          "language": "jsx",
+          "code": "const element = (\n  <div>{condition ? content : fallback}</div>\n);",
+          "parts": [
+            {
+              "part": "condition",
+              "meaning": "The expression whose truthiness selects a branch."
+            },
+            {
+              "part": "content",
+              "meaning": "The renderable value selected when the condition is truthy."
+            },
+            {
+              "part": "fallback",
+              "meaning": "The renderable value selected when the condition is falsy."
+            }
+          ]
+        },
+        {
+          "title": "Show content only when true",
+          "language": "jsx",
+          "code": "const element = (\n  <div>{Boolean(condition) && content}</div>\n);",
+          "parts": [
+            {
+              "part": "Boolean(condition)",
+              "meaning": "Converts the condition to a boolean so falsy numbers do not render as text."
+            },
+            {
+              "part": "&&",
+              "meaning": "Returns the content when the left side is true; otherwise returns false, which renders nothing."
+            },
+            {
+              "part": "content",
+              "meaning": "The renderable value shown when the condition is true."
+            }
+          ]
+        },
+        {
+          "title": "Return early from a component",
+          "language": "jsx",
+          "code": "function Content({ condition, children }) {\n  if (!condition) return null;\n  return <section>{children}</section>;\n}",
+          "parts": [
+            {
+              "part": "Content",
+              "meaning": "The component that chooses whether to render its children."
+            },
+            {
+              "part": "condition",
+              "meaning": "The prop controlling whether content is shown."
+            },
+            {
+              "part": "children",
+              "meaning": "The nested content rendered when the condition is truthy."
+            },
+            {
+              "part": "return null",
+              "meaning": "Ends rendering for this component without producing visible content."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "The idea",
@@ -544,6 +698,81 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-events",
       "summary": "Event handlers run when a user clicks, types, or submits a form. They connect user actions to changes in state or other work.",
+      "syntax": [
+        {
+          "title": "Pass a handler or an argument",
+          "language": "jsx",
+          "code": "const buttons = (\n  <>\n    <button onClick={handler}>{label}</button>\n    <button onClick={() => handler(argument)}>{label}</button>\n  </>\n);",
+          "parts": [
+            {
+              "part": "onClick={handler}",
+              "meaning": "Passes a function for React to call when the button is clicked."
+            },
+            {
+              "part": "label",
+              "meaning": "The renderable button text."
+            },
+            {
+              "part": "() => handler(argument)",
+              "meaning": "Creates a function that calls handler with the chosen argument after a click."
+            },
+            {
+              "part": "argument",
+              "meaning": "The value passed to the handler."
+            }
+          ]
+        },
+        {
+          "title": "Read an input change",
+          "language": "jsx",
+          "code": "const input = (\n  <input onChange={event => handler(event.target.value)} />\n);",
+          "parts": [
+            {
+              "part": "onChange",
+              "meaning": "Runs the supplied handler when the user changes the input."
+            },
+            {
+              "part": "event",
+              "meaning": "The event object supplied by React."
+            },
+            {
+              "part": "handler",
+              "meaning": "The function receiving the updated input text."
+            },
+            {
+              "part": "event.target.value",
+              "meaning": "The current string value of the input that triggered the event."
+            }
+          ]
+        },
+        {
+          "title": "Prevent the default browser action",
+          "language": "jsx",
+          "code": "function handleSubmit(event) {\n  event.preventDefault();\n  /* handle submission */\n}\nconst form = <form onSubmit={handleSubmit}>{children}</form>;",
+          "parts": [
+            {
+              "part": "handleSubmit",
+              "meaning": "The handler called when the form is submitted."
+            },
+            {
+              "part": "event",
+              "meaning": "The submit event supplied by React."
+            },
+            {
+              "part": "event.preventDefault()",
+              "meaning": "Stops the browser from performing its default form submission."
+            },
+            {
+              "part": "onSubmit={handleSubmit}",
+              "meaning": "Connects form submission to the handler."
+            },
+            {
+              "part": "children",
+              "meaning": "The form controls and other nested content."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "The idea",
@@ -684,6 +913,81 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-usestate",
       "summary": "useState keeps one component’s memory between renders. Its setter tells React to show the next state.",
+      "syntax": [
+        {
+          "title": "Initialize state and replace its value",
+          "language": "jsx",
+          "code": "const [value, setValue] = useState(initial);\nfunction handler() {\n  setValue(next);\n}",
+          "parts": [
+            {
+              "part": "value",
+              "meaning": "The state value for the current render."
+            },
+            {
+              "part": "setValue",
+              "meaning": "The setter that queues a state update."
+            },
+            {
+              "part": "useState(initial)",
+              "meaning": "Declares state at the top level of a component or custom Hook, using initial on the first render."
+            },
+            {
+              "part": "handler",
+              "meaning": "An event handler or callback that updates state after rendering."
+            },
+            {
+              "part": "next",
+              "meaning": "The replacement state value."
+            }
+          ]
+        },
+        {
+          "title": "Update from the previous state",
+          "language": "jsx",
+          "code": "function handler() {\n  setValue(previous => computeNext(previous));\n}",
+          "parts": [
+            {
+              "part": "handler",
+              "meaning": "The callback that requests the state update."
+            },
+            {
+              "part": "setValue",
+              "meaning": "The setter returned by useState."
+            },
+            {
+              "part": "previous",
+              "meaning": "The pending state supplied by React when processing this update."
+            },
+            {
+              "part": "computeNext(previous)",
+              "meaning": "A pure calculation returning the next state without mutating the previous state."
+            }
+          ]
+        },
+        {
+          "title": "Initialize lazily",
+          "language": "jsx",
+          "code": "const [value, setValue] = useState(() => createInitial());\n/* use value and setValue */",
+          "parts": [
+            {
+              "part": "value",
+              "meaning": "The state value for this render."
+            },
+            {
+              "part": "setValue",
+              "meaning": "The function that queues a state update."
+            },
+            {
+              "part": "useState",
+              "meaning": "Declares state at the top level of a component or custom Hook."
+            },
+            {
+              "part": "() => createInitial()",
+              "meaning": "A pure initializer used on mount; development Strict Mode may call it twice."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Memory for one component",
@@ -858,6 +1162,65 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-useeffect",
       "summary": "useEffect keeps a component in step with something outside React. Dependencies decide when to repeat that work, and cleanup stops the old work.",
+      "syntax": [
+        {
+          "title": "Run after every committed render",
+          "language": "jsx",
+          "code": "useEffect(() => {\n  /* synchronize with an external system */\n});",
+          "parts": [
+            {
+              "part": "useEffect",
+              "meaning": "Declares synchronization at the top level of a component or custom Hook."
+            },
+            {
+              "part": "() => {",
+              "meaning": "Starts the setup function; omitting dependencies reruns it after every committed render."
+            }
+          ]
+        },
+        {
+          "title": "Run on mount with no reactive dependencies",
+          "language": "jsx",
+          "code": "useEffect(() => {\n  /* setup that reads no reactive values */\n}, []);",
+          "parts": [
+            {
+              "part": "useEffect",
+              "meaning": "Declares an effect at the top level of a component or custom Hook."
+            },
+            {
+              "part": "[]",
+              "meaning": "Prevents dependency reruns; remounting runs setup again, and development Strict Mode adds an initial setup and cleanup cycle."
+            }
+          ]
+        },
+        {
+          "title": "Rerun for dependencies and clean up",
+          "language": "jsx",
+          "code": "useEffect(() => {\n  const cleanup = setup(dependency);\n  return () => cleanup();\n}, [setup, dependency]);",
+          "parts": [
+            {
+              "part": "useEffect",
+              "meaning": "Declares an effect at the top level of a component or custom Hook."
+            },
+            {
+              "part": "cleanup",
+              "meaning": "The function returned by setup to undo its external work."
+            },
+            {
+              "part": "setup(dependency)",
+              "meaning": "Starts synchronization using the reactive input and returns a cleanup function."
+            },
+            {
+              "part": "return () => cleanup()",
+              "meaning": "Registers cleanup before setup reruns and when the component unmounts."
+            },
+            {
+              "part": "[setup, dependency]",
+              "meaning": "Lists every reactive value read by setup; changes are compared with Object.is."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Keep outside things in step",
@@ -1036,6 +1399,43 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-useref",
       "summary": "useRef keeps a value between renders without causing a render when it changes. Use it for a page element or a timer handle.",
+      "syntax": [
+        {
+          "title": "Keep a ref and attach it to the DOM",
+          "language": "jsx",
+          "code": "const ref = useRef(null);\nfunction handler() {\n  ref.current?.focus();\n}\nconst element = <input ref={ref} onFocus={handler} />;",
+          "parts": [
+            {
+              "part": "ref",
+              "meaning": "The stable object used to hold the DOM reference."
+            },
+            {
+              "part": "useRef(null)",
+              "meaning": "Creates a ref with an initial null value at the top level of a component or custom Hook."
+            },
+            {
+              "part": "handler",
+              "meaning": "An event handler that accesses the ref after the DOM element exists."
+            },
+            {
+              "part": "ref.current",
+              "meaning": "The mutable current value; changing it does not trigger rendering."
+            },
+            {
+              "part": "?.focus()",
+              "meaning": "Calls focus only when the current input node exists."
+            },
+            {
+              "part": "ref={ref}",
+              "meaning": "Lets React store the input node in ref.current and clear it when detached."
+            },
+            {
+              "part": "onFocus={handler}",
+              "meaning": "Calls the handler when the input receives focus."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "A pocket beside the screen",
@@ -1169,6 +1569,58 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-usecontext",
       "summary": "Context lets components read a shared value from a parent without passing it through every middle component. useContext reads the nearest matching provider’s value.",
+      "syntax": [
+        {
+          "title": "Create context and provide a value",
+          "language": "jsx",
+          "code": "const ValueContext = createContext(defaultValue);\nfunction Provider({ value, children }) {\n  return <ValueContext.Provider value={value}>{children}</ValueContext.Provider>;\n}",
+          "parts": [
+            {
+              "part": "ValueContext",
+              "meaning": "The shared context object, created outside components."
+            },
+            {
+              "part": "createContext(defaultValue)",
+              "meaning": "Creates context with a static fallback used when no matching provider exists above the consumer."
+            },
+            {
+              "part": "Provider",
+              "meaning": "The wrapper component supplying context to its descendants."
+            },
+            {
+              "part": "value",
+              "meaning": "The context value supplied to descendants."
+            },
+            {
+              "part": "children",
+              "meaning": "The nested content that can consume this context."
+            },
+            {
+              "part": "ValueContext.Provider",
+              "meaning": "The explicit provider syntax, supported in React 19; ValueContext itself also works as the provider."
+            }
+          ]
+        },
+        {
+          "title": "Read context in a consumer",
+          "language": "jsx",
+          "code": "function Consumer() {\n  const value = useContext(ValueContext);\n  return <span>{value}</span>;\n}",
+          "parts": [
+            {
+              "part": "Consumer",
+              "meaning": "A component that reads shared context."
+            },
+            {
+              "part": "value",
+              "meaning": "The renderable value from the nearest provider above this component, or the context default."
+            },
+            {
+              "part": "useContext(ValueContext)",
+              "meaning": "Reads and subscribes to the context at the component top level."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "A shared notice board",
@@ -1303,6 +1755,70 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-usereducer",
       "summary": "useReducer keeps state changes together in one function. Components describe what happened with actions, and the reducer returns the next state.",
+      "syntax": [
+        {
+          "title": "Define a pure reducer",
+          "language": "jsx",
+          "code": "function reducer(state, action) {\n  switch (action.type) {\n    case 'replace': return action.payload;\n    default: return state;\n  }\n}",
+          "parts": [
+            {
+              "part": "reducer",
+              "meaning": "A pure function returning the next state without mutating its inputs."
+            },
+            {
+              "part": "state",
+              "meaning": "The current state supplied by React."
+            },
+            {
+              "part": "action",
+              "meaning": "The object describing the requested update."
+            },
+            {
+              "part": "action.type",
+              "meaning": "The field identifying which update to perform."
+            },
+            {
+              "part": "'replace'",
+              "meaning": "The action type handled by this branch."
+            },
+            {
+              "part": "action.payload",
+              "meaning": "The replacement state carried by this action."
+            },
+            {
+              "part": "default: return state",
+              "meaning": "Keeps the current state for unrecognized action types."
+            }
+          ]
+        },
+        {
+          "title": "Create reducer state and dispatch",
+          "language": "jsx",
+          "code": "const [state, dispatch] = useReducer(reducer, initial);\nfunction handler() {\n  dispatch({ type: 'replace', payload: next });\n}",
+          "parts": [
+            {
+              "part": "state",
+              "meaning": "The current reducer state."
+            },
+            {
+              "part": "dispatch",
+              "meaning": "The function that queues an action for the reducer."
+            },
+            {
+              "part": "useReducer(reducer, initial)",
+              "meaning": "Declares reducer state at the component or custom Hook top level, using initial as its starting value."
+            },
+            {
+              "part": "handler",
+              "meaning": "The callback that requests a state update."
+            },
+            {
+              "part": "{ type: 'replace', payload: next }",
+              "meaning": "An action identifying replacement and carrying next as the replacement state."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "One desk for related changes",
@@ -1431,6 +1947,73 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-memoization",
       "summary": "Memoization keeps earlier work so React can sometimes skip doing it again. Use it when measurements show repeated work slows interaction.",
+      "syntax": [
+        {
+          "title": "Cache a calculated value",
+          "language": "jsx",
+          "code": "const value = useMemo(() => calculate(input), [calculate, input]);\n/* use the cached value */",
+          "parts": [
+            {
+              "part": "value",
+              "meaning": "The cached calculation result."
+            },
+            {
+              "part": "useMemo",
+              "meaning": "Caches a pure calculation at the component or custom Hook top level."
+            },
+            {
+              "part": "calculate(input)",
+              "meaning": "The pure calculation using the reactive input."
+            },
+            {
+              "part": "[calculate, input]",
+              "meaning": "Lists all reactive values used by the calculation; a changed dependency causes recalculation."
+            }
+          ]
+        },
+        {
+          "title": "Cache a callback",
+          "language": "jsx",
+          "code": "const callback = useCallback(() => handler(input), [handler, input]);\n/* pass callback to a child */",
+          "parts": [
+            {
+              "part": "callback",
+              "meaning": "The cached function reference."
+            },
+            {
+              "part": "useCallback",
+              "meaning": "Caches a function at the component or custom Hook top level without calling it."
+            },
+            {
+              "part": "handler(input)",
+              "meaning": "The work performed later when the callback is invoked."
+            },
+            {
+              "part": "[handler, input]",
+              "meaning": "Lists all reactive values captured by the callback; changes produce a new function reference."
+            }
+          ]
+        },
+        {
+          "title": "Memoize a component",
+          "language": "jsx",
+          "code": "const MemoizedComponent = memo(Component);\nconst element = <MemoizedComponent value={value} />;",
+          "parts": [
+            {
+              "part": "MemoizedComponent",
+              "meaning": "The component returned by memo, normally declared outside rendering."
+            },
+            {
+              "part": "memo(Component)",
+              "meaning": "Allows skipping parent-driven rerenders when props compare equal; state and context changes can still rerender."
+            },
+            {
+              "part": "value={value}",
+              "meaning": "Passes the value prop, compared using Object.is by default."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Keep useful work",
@@ -1593,6 +2176,43 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-custom-hooks",
       "summary": "A custom hook puts reusable hook logic into a named function. Each call keeps its own state while sharing the same instructions.",
+      "syntax": [
+        {
+          "title": "Define and call a custom Hook",
+          "language": "jsx",
+          "code": "function useValue(initial) {\n  const [value, setValue] = useState(initial);\n  return [value, setValue];\n}\nfunction Content({ initial }) {\n  const [value, setValue] = useValue(initial);\n  return <input value={value} onChange={event => setValue(event.target.value)} />;\n}",
+          "parts": [
+            {
+              "part": "useValue",
+              "meaning": "A custom Hook named with use followed by a capital letter, called unconditionally at the top level."
+            },
+            {
+              "part": "initial",
+              "meaning": "The initial input string."
+            },
+            {
+              "part": "value",
+              "meaning": "The current input state."
+            },
+            {
+              "part": "setValue",
+              "meaning": "The state setter returned for callers to use."
+            },
+            {
+              "part": "useState(initial)",
+              "meaning": "Calls a built-in Hook unconditionally at the custom Hook top level."
+            },
+            {
+              "part": "Content",
+              "meaning": "A component using its own independent custom Hook state."
+            },
+            {
+              "part": "event.target.value",
+              "meaning": "The input string used to update state synchronously."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Reuse instructions",
@@ -1772,6 +2392,81 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-concurrent-hooks",
       "summary": "useId connects related elements. useTransition and useDeferredValue help typing stay responsive while less urgent content changes.",
+      "syntax": [
+        {
+          "title": "Generate an accessibility ID",
+          "language": "jsx",
+          "code": "const id = useId();\nconst field = <><label htmlFor={id}>{label}</label><input id={id} /></>;",
+          "parts": [
+            {
+              "part": "id",
+              "meaning": "The unique ID returned for this Hook call; it is not a list key."
+            },
+            {
+              "part": "useId()",
+              "meaning": "Generates an ID at the component or custom Hook top level."
+            },
+            {
+              "part": "htmlFor={id}",
+              "meaning": "Associates the label with the input having this ID."
+            },
+            {
+              "part": "label",
+              "meaning": "The visible label text."
+            },
+            {
+              "part": "id={id}",
+              "meaning": "Assigns the generated ID to the input element."
+            }
+          ]
+        },
+        {
+          "title": "Mark an update as a transition",
+          "language": "jsx",
+          "code": "const [isPending, startTransition] = useTransition();\nfunction handler() {\n  startTransition(() => setValue(next));\n}",
+          "parts": [
+            {
+              "part": "isPending",
+              "meaning": "Indicates whether this Hook has a pending transition."
+            },
+            {
+              "part": "startTransition",
+              "meaning": "Runs an action immediately and marks its synchronous state updates as nonblocking."
+            },
+            {
+              "part": "useTransition()",
+              "meaning": "Declares transition state at the component or custom Hook top level."
+            },
+            {
+              "part": "handler",
+              "meaning": "The event handler that starts the transition."
+            },
+            {
+              "part": "setValue(next)",
+              "meaning": "Queues the next state value; transition updates must not control text inputs."
+            }
+          ]
+        },
+        {
+          "title": "Defer a value used for rendering",
+          "language": "jsx",
+          "code": "const deferredValue = useDeferredValue(value);\nconst element = <Results value={deferredValue} />;",
+          "parts": [
+            {
+              "part": "deferredValue",
+              "meaning": "A value that can lag behind the latest input during background rendering."
+            },
+            {
+              "part": "useDeferredValue(value)",
+              "meaning": "Defers a render value at the component or custom Hook top level without imposing a fixed delay."
+            },
+            {
+              "part": "Results",
+              "meaning": "The child component rendering results from the deferred value."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Connect fields and choose priorities",
@@ -1976,6 +2671,86 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-forms",
       "summary": "Forms collect user choices and handle submission. Controlled fields keep their current values in React state; uncontrolled fields keep them in browser elements.",
+      "syntax": [
+        {
+          "title": "Control text and checkbox inputs",
+          "language": "jsx",
+          "code": "const [value, setValue] = useState('');\nconst [checked, setChecked] = useState(false);\nconst fields = <>\n  <input value={value} onChange={event => setValue(event.target.value)} />\n  <input type=\"checkbox\" checked={checked} onChange={event => setChecked(event.target.checked)} />\n</>;",
+          "parts": [
+            {
+              "part": "[value, setValue]",
+              "meaning": "The current text string and its setter, declared at the component top level."
+            },
+            {
+              "part": "useState('')",
+              "meaning": "Initializes controlled text with an empty string."
+            },
+            {
+              "part": "[checked, setChecked]",
+              "meaning": "The current checkbox boolean and its setter, declared at the component top level."
+            },
+            {
+              "part": "useState(false)",
+              "meaning": "Initializes the checkbox as unchecked."
+            },
+            {
+              "part": "value={value}",
+              "meaning": "Makes state control the text displayed by the input."
+            },
+            {
+              "part": "event.target.value",
+              "meaning": "The latest string, copied into state synchronously by onChange."
+            },
+            {
+              "part": "checked={checked}",
+              "meaning": "Makes boolean state control whether the checkbox is checked."
+            },
+            {
+              "part": "event.target.checked",
+              "meaning": "The latest checkbox boolean, copied into state synchronously by onChange."
+            }
+          ]
+        },
+        {
+          "title": "Submit an uncontrolled input using a ref",
+          "language": "jsx",
+          "code": "const ref = useRef(null);\nfunction handleSubmit(event) {\n  event.preventDefault();\n  submit(ref.current.value);\n}\nconst form = (\n  <form onSubmit={handleSubmit}>\n    <input defaultValue={initial} ref={ref} /><button type=\"submit\">Submit</button>\n  </form>\n);",
+          "parts": [
+            {
+              "part": "ref",
+              "meaning": "The input node reference, created with useRef at the component top level."
+            },
+            {
+              "part": "handleSubmit",
+              "meaning": "The callback handling form submission."
+            },
+            {
+              "part": "event.preventDefault()",
+              "meaning": "Stops the default browser submission."
+            },
+            {
+              "part": "submit",
+              "meaning": "The application function receiving the submitted input text."
+            },
+            {
+              "part": "ref.current.value",
+              "meaning": "Reads the current DOM input value during submission."
+            },
+            {
+              "part": "onSubmit={handleSubmit}",
+              "meaning": "Connects the form to its submit handler."
+            },
+            {
+              "part": "defaultValue={initial}",
+              "meaning": "Sets the initial uncontrolled input text; later user edits live in the DOM."
+            },
+            {
+              "part": "ref={ref}",
+              "meaning": "Stores the mounted input node in the ref."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Choose who keeps the value",
@@ -2115,6 +2890,47 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-data-fetching",
       "summary": "Data fetching brings information into a component after rendering. Track progress, failure, and results, and prevent outdated work from replacing newer answers.",
+      "syntax": [
+        {
+          "title": "Fetch with state and stale-result cleanup",
+          "language": "jsx",
+          "code": "const [loading, setLoading] = useState(false), [error, setError] = useState(null), [data, setData] = useState(null);\nuseEffect(() => {\n  let cancelled = false;\n  setLoading(true); setError(null); setData(null);\n  fetch(url).then(response => { if (!response.ok) throw new Error(String(response.status)); return response.json(); })\n    .then(result => { if (!cancelled) setData(result); })\n    .catch(error => { if (!cancelled) setError(error); })\n    .finally(() => { if (!cancelled) setLoading(false); });\n  return () => { cancelled = true; };\n}, [url]);",
+          "parts": [
+            {
+              "part": "[loading, setLoading]",
+              "meaning": "The request status and its setter, declared at the component or custom Hook top level."
+            },
+            {
+              "part": "[error, setError]",
+              "meaning": "The request error and its setter, initially null."
+            },
+            {
+              "part": "[data, setData]",
+              "meaning": "The parsed response data and its setter, initially null."
+            },
+            {
+              "part": "useEffect",
+              "meaning": "Runs client-side fetching after commit, rerunning when its URL dependency changes."
+            },
+            {
+              "part": "cancelled",
+              "meaning": "A per-effect flag that prevents obsolete requests from updating state; it does not stop network activity."
+            },
+            {
+              "part": "fetch(url)",
+              "meaning": "Requests the resource at url; non-success HTTP responses are explicitly turned into errors before parsing JSON."
+            },
+            {
+              "part": "if (!cancelled)",
+              "meaning": "Guards data, error and loading updates against results from a cleaned-up effect."
+            },
+            {
+              "part": "return () => { cancelled = true; }",
+              "meaning": "Marks this request obsolete before the next setup or when unmounting."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Plan the waiting time",
@@ -2956,6 +3772,58 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-performance",
       "summary": "Measure slow interactions before changing code. Load optional code later and reduce expensive work where it noticeably helps users.",
+      "syntax": [
+        {
+          "title": "Load a component on demand",
+          "language": "jsx",
+          "code": "const Panel = lazy(() => import('./Panel'));\nfunction Content() {\n  return <Suspense fallback={fallback}><Panel /></Suspense>;\n}",
+          "parts": [
+            {
+              "part": "Panel",
+              "meaning": "The lazy component declared outside other components."
+            },
+            {
+              "part": "lazy(() => import('./Panel'))",
+              "meaning": "Loads a module whose default export is the component when first rendered."
+            },
+            {
+              "part": "Content",
+              "meaning": "The component rendering the lazy panel inside a loading boundary."
+            },
+            {
+              "part": "Suspense",
+              "meaning": "Shows fallback while a descendant suspends, including during lazy module loading."
+            },
+            {
+              "part": "fallback={fallback}",
+              "meaning": "Supplies the renderable loading UI."
+            }
+          ]
+        },
+        {
+          "title": "Measure committed rendering",
+          "language": "jsx",
+          "code": "const element = (\n  <Profiler id={id} onRender={onRender}>{children}</Profiler>\n);",
+          "parts": [
+            {
+              "part": "Profiler",
+              "meaning": "Measures committed rendering work in the wrapped tree; profiling requires an enabled build."
+            },
+            {
+              "part": "id={id}",
+              "meaning": "Supplies an identifier included in profiling callbacks."
+            },
+            {
+              "part": "onRender={onRender}",
+              "meaning": "Receives id, phase, actualDuration, baseDuration, startTime and commitTime after the profiled tree commits."
+            },
+            {
+              "part": "children",
+              "meaning": "The subtree whose rendering is measured."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Find the slow part",
@@ -3080,6 +3948,85 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-portals-fragments",
       "summary": "Portals place content elsewhere in the page. Fragments group elements without adding an extra HTML element.",
+      "syntax": [
+        {
+          "title": "Render a portal into another DOM node",
+          "language": "jsx",
+          "code": "const portal = createPortal(children, domNode);\nconst element = <section>{portal}</section>;",
+          "parts": [
+            {
+              "part": "portal",
+              "meaning": "The renderable portal value."
+            },
+            {
+              "part": "createPortal(children, domNode)",
+              "meaning": "Places children in another DOM node while preserving their context and event bubbling through the component tree."
+            },
+            {
+              "part": "children",
+              "meaning": "The content rendered through the portal."
+            },
+            {
+              "part": "domNode",
+              "meaning": "The existing DOM node that receives the portal content."
+            }
+          ]
+        },
+        {
+          "title": "Group children without a wrapper",
+          "language": "jsx",
+          "code": "const element = (\n  <>{first}{second}</>\n);",
+          "parts": [
+            {
+              "part": "<>",
+              "meaning": "Starts a Fragment without adding a DOM node; this shorthand cannot carry a key."
+            },
+            {
+              "part": "first",
+              "meaning": "The first renderable child."
+            },
+            {
+              "part": "second",
+              "meaning": "The second renderable child."
+            }
+          ]
+        },
+        {
+          "title": "Give a group a key",
+          "language": "jsx",
+          "code": "const groups = items.map(item => (\n  <Fragment key={item.id}><dt>{item.term}</dt><dd>{item.description}</dd></Fragment>\n));",
+          "parts": [
+            {
+              "part": "groups",
+              "meaning": "The array of keyed groups to place inside a description list."
+            },
+            {
+              "part": "items",
+              "meaning": "The source array of records."
+            },
+            {
+              "part": "item",
+              "meaning": "The current record in the mapping callback."
+            },
+            {
+              "part": "Fragment",
+              "meaning": "The explicit Fragment imported from react, needed to give the group a key."
+            },
+            {
+              "part": "key={item.id}",
+              "meaning": "Identifies the whole sibling group using a stable unique data ID."
+            },
+            {
+              "part": "item.term",
+              "meaning": "The term displayed in the description list."
+            },
+            {
+              "part": "item.description",
+              "meaning": "The description displayed for the term."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Move content outside a box",
@@ -3162,6 +4109,74 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-forwarding-refs",
       "summary": "A child can pass a ref through to its input so a parent can focus it. In React 19, function components receive ref as a normal prop.",
+      "syntax": [
+        {
+          "title": "Receive a ref as a prop",
+          "language": "jsx",
+          "code": "function TextInput({ ref, value, onChange }) {\n  return <input ref={ref} value={value} onChange={onChange} />;\n}\nconst inputRef = useRef(null);\nconst element = <TextInput ref={inputRef} value={value} onChange={handler} />;",
+          "parts": [
+            {
+              "part": "TextInput",
+              "meaning": "A function component accepting a ref prop directly in React 19."
+            },
+            {
+              "part": "ref",
+              "meaning": "The parent ref forwarded to the input DOM node."
+            },
+            {
+              "part": "value",
+              "meaning": "The controlled input string."
+            },
+            {
+              "part": "onChange",
+              "meaning": "The callback that synchronously updates the controlling state."
+            },
+            {
+              "part": "inputRef",
+              "meaning": "The parent reference, created with useRef at the parent component top level."
+            },
+            {
+              "part": "handler",
+              "meaning": "The parent callback passed as the input change handler."
+            }
+          ]
+        },
+        {
+          "title": "Expose a custom ref handle",
+          "language": "jsx",
+          "code": "function TextInput({ ref }) {\n  const inputRef = useRef(null);\n  useImperativeHandle(ref, () => ({\n    focus() { inputRef.current?.focus(); }\n  }), []);\n  return <input ref={inputRef} />;\n}",
+          "parts": [
+            {
+              "part": "TextInput",
+              "meaning": "A component that exposes a custom ref handle instead of its input node."
+            },
+            {
+              "part": "ref",
+              "meaning": "The parent ref receiving the custom handle."
+            },
+            {
+              "part": "inputRef",
+              "meaning": "The private ref holding the input DOM node."
+            },
+            {
+              "part": "useImperativeHandle",
+              "meaning": "Customizes the exposed ref at the component top level."
+            },
+            {
+              "part": "focus()",
+              "meaning": "The method made available on the parent ref handle."
+            },
+            {
+              "part": "inputRef.current?.focus()",
+              "meaning": "Focuses the input if its DOM node exists."
+            },
+            {
+              "part": "[]",
+              "meaning": "Keeps the handle stable because it reads only the stable local ref."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Give the parent access",
@@ -3242,6 +4257,97 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-composition",
       "summary": "Composition means building larger pieces by putting smaller components together. It helps you share layouts and behavior while keeping each piece easy to change.",
+      "syntax": [
+        {
+          "title": "Wrap nested children",
+          "language": "jsx",
+          "code": "function Wrapper({ children }) {\n  return <section>{children}</section>;\n}\nconst element = <Wrapper>{content}</Wrapper>;",
+          "parts": [
+            {
+              "part": "Wrapper",
+              "meaning": "A component that controls layout around nested content."
+            },
+            {
+              "part": "children",
+              "meaning": "The nested content supplied by the caller."
+            },
+            {
+              "part": "content",
+              "meaning": "The renderable value inserted inside the wrapper."
+            }
+          ]
+        },
+        {
+          "title": "Call a render prop",
+          "language": "jsx",
+          "code": "function Container({ value, render }) {\n  return <section>{render(value)}</section>;\n}\nconst element = <Container value={value} render={item => <span>{item.label}</span>} />;",
+          "parts": [
+            {
+              "part": "Container",
+              "meaning": "A component that delegates some rendering to a function prop."
+            },
+            {
+              "part": "value",
+              "meaning": "The data passed to the render function."
+            },
+            {
+              "part": "render",
+              "meaning": "The function prop returning renderable content."
+            },
+            {
+              "part": "render(value)",
+              "meaning": "Calls the function prop during rendering with the supplied data."
+            },
+            {
+              "part": "item",
+              "meaning": "The data received by the caller-provided render callback."
+            },
+            {
+              "part": "item.label",
+              "meaning": "The renderable property selected by the callback."
+            }
+          ]
+        },
+        {
+          "title": "Share context across compound components",
+          "language": "jsx",
+          "code": "const GroupContext = createContext(null);\nfunction Group({ value, children }) {\n  return <GroupContext value={value}>{children}</GroupContext>;\n}\nGroup.Item = function Item() {\n  const value = useContext(GroupContext);\n  return <span>{value}</span>;\n};\nconst element = <Group value={value}><Group.Item /></Group>;",
+          "parts": [
+            {
+              "part": "GroupContext",
+              "meaning": "The module-level context shared by the related components."
+            },
+            {
+              "part": "createContext(null)",
+              "meaning": "Creates context with a null fallback."
+            },
+            {
+              "part": "Group",
+              "meaning": "The parent component that supplies a renderable shared value."
+            },
+            {
+              "part": "value",
+              "meaning": "The shared value supplied to the compound components."
+            },
+            {
+              "part": "children",
+              "meaning": "The nested components rendered under the provider."
+            },
+            {
+              "part": "<GroupContext value={value}>",
+              "meaning": "Provides context using the React 19 provider shorthand."
+            },
+            {
+              "part": "Group.Item",
+              "meaning": "The related component exposed as a property of Group."
+            },
+            {
+              "part": "useContext(GroupContext)",
+              "meaning": "Reads the nearest Group provider at the Item component top level."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Build with pieces",
@@ -3367,6 +4473,47 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-error-boundaries",
       "summary": "An error boundary replaces a broken section with a helpful message. It lets other sections remain usable when a child fails during rendering.",
+      "syntax": [
+        {
+          "title": "Define and use an error boundary",
+          "language": "jsx",
+          "code": "class ErrorBoundary extends Component {\n  state = { hasError: false };\n  static getDerivedStateFromError(error) { return { hasError: true }; }\n  componentDidCatch(error, info) { this.props.onError(error, info); }\n  render() {\n    return this.state.hasError ? this.props.fallback : this.props.children;\n  }\n}\nconst element = <ErrorBoundary fallback={fallback} onError={reportError}>{children}</ErrorBoundary>;",
+          "parts": [
+            {
+              "part": "ErrorBoundary",
+              "meaning": "The component catching descendant rendering errors; ordinary event handler and asynchronous callback errors are not caught."
+            },
+            {
+              "part": "Component",
+              "meaning": "The class component base imported from react."
+            },
+            {
+              "part": "state = { hasError: false }",
+              "meaning": "Initializes the flag used to select normal content or fallback."
+            },
+            {
+              "part": "static getDerivedStateFromError(error)",
+              "meaning": "Receives the thrown error and returns fallback state during rendering."
+            },
+            {
+              "part": "componentDidCatch(error, info)",
+              "meaning": "Receives the error and component stack information for reporting after an error is caught."
+            },
+            {
+              "part": "this.props.onError(error, info)",
+              "meaning": "Calls the supplied reporting function with the error and diagnostic information."
+            },
+            {
+              "part": "this.state.hasError ? this.props.fallback : this.props.children",
+              "meaning": "Chooses the supplied fallback after an error, otherwise renders nested children."
+            },
+            {
+              "part": "onError={reportError}",
+              "meaning": "Passes the application reporting function; fallback and children provide the corresponding renderable content."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Keep a failure inside one area",
@@ -3503,6 +4650,43 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-hoc",
       "summary": "A higher-order component is a function that takes a component and returns a new component. It shares behavior by wrapping existing components.",
+      "syntax": [
+        {
+          "title": "Return a component that passes props through",
+          "language": "jsx",
+          "code": "function withSomething(Component) {\n  return function EnhancedComponent(props) {\n    /* add behavior */\n    return <Component {...props} />;\n  };\n}\nconst Enhanced = withSomething(BaseComponent);",
+          "parts": [
+            {
+              "part": "withSomething",
+              "meaning": "A higher-order function called outside rendering to create a component with additional behavior."
+            },
+            {
+              "part": "Component",
+              "meaning": "The component being wrapped."
+            },
+            {
+              "part": "EnhancedComponent",
+              "meaning": "The returned component, whose body can add behavior before rendering the wrapped component."
+            },
+            {
+              "part": "props",
+              "meaning": "The props received by the returned component."
+            },
+            {
+              "part": "{...props}",
+              "meaning": "Spreads all received props onto the wrapped component."
+            },
+            {
+              "part": "Enhanced",
+              "meaning": "The component produced by applying the higher-order function."
+            },
+            {
+              "part": "BaseComponent",
+              "meaning": "The original component supplied to the higher-order function."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Add a shared outer layer",
@@ -3662,6 +4846,113 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-router",
       "summary": "React Router chooses which components to show for a web address. It supports links, changing address values, shared page layouts, and redirects.",
+      "syntax": [
+        {
+          "title": "Declare nested routes inside a browser router",
+          "language": "jsx",
+          "code": "const routes = (\n  <BrowserRouter>\n    <Routes>\n      <Route path=\"/items\" element={<Layout />}>\n        <Route path=\":id\" element={<Details />} />\n      </Route>\n      <Route path=\"/private\" element={<Protected allowed={allowed}><Private /></Protected>} />\n      <Route path=\"/login\" element={<Login />} />\n    </Routes></BrowserRouter>\n);",
+          "parts": [
+            {
+              "part": "BrowserRouter",
+              "meaning": "Provides routing using browser history; import it from react-router-dom (react-router in version 7 also works)."
+            },
+            {
+              "part": "Routes",
+              "meaning": "Selects the matching branch of Route elements for the current location."
+            },
+            {
+              "part": "Route",
+              "meaning": "Associates a path pattern with the element to render."
+            },
+            {
+              "part": "path=\"/items\"",
+              "meaning": "Defines the parent URL path."
+            },
+            {
+              "part": "element={<Layout />}",
+              "meaning": "Renders the parent layout, which must include an Outlet for matched child routes."
+            },
+            {
+              "part": "path=\":id\"",
+              "meaning": "Matches a dynamic child segment relative to the parent; Details renders at /items/:id."
+            },
+            {
+              "part": "<Protected allowed={allowed}><Private /></Protected>",
+              "meaning": "Wraps the private page with a guard using the allowed boolean."
+            },
+            {
+              "part": "element={<Login />}",
+              "meaning": "Renders the login page at /login."
+            }
+          ]
+        },
+        {
+          "title": "Link, read params and render nested content",
+          "language": "jsx",
+          "code": "function Layout() {\n  return <><Link to=\"/items\">Items</Link><Outlet /></>;\n}\nfunction Details() {\n  const { id } = useParams();\n  return <span>{id}</span>;\n}",
+          "parts": [
+            {
+              "part": "Layout",
+              "meaning": "The parent route component containing shared UI and a child route slot."
+            },
+            {
+              "part": "Link",
+              "meaning": "Provides an anchor that supports client-side navigation inside the router."
+            },
+            {
+              "part": "to=\"/items\"",
+              "meaning": "Sets the destination URL for the link."
+            },
+            {
+              "part": "Outlet",
+              "meaning": "Renders the matching child route inside the parent layout."
+            },
+            {
+              "part": "Details",
+              "meaning": "The component assigned to the dynamic child route."
+            },
+            {
+              "part": "id",
+              "meaning": "The string captured by the matching :id path segment."
+            },
+            {
+              "part": "useParams()",
+              "meaning": "Reads matched dynamic URL parameters at the route component top level."
+            }
+          ]
+        },
+        {
+          "title": "Redirect when access is denied",
+          "language": "jsx",
+          "code": "function Protected({ allowed, children }) {\n  return allowed ? children : <Navigate to=\"/login\" replace />;\n}",
+          "parts": [
+            {
+              "part": "Protected",
+              "meaning": "A route wrapper that checks client-side access; server authorization must protect private data separately."
+            },
+            {
+              "part": "allowed",
+              "meaning": "The resolved boolean controlling access to the nested page."
+            },
+            {
+              "part": "children",
+              "meaning": "The protected content rendered when access is allowed."
+            },
+            {
+              "part": "Navigate",
+              "meaning": "Changes the current location when rendered inside a router."
+            },
+            {
+              "part": "to=\"/login\"",
+              "meaning": "Specifies the redirect destination."
+            },
+            {
+              "part": "replace",
+              "meaning": "Replaces the current browser history entry instead of adding one."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Match an address to a screen",
@@ -3802,6 +5093,117 @@ export const REACT_NOTES: TopicNotes[] = [
     {
       "topicId": "react-19-actions",
       "summary": "React 19 actions help forms handle submitted work and waiting states. Related APIs keep results, show temporary changes, and read shared or waiting values.",
+      "syntax": [
+        {
+          "title": "Submit a form with action state",
+          "language": "jsx",
+          "code": "async function fn(previousState, formData) {\n  return await save(previousState, formData);\n}\nfunction ActionForm({ initial }) {\n  const [state, formAction, isPending] = useActionState(fn, initial);\n  return <form action={formAction}>\n    <input name=\"value\" /><button disabled={isPending}>Submit</button><output>{state}</output>\n  </form>;\n}",
+          "parts": [
+            {
+              "part": "fn",
+              "meaning": "The action receiving previous state and submitted FormData, then returning the next state."
+            },
+            {
+              "part": "save(previousState, formData)",
+              "meaning": "The application function saving submitted fields and returning renderable state."
+            },
+            {
+              "part": "ActionForm",
+              "meaning": "The component declaring action state at its top level."
+            },
+            {
+              "part": "initial",
+              "meaning": "The initial renderable action state."
+            },
+            {
+              "part": "state",
+              "meaning": "The latest state returned by the action."
+            },
+            {
+              "part": "formAction",
+              "meaning": "The action dispatcher returned by useActionState for the form action prop."
+            },
+            {
+              "part": "isPending",
+              "meaning": "Indicates whether an action is pending and disables submission here."
+            },
+            {
+              "part": "action={formAction}",
+              "meaning": "Runs the function action on submission with FormData; a plain function action receives only FormData."
+            }
+          ]
+        },
+        {
+          "title": "Update optimistically inside an action",
+          "language": "jsx",
+          "code": "const [optimistic, addOptimistic] = useOptimistic(value, (current, update) => updateValue(current, update));\nasync function action(formData) {\n  const update = formData.get('value');\n  addOptimistic(update);\n  await save(update);\n}\nconst element = <form action={action}><input name=\"value\" /><button>Submit</button><output>{optimistic}</output></form>;",
+          "parts": [
+            {
+              "part": "optimistic",
+              "meaning": "The temporary renderable state shown while the action is pending."
+            },
+            {
+              "part": "addOptimistic",
+              "meaning": "The updater called inside an action or transition to request an optimistic state update."
+            },
+            {
+              "part": "useOptimistic(value, (current, update) => updateValue(current, update))",
+              "meaning": "Declares optimistic state at the component top level, using value as the authoritative state."
+            },
+            {
+              "part": "updateValue(current, update)",
+              "meaning": "A pure reducer combining the current optimistic state with the submitted update."
+            },
+            {
+              "part": "action",
+              "meaning": "The form action that runs the optimistic update and asynchronous save."
+            },
+            {
+              "part": "formData.get('value')",
+              "meaning": "Reads the submitted field named value."
+            },
+            {
+              "part": "save(update)",
+              "meaning": "Persists the update; the authoritative value must then reflect the saved result."
+            },
+            {
+              "part": "action={action}",
+              "meaning": "Provides the action context required for the optimistic update."
+            }
+          ]
+        },
+        {
+          "title": "Read a stable promise during rendering",
+          "language": "jsx",
+          "code": "function AsyncContent({ promise }) {\n  const value = use(promise);\n  return <span>{value}</span>;\n}\nconst element = <Suspense fallback={fallback}><AsyncContent promise={promise} /></Suspense>;",
+          "parts": [
+            {
+              "part": "AsyncContent",
+              "meaning": "The component that reads asynchronous data during rendering."
+            },
+            {
+              "part": "promise",
+              "meaning": "A stable promise supplied externally, rather than newly created during each client render."
+            },
+            {
+              "part": "value",
+              "meaning": "The resolved renderable result."
+            },
+            {
+              "part": "use(promise)",
+              "meaning": "Reads the result, suspends while pending, or throws a rejection to the nearest error boundary."
+            },
+            {
+              "part": "Suspense",
+              "meaning": "The boundary displaying fallback while the promise is pending."
+            },
+            {
+              "part": "fallback",
+              "meaning": "The renderable loading content."
+            }
+          ]
+        }
+      ],
       "explanation": [
         {
           "heading": "Submit work and keep its result",

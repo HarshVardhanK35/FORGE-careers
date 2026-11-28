@@ -5,7 +5,7 @@ import type { ProgressData } from "../src/services/roadmap/rules";
 const NOW = new Date("2026-11-23T10:00:00Z");
 const hours = (n: number) => new Date(NOW.getTime() + n * 60 * 60 * 1000);
 
-// JavaScript is the only skill with topics so far
+// a progress with every JavaScript topic ticked (JavaScript is the first skill)
 function withJsTicked(): ProgressData {
   const progress = emptyProgress();
   progress.doneTopics = ROADMAP_SKILLS[0].topics.map((topic) => topic.id);
@@ -202,5 +202,14 @@ describe("fractional points (a question can be half right)", () => {
 
   it("refuses more points than the level has", () => {
     expect(code(() => recordAttempt(withJsTicked(), "javascript", 1, 21.5, NOW))).toBe(400);
+  });
+});
+
+describe("the sections after the skills", () => {
+  it("sends every part with its section, in the order of the sections", () => {
+    const projects = buildView(emptyProgress(), NOW).projects;
+    expect(new Set(projects.map((project) => project.id)).size).toBe(projects.length);
+    expect([...new Set(projects.map((project) => project.group))]).toEqual(["castwise", "machine-coding", "system-design", "dsa"]);
+    for (const project of projects) expect(project).toMatchObject({ flowsStudied: 0, flowsTotal: 0, ready: false });
   });
 });

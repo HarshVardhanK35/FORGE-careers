@@ -299,6 +299,7 @@ export interface RoadmapSkill {
 export interface RoadmapProject {
   id: string;
   name: string;
+  group: "castwise" | "machine-coding" | "system-design" | "dsa"; // the section the part belongs to
   flowsStudied: number;
   flowsTotal: number;
   ready: boolean;
@@ -314,6 +315,7 @@ export interface Roadmap {
 export interface TopicNotes {
   topicId: string;
   summary: string;
+  syntax?: { title: string; language: "javascript" | "jsx" | "html" | "css"; code: string; parts: { part: string; meaning: string }[] }[];
   explanation: { heading: string; points: string[] }[];
   terms: { term: string; meaning: string }[];
   examples: {

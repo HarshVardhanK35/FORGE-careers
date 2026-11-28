@@ -158,16 +158,31 @@ export const ROADMAP_SKILLS: RoadmapSkill[] = [
   { id: "nextjs", name: "Next.js", tier: "skippable", topics: [] },
 ];
 
-// the project parts (CastWise and FORGE); their study flows are added later
+// The sections after the skills; their content is added later (notes, checklists and study flows; no code editor, he codes in VS Code).
+// castwise: one package. He rebuilds chosen client components and server logic from a blank file and the assistant reviews them, so
+//   the resume says exactly what he built; the rest is written from the real code and labelled as built with AI help.
+// machine-coding, system-design and dsa: notes and practice lists, with no tests.
+export type ProjectGroup = "castwise" | "machine-coding" | "system-design" | "dsa";
+
 export interface RoadmapProject {
   id: string;
   name: string;
+  group: ProjectGroup;
   flows: { id: string; title: string }[];
 }
 
 export const ROADMAP_PROJECTS: RoadmapProject[] = [
-  { id: "forge-server", name: "FORGE server", flows: [] },
-  { id: "forge-client", name: "FORGE client", flows: [] },
-  { id: "castwise-server", name: "CastWise server", flows: [] },
-  { id: "castwise-client", name: "CastWise client", flows: [] },
+  { id: "castwise-pitch", name: "Project pitch and architecture", group: "castwise", flows: [] },
+  { id: "castwise-client", name: "Client", group: "castwise", flows: [] },
+  { id: "castwise-server", name: "Server", group: "castwise", flows: [] },
+  { id: "castwise-design", name: "System design and decisions", group: "castwise", flows: [] },
+  { id: "castwise-ai-review", name: "AI-written code review", group: "castwise", flows: [] },
+  { id: "castwise-interview", name: "Trade-offs, interview questions and STAR stories", group: "castwise", flows: [] },
+  { id: "mc-client", name: "Client components (basic and intermediate)", group: "machine-coding", flows: [] },
+  { id: "mc-server", name: "Server logic (basic and intermediate)", group: "machine-coding", flows: [] },
+  { id: "mc-classic", name: "Classic tasks with a time box", group: "machine-coding", flows: [] },
+  { id: "sd-framework", name: "Answer framework", group: "system-design", flows: [] },
+  { id: "sd-designs", name: "Common designs", group: "system-design", flows: [] },
+  { id: "dsa-topics", name: "Core topics and patterns", group: "dsa", flows: [] },
+  { id: "dsa-problems", name: "Problem list", group: "dsa", flows: [] },
 ];

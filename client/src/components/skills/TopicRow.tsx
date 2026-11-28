@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { BookOpen, Check, Link as LinkIcon, Pencil, Plus, StickyNote } from "lucide-react";
+import { BookOpen, Check, Copy, Link as LinkIcon, Pencil, Plus, StickyNote } from "lucide-react";
 
 import Button from "../ui/Button";
 import InfoTip from "../ui/InfoTip";
 import Input from "../ui/Input";
 import LearnModal from "./LearnModal";
+import { useToast } from "../../context/ToastContext";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
 import { errorMessage } from "../../lib/api";
 import type { RoadmapTopic } from "../../lib/types";
@@ -29,6 +30,19 @@ export default function TopicRow({ number, topic, locked, onTick, onSaveResource
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const { showToast } = useToast();
+
+  // copy his own note or link (the text of the field), so it can be pasted anywhere
+  async function copyResource() {
+    try {
+      await navigator.clipboard.writeText(topic.resource);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      showToast("The text could not be copied.", "error");
+    }
+  }
 
   function startEdit() {
     setValue(topic.resource);
@@ -53,7 +67,7 @@ export default function TopicRow({ number, topic, locked, onTick, onSaveResource
   }
 
   return (
-    <li className="flex flex-wrap items-start gap-x-2 gap-y-1 py-2 pl-1.5 pr-3">
+    <li className="flex flex-wrap items-center gap-x-2 gap-y-1 py-2 pl-1.5 pr-3">
       <button
         type="button"
         role="checkbox"
@@ -72,28 +86,34 @@ export default function TopicRow({ number, topic, locked, onTick, onSaveResource
         </span>
       </button>
 
-      {/* the title sits beside the tick; on a phone the notes go on their own line below, from the left edge */}
-      <div className={`flex min-h-8 min-w-0 flex-1 items-center gap-2 text-sm md:flex-[1_1_200px] ${locked ? "text-muted" : ""}`}>
-        <span className="min-w-[18px] text-muted tabular-nums">{number}</span>
-        <span>{topic.title}</span>
-        {/* only the less important topics are marked; every other topic is plain */}
+      {/* the title sits beside the tick, with the small "Good to know" mark under it (only the less important topics have one);
+          on a phone the notes go on their own line below, from the left edge */}
+      <div className={`flex min-h-8 min-w-0 flex-1 flex-col justify-center gap-1 text-sm md:flex-[1_1_200px] ${locked ? "text-muted" : ""}`}>
+        <span className="flex items-baseline gap-2">
+          <span className="min-w-[18px] text-muted tabular-nums">{number}</span>
+          <span>{topic.title}</span>
+        </span>
         {topic.priority === "common" && (
-          <span className="inline-flex shrink-0 items-center gap-1">
+          <span className="flex items-center gap-1 pl-[26px]">
             <span className="rounded-full border border-line px-2 py-0.5 text-xs text-muted">Good to know</span>
             <InfoTip label="About the Good to know tag" text="Asked less often in interviews. Study it after the other topics." />
           </span>
         )}
-        {topic.hasNotes && (
-          <button
-            type="button"
-            onClick={() => setLearning(true)}
-            className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 text-xs font-medium text-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-accent"
-          >
-            <BookOpen size={14} aria-hidden="true" />
-            Learn
-          </button>
-        )}
       </div>
+
+      {/* the Learn button, at the right of the title (the book alone on a phone) */}
+      {topic.hasNotes && (
+        <button
+          type="button"
+          aria-label={`Learn: ${topic.title}`}
+          title="Learn"
+          onClick={() => setLearning(true)}
+          className="flex h-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-line px-2 text-xs font-medium text-accent hover:bg-accent/10 focus-visible:outline-2 focus-visible:outline-accent md:px-2.5"
+        >
+          <BookOpen size={15} aria-hidden="true" />
+          <span className="hidden md:inline">Learn</span>
+        </button>
+      )}
 
       <div className="min-w-0 basis-full md:flex-[1_1_260px] md:basis-0">
         {editing ? (
@@ -152,6 +172,15 @@ export default function TopicRow({ number, topic, locked, onTick, onSaveResource
             ) : (
               <span className="min-w-0 flex-1 truncate text-xs">{topic.resource}</span>
             )}
+            <button
+              type="button"
+              aria-label={`Copy the ${isLink(topic.resource) ? "link" : "note"} of ${topic.title}`}
+              title="Copy"
+              onClick={copyResource}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-muted/15 hover:text-fg focus-visible:outline-2 focus-visible:outline-accent"
+            >
+              {copied ? <Check size={16} className="text-ok" aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
+            </button>
             {!locked && (
               <button
                 type="button"

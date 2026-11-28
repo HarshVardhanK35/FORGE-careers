@@ -2,14 +2,21 @@ import { Check, CircleDashed, Folder } from "lucide-react";
 
 import type { RoadmapProject } from "../../lib/types";
 
-// The CastWise and FORGE parts: how many study flows are done, and whether the part is ready.
-export default function ProjectsSection({ projects }: { projects: RoadmapProject[] }) {
+interface ProjectsSectionProps {
+  projects: RoadmapProject[];
+  title: string; // the name of the section, for example CASTWISE
+  note?: string; // one line under the title
+}
+
+// A group of project parts: how many study flows are done, and whether the part is ready.
+export default function ProjectsSection({ projects, title, note }: ProjectsSectionProps) {
   return (
     <section className="flex flex-col gap-2">
       <h2 className="flex items-baseline gap-2 text-xs font-semibold tracking-widest text-muted">
-        PROJECTS
+        {title}
         <span className="font-normal tracking-normal">{projects.length} parts</span>
       </h2>
+      {note && <p className="text-xs text-muted">{note}</p>}
 
       <div className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-panel">
         {projects.map((project) => {
@@ -25,7 +32,7 @@ export default function ProjectsSection({ projects }: { projects: RoadmapProject
                 <div className="flex w-36 flex-col gap-1">
                   <span className="text-xs text-muted">
                     {project.flowsTotal === 0
-                      ? "No flows yet"
+                      ? "Coming soon"
                       : `Flows studied ${project.flowsStudied} of ${project.flowsTotal}`}
                   </span>
                   <div className="h-1 overflow-hidden rounded-sm bg-line">

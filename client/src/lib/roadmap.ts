@@ -1,7 +1,7 @@
 // Small helpers for the Skills page: the wait countdown, the level state right now,
 // and the one-line status of a skill. The server decides what is open; this only reads its answer.
 
-import type { LevelState, RoadmapLevel, RoadmapSkill, SkillTier } from "./types";
+import type { LevelState, RoadmapLevel, RoadmapProject, RoadmapSkill, SkillTier } from "./types";
 
 export const TIER_LABELS: Record<SkillTier, string> = {
   required: "REQUIRED",
@@ -10,6 +10,14 @@ export const TIER_LABELS: Record<SkillTier, string> = {
 };
 
 export const TIERS: SkillTier[] = ["required", "moderate", "skippable"];
+
+// the sections after the skills, in order (their parts come from the server; the content of each part comes later)
+export const PROJECT_SECTIONS: { group: RoadmapProject["group"]; title: string; note: string }[] = [
+  { group: "castwise", title: "CASTWISE", note: "Your project. You rebuild chosen parts from a blank file, and the rest is reviewed code." },
+  { group: "machine-coding", title: "MACHINE CODING", note: "Notes and practice tasks, with no tests. You code in your own editor." },
+  { group: "system-design", title: "SYSTEM DESIGN", note: "Notes and practice answers, with no tests." },
+  { group: "dsa", title: "DSA", note: "Last and light: notes and a problem list you solve in your own editor." },
+];
 
 // "2 h 40 min" (at least 1 min), from the time left in milliseconds
 export function formatWait(msLeft: number): string {

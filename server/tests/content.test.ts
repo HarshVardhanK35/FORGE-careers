@@ -8,6 +8,18 @@ import { buildView, emptyProgress } from "../src/services/roadmap/rules";
 const notesSchema = z.object({
   topicId: z.string().min(1),
   summary: z.string().min(10),
+  syntax: z
+    .array(
+      z.object({
+        title: z.string().min(1),
+        language: z.enum(["javascript", "jsx", "html", "css"]),
+        code: z.string().min(3),
+        parts: z.array(z.object({ part: z.string().min(1), meaning: z.string().min(5) })).min(1),
+      })
+    )
+    .min(1)
+    .max(3)
+    .optional(),
   explanation: z.array(z.object({ heading: z.string().min(1), points: z.array(z.string().min(5)).min(1) })).min(1),
   terms: z.array(z.object({ term: z.string().min(1), meaning: z.string().min(5) })),
   examples: z

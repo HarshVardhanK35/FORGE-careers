@@ -8,6 +8,35 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-values-types",
     "summary": "A value is a piece of data, and a type tells JavaScript how to treat it. Types matter because an operation can produce different results for text, numbers, and other values.",
+    "syntax": [
+      {
+        "title": "Inspect and convert values",
+        "language": "javascript",
+        "code": "const type = typeof value;\nconst number = Number(value);\nconst text = String(value);\nconst boolean = Boolean(value);",
+        "parts": [
+          {
+            "part": "typeof value",
+            "meaning": "Returns a type string; null reports \"object\" and arrays report \"object\"."
+          },
+          {
+            "part": "value",
+            "meaning": "The value to inspect or convert."
+          },
+          {
+            "part": "Number(value)",
+            "meaning": "Converts the value to a number, possibly NaN, or throws for unsupported conversions."
+          },
+          {
+            "part": "String(value)",
+            "meaning": "Converts the value to a string."
+          },
+          {
+            "part": "Boolean(value)",
+            "meaning": "Converts the value to true for truthy values and false for falsy values."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Values first",
@@ -121,6 +150,35 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-truthy-logical",
     "summary": "Every value acts as true or false in a condition, and logical operators combine or choose values. Short-circuit evaluation can skip work when the answer is already known.",
+    "syntax": [
+      {
+        "title": "Defaults and a guard",
+        "language": "javascript",
+        "code": "const truthyDefault = value || fallback;\nconst guardedResult = condition && action();\nconst nullishDefault = value ?? fallback;",
+        "parts": [
+          {
+            "part": "value || fallback",
+            "meaning": "Returns value when truthy; otherwise evaluates and returns fallback."
+          },
+          {
+            "part": "fallback",
+            "meaning": "The alternative value or expression."
+          },
+          {
+            "part": "condition && action()",
+            "meaning": "Calls action only when condition is truthy; otherwise returns condition."
+          },
+          {
+            "part": "action()",
+            "meaning": "The guarded function call."
+          },
+          {
+            "part": "value ?? fallback",
+            "meaning": "Returns fallback only when value is null or undefined."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Boolean context",
@@ -233,6 +291,47 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-variables-scope",
     "summary": "Variables give values names, while scope controls where those names can be used. let and const are block-scoped; var has older function-scoped behavior.",
+    "syntax": [
+      {
+        "title": "Declarations and block scope",
+        "language": "javascript",
+        "code": "var functionScoped;\nvar initializedVar = initialValue;\nlet blockScoped;\nlet initializedLet = initialValue;\nconst fixedBinding = initialValue;\n{\n  let localValue = initialValue;\n  /* block body */\n}",
+        "parts": [
+          {
+            "part": "var functionScoped",
+            "meaning": "Declares a var binding scoped to its function, module or global script, initially undefined."
+          },
+          {
+            "part": "var initializedVar = initialValue",
+            "meaning": "Declares and initializes a var binding."
+          },
+          {
+            "part": "initialValue",
+            "meaning": "The expression supplying a starting value."
+          },
+          {
+            "part": "let blockScoped",
+            "meaning": "Declares a block-scoped variable initialized to undefined when this declaration executes."
+          },
+          {
+            "part": "let initializedLet = initialValue",
+            "meaning": "Declares and initializes a block-scoped binding that can be reassigned."
+          },
+          {
+            "part": "const fixedBinding = initialValue",
+            "meaning": "Declares a block-scoped binding requiring an initializer; reassignment is forbidden, but referenced objects can change."
+          },
+          {
+            "part": "{",
+            "meaning": "Starts a block that scopes let and const declarations."
+          },
+          {
+            "part": "let localValue = initialValue",
+            "meaning": "Declares a binding accessible only within this block."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Named storage",
@@ -461,6 +560,43 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-operators-equality",
     "summary": "Operators calculate, compare, or assign values. Strict equality is usually the safest equality test because it does not convert types.",
+    "syntax": [
+      {
+        "title": "Equality, comparison and selection",
+        "language": "javascript",
+        "code": "const strictlyEqual = left === right;\nconst looselyEqual = left == right;\nconst lessThan = left < right;\nconst atMost = left <= right;\nconst greaterThan = left > right;\nconst atLeast = left >= right;\nconst selected = condition ? whenTrue : whenFalse;",
+        "parts": [
+          {
+            "part": "left === right",
+            "meaning": "Tests equality without type conversion."
+          },
+          {
+            "part": "left == right",
+            "meaning": "Tests equality using coercion rules when operand types differ."
+          },
+          {
+            "part": "left < right",
+            "meaning": "Tests whether left precedes right numerically or lexicographically after applicable conversions."
+          },
+          {
+            "part": "left <= right",
+            "meaning": "Tests whether left is less than or equal to right under relational comparison rules."
+          },
+          {
+            "part": "left > right",
+            "meaning": "Tests whether left is greater than right under relational comparison rules."
+          },
+          {
+            "part": "left >= right",
+            "meaning": "Tests whether left is greater than or equal to right under relational comparison rules."
+          },
+          {
+            "part": "condition ? whenTrue : whenFalse",
+            "meaning": "Evaluates only whenTrue for a truthy condition, otherwise only whenFalse."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Operators do work",
@@ -572,6 +708,105 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-control-flow",
     "summary": "Control flow chooses which statements run and how often they repeat. Conditions and loops let a program react to data instead of only running top to bottom.",
+    "syntax": [
+      {
+        "title": "Branches and switch",
+        "language": "javascript",
+        "code": "if (condition) { /* first branch */ }\nelse if (otherCondition) { /* next branch */ }\nelse { /* fallback branch */ }\nswitch (value) {\n  case candidate:\n    /* matching branch */\n    break;\n  default:\n    /* unmatched branch */\n}",
+        "parts": [
+          {
+            "part": "if (condition)",
+            "meaning": "Runs the first branch when condition is truthy."
+          },
+          {
+            "part": "else if (otherCondition)",
+            "meaning": "Tests another condition only when earlier branches were skipped."
+          },
+          {
+            "part": "else",
+            "meaning": "Runs when no earlier condition was truthy."
+          },
+          {
+            "part": "switch (value)",
+            "meaning": "Selects a case by strict equality with value."
+          },
+          {
+            "part": "case candidate:",
+            "meaning": "Starts the branch matching candidate; execution falls through unless control exits."
+          },
+          {
+            "part": "break;",
+            "meaning": "Exits the switch."
+          },
+          {
+            "part": "default:",
+            "meaning": "Starts execution here when no case matches."
+          }
+        ]
+      },
+      {
+        "title": "Counted and conditional loops",
+        "language": "javascript",
+        "code": "for (let index = 0; index < count; index++) {\n  if (shouldSkip(index)) continue;\n  if (shouldStop(index)) break;\n  /* loop body */\n}\nwhile (condition) {\n  /* update condition or exit */\n}",
+        "parts": [
+          {
+            "part": "let index = 0",
+            "meaning": "Runs once to initialize the loop counter."
+          },
+          {
+            "part": "index < count",
+            "meaning": "Checks whether the next iteration should run."
+          },
+          {
+            "part": "index++",
+            "meaning": "Increments the counter after each completed iteration, including continue."
+          },
+          {
+            "part": "shouldSkip(index)",
+            "meaning": "The predicate deciding whether to skip this iteration."
+          },
+          {
+            "part": "continue;",
+            "meaning": "Skips the remaining body and proceeds to the next iteration."
+          },
+          {
+            "part": "shouldStop(index)",
+            "meaning": "The predicate deciding whether to exit the loop."
+          },
+          {
+            "part": "break;",
+            "meaning": "Exits the nearest enclosing loop."
+          },
+          {
+            "part": "while (condition)",
+            "meaning": "Repeats the body while condition remains truthy."
+          }
+        ]
+      },
+      {
+        "title": "Iterate values and keys",
+        "language": "javascript",
+        "code": "for (const item of iterable) {\n  /* use item */\n}\nfor (const key in object) {\n  if (!Object.hasOwn(object, key)) continue;\n  /* use object[key] */\n}",
+        "parts": [
+          {
+            "part": "const item of iterable",
+            "meaning": "Binds each value produced by an iterable, such as an array, string, Map or Set."
+          },
+          {
+            "part": "const key in object",
+            "meaning": "Binds each enumerable string property name, including inherited names."
+          },
+          {
+            "part": "Object.hasOwn(object, key)",
+            "meaning": "Tests whether this property belongs directly to object."
+          },
+          {
+            "part": "continue;",
+            "meaning": "Skips inherited properties in this loop."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Choose a path",
@@ -691,6 +926,73 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-functions",
     "summary": "Functions package reusable work behind a name or value. Parameters let callers supply data, while default and rest parameters make calls flexible.",
+    "syntax": [
+      {
+        "title": "Declaration with default and rest parameters",
+        "language": "javascript",
+        "code": "function process(first = defaultValue, ...remaining) {\n  /* function body */\n  return result;\n}",
+        "parts": [
+          {
+            "part": "function process",
+            "meaning": "Declares a named function."
+          },
+          {
+            "part": "first = defaultValue",
+            "meaning": "Uses defaultValue when the first argument is omitted or undefined."
+          },
+          {
+            "part": "...remaining",
+            "meaning": "Collects further arguments into an array; the rest parameter must be last."
+          },
+          {
+            "part": "return result",
+            "meaning": "Ends the function and supplies its return value."
+          }
+        ]
+      },
+      {
+        "title": "Function expression",
+        "language": "javascript",
+        "code": "const process = function (input) {\n  /* function body */\n  return result;\n};",
+        "parts": [
+          {
+            "part": "const process",
+            "meaning": "Stores the function in a binding."
+          },
+          {
+            "part": "function (input)",
+            "meaning": "Creates a function expression receiving input."
+          },
+          {
+            "part": "return result",
+            "meaning": "Returns the computed result to the caller."
+          }
+        ]
+      },
+      {
+        "title": "Arrow expression and block bodies",
+        "language": "javascript",
+        "code": "const shortForm = input => transform(input);\nconst blockForm = (first, second) => {\n  /* function body */\n  return result;\n};",
+        "parts": [
+          {
+            "part": "input => transform(input)",
+            "meaning": "Creates an arrow function that implicitly returns the transform call result and inherits surrounding this."
+          },
+          {
+            "part": "transform(input)",
+            "meaning": "The expression evaluated and returned by the short body."
+          },
+          {
+            "part": "(first, second) =>",
+            "meaning": "Starts an arrow function with two parameters."
+          },
+          {
+            "part": "return result",
+            "meaning": "Explicitly returns a value from a block body."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Reusable recipes",
@@ -808,6 +1110,39 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-objects",
     "summary": "Objects group related values under named properties. Dot and bracket access retrieve those properties, while shorthand and computed keys make object creation concise.",
+    "syntax": [
+      {
+        "title": "Literal, access and property changes",
+        "language": "javascript",
+        "code": "const object = { name, [propertyKey]: value };\nconst namedValue = object.name;\nconst computedValue = object[propertyKey];\nobject.extra = newValue;\ndelete object.extra;",
+        "parts": [
+          {
+            "part": "name",
+            "meaning": "Shorthand for a property named name whose value comes from the name binding."
+          },
+          {
+            "part": "[propertyKey]: value",
+            "meaning": "Computes the property key from propertyKey and assigns value."
+          },
+          {
+            "part": "object.name",
+            "meaning": "Reads a property whose literal name is name."
+          },
+          {
+            "part": "object[propertyKey]",
+            "meaning": "Reads a property using a computed string or symbol key."
+          },
+          {
+            "part": "object.extra = newValue",
+            "meaning": "Adds or updates the extra property when the object permits it."
+          },
+          {
+            "part": "delete object.extra",
+            "meaning": "Removes an own configurable property; nonconfigurable properties cannot be deleted."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "A labelled cabinet",
@@ -924,6 +1259,78 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-arrays",
     "summary": "Arrays hold ordered lists of values, and array methods transform, select, or inspect those lists. Knowing which methods mutate the original array prevents many bugs.",
+    "syntax": [
+      {
+        "title": "Transform, filter and accumulate",
+        "language": "javascript",
+        "code": "const mapped = array.map((item, index) => transform(item, index));\nconst filtered = array.filter((item, index) => predicate(item, index));\nconst reduced = array.reduce((accumulator, item) => combine(accumulator, item), initialValue);",
+        "parts": [
+          {
+            "part": "array.map",
+            "meaning": "Returns a new array containing callback results for existing elements."
+          },
+          {
+            "part": "(item, index)",
+            "meaning": "Receives the current element and its index."
+          },
+          {
+            "part": "transform(item, index)",
+            "meaning": "Computes the mapped value."
+          },
+          {
+            "part": "array.filter",
+            "meaning": "Returns a new array of elements whose callback results are truthy."
+          },
+          {
+            "part": "predicate(item, index)",
+            "meaning": "Tests whether to retain the element."
+          },
+          {
+            "part": "array.reduce",
+            "meaning": "Combines elements into one accumulated result."
+          },
+          {
+            "part": "combine(accumulator, item)",
+            "meaning": "Computes the next accumulator from its previous value and the current element."
+          },
+          {
+            "part": "initialValue",
+            "meaning": "Supplies the starting accumulator, including when the array is empty."
+          }
+        ]
+      },
+      {
+        "title": "Search, test and sort",
+        "language": "javascript",
+        "code": "const found = array.find(item => predicate(item));\nconst anyMatch = array.some(item => predicate(item));\nconst allMatch = array.every(item => predicate(item));\narray.sort((left, right) => compare(left, right));",
+        "parts": [
+          {
+            "part": "array.find",
+            "meaning": "Returns the first matching element, or undefined when none matches."
+          },
+          {
+            "part": "predicate(item)",
+            "meaning": "Returns a truthy value when the element satisfies the test."
+          },
+          {
+            "part": "array.some",
+            "meaning": "Returns true when at least one element passes; returns false for an empty array."
+          },
+          {
+            "part": "array.every",
+            "meaning": "Returns true when every visited element passes, including for an empty array."
+          },
+          {
+            "part": "array.sort",
+            "meaning": "Sorts the original array in place and returns that array."
+          },
+          {
+            "part": "compare(left, right)",
+            "meaning": "Returns a negative number, zero or a positive number to order left before, equal to or after right."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "An ordered list",
@@ -1043,6 +1450,39 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-strings-numbers",
     "summary": "Strings are text values and numbers are numeric values. Template literals make text with inserted values easier to write.",
+    "syntax": [
+      {
+        "title": "Interpolation, parsing and formatting",
+        "language": "javascript",
+        "code": "const text = `${prefix}${expression}${suffix}`;\nconst number = Number(input);\nconst integer = parseInt(input, radix);\nconst formatted = number.toFixed(digits);",
+        "parts": [
+          {
+            "part": "`${prefix}${expression}${suffix}`",
+            "meaning": "A template literal interpolating three expressions into a string."
+          },
+          {
+            "part": "Number(input)",
+            "meaning": "Converts the entire input to a number, possibly NaN."
+          },
+          {
+            "part": "parseInt(input, radix)",
+            "meaning": "Parses an integer prefix after converting input to a string; returns NaN when no valid prefix exists."
+          },
+          {
+            "part": "radix",
+            "meaning": "The integer base, normally supplied explicitly as 10 for decimal input."
+          },
+          {
+            "part": "number.toFixed(digits)",
+            "meaning": "Returns a string with fixed decimal places for finite numbers below magnitude 10 to the power 21."
+          },
+          {
+            "part": "digits",
+            "meaning": "The number of decimal places, from 0 through 100."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Text and quantities",
@@ -1151,6 +1591,62 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-destructuring-spread",
     "summary": "Destructuring takes selected values from an array or object, while spread and rest use ... to expand or collect values. They make copying and function inputs easier to express.",
+    "syntax": [
+      {
+        "title": "Destructure with defaults and renaming",
+        "language": "javascript",
+        "code": "const [first = defaultValue, ...remaining] = array;\nconst { sourceKey: localName = defaultValue, ...otherProperties } = object;",
+        "parts": [
+          {
+            "part": "first = defaultValue",
+            "meaning": "Binds the first element, substituting defaultValue only when the element is undefined."
+          },
+          {
+            "part": "...remaining",
+            "meaning": "Collects remaining array elements into a new array."
+          },
+          {
+            "part": "sourceKey: localName = defaultValue",
+            "meaning": "Reads sourceKey into localName, substituting defaultValue only when the property value is undefined."
+          },
+          {
+            "part": "...otherProperties",
+            "meaning": "Copies remaining own enumerable properties into a new object."
+          }
+        ]
+      },
+      {
+        "title": "Spread values and collect arguments",
+        "language": "javascript",
+        "code": "const arrayCopy = [...array, addedItem];\nconst objectCopy = { ...object, property: newValue };\nconst result = callback(...argumentsList);\nfunction collect(first, ...remaining) {\n  /* use first and remaining */\n}",
+        "parts": [
+          {
+            "part": "[...array, addedItem]",
+            "meaning": "Copies iterable elements into a new array and appends addedItem."
+          },
+          {
+            "part": "{ ...object, property: newValue }",
+            "meaning": "Shallowly copies own enumerable properties, then adds or overwrites property."
+          },
+          {
+            "part": "callback(...argumentsList)",
+            "meaning": "Calls callback with iterable values expanded into individual arguments."
+          },
+          {
+            "part": "function collect",
+            "meaning": "Declares a function that accepts a leading argument and further arguments."
+          },
+          {
+            "part": "first",
+            "meaning": "Receives the first argument."
+          },
+          {
+            "part": "...remaining",
+            "meaning": "Collects all later arguments into an array."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Taking values out",
@@ -1260,6 +1756,31 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-optional-nullish",
     "summary": "Optional chaining safely stops a property lookup when a needed value is null or undefined. Nullish coalescing supplies a fallback only for those two missing values.",
+    "syntax": [
+      {
+        "title": "Optional access and a nullish default",
+        "language": "javascript",
+        "code": "const propertyValue = obj?.prop;\nconst callResult = obj?.method?.();\nconst firstItem = arr?.[0];\nconst selected = value ?? fallback;",
+        "parts": [
+          {
+            "part": "obj?.prop",
+            "meaning": "Returns undefined when obj is null or undefined; otherwise reads prop."
+          },
+          {
+            "part": "obj?.method?.()",
+            "meaning": "Returns undefined for a nullish object or method; otherwise calls the method with obj as this."
+          },
+          {
+            "part": "arr?.[0]",
+            "meaning": "Returns undefined for a nullish array; otherwise reads index zero."
+          },
+          {
+            "part": "value ?? fallback",
+            "meaning": "Evaluates and returns fallback only when value is null or undefined."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Missing data",
@@ -1368,6 +1889,65 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-modules",
     "summary": "A module is a file that shares selected code with other files. ES modules use import and export, while CommonJS uses require and module.exports.",
+    "syntax": [
+      {
+        "title": "ES module exports",
+        "language": "javascript",
+        "code": "export const namedValue = initialValue;\nexport default function defaultFunction(input) {\n  /* function body */\n}",
+        "parts": [
+          {
+            "part": "export const namedValue",
+            "meaning": "Declares a value available to named imports."
+          },
+          {
+            "part": "initialValue",
+            "meaning": "The expression initializing the exported binding."
+          },
+          {
+            "part": "export default function defaultFunction(input)",
+            "meaning": "Declares the module default export as a function receiving input."
+          }
+        ]
+      },
+      {
+        "title": "ES module imports",
+        "language": "javascript",
+        "code": "import defaultFunction from './module.js';\nimport { namedValue as localValue } from './module.js';",
+        "parts": [
+          {
+            "part": "import defaultFunction",
+            "meaning": "Binds the module default export to a local name."
+          },
+          {
+            "part": "'./module.js'",
+            "meaning": "The module specifier resolved by the host environment."
+          },
+          {
+            "part": "namedValue as localValue",
+            "meaning": "Imports the named export using a different local binding name."
+          }
+        ]
+      },
+      {
+        "title": "CommonJS export and import",
+        "language": "javascript",
+        "code": "module.exports = { namedValue, callback };\nconst importedModule = require('./other-module.cjs');",
+        "parts": [
+          {
+            "part": "module.exports",
+            "meaning": "The value exposed to consumers of this CommonJS module."
+          },
+          {
+            "part": "{ namedValue, callback }",
+            "meaning": "An exported object containing the current value and callback bindings."
+          },
+          {
+            "part": "require('./other-module.cjs')",
+            "meaning": "Loads another CommonJS module and returns its exported value."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Why split files",
@@ -1584,6 +2164,39 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-this-binding",
     "summary": "this is a value chosen by how a regular function is called. call, apply, and bind let you choose it explicitly, while arrow functions take it from outside.",
+    "syntax": [
+      {
+        "title": "Call, apply and bind",
+        "language": "javascript",
+        "code": "const directResult = fn.call(thisArg, first, second);\nconst arrayResult = fn.apply(thisArg, [first, second]);\nconst boundFunction = fn.bind(thisArg, first);\nconst boundResult = boundFunction(second);",
+        "parts": [
+          {
+            "part": "fn",
+            "meaning": "The function whose receiver or leading arguments are being supplied."
+          },
+          {
+            "part": "call(thisArg, first, second)",
+            "meaning": "Invokes fn immediately with two separate arguments."
+          },
+          {
+            "part": "thisArg",
+            "meaning": "The requested this value; arrows ignore it, and non-strict functions may convert it."
+          },
+          {
+            "part": "apply(thisArg, [first, second])",
+            "meaning": "Invokes fn immediately using the elements of an array-like argument list."
+          },
+          {
+            "part": "bind(thisArg, first)",
+            "meaning": "Creates a function with a fixed receiver and a prefilled first argument for ordinary calls."
+          },
+          {
+            "part": "boundFunction(second)",
+            "meaning": "Calls the bound function with second appended after its prefilled argument."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "The receiver",
@@ -1694,6 +2307,39 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-prototypes",
     "summary": "A prototype is an object JavaScript consults when a property is missing. Prototype chains let objects share behavior without copying it onto every object.",
+    "syntax": [
+      {
+        "title": "Constructor, shared method and direct prototype",
+        "language": "javascript",
+        "code": "function Constructor(value) {\n  this.value = value;\n}\nConstructor.prototype.method = function () {\n  return this.value;\n};\nconst instance = new Constructor(initialValue);\nconst derivedObject = Object.create(prototypeObject);",
+        "parts": [
+          {
+            "part": "function Constructor(value)",
+            "meaning": "Declares a constructor function receiving an initial value."
+          },
+          {
+            "part": "this.value = value",
+            "meaning": "Stores a property on the constructed receiver."
+          },
+          {
+            "part": "Constructor.prototype.method",
+            "meaning": "Defines a method shared by instances through their prototype chain."
+          },
+          {
+            "part": "return this.value",
+            "meaning": "Returns value from the receiver used to call the method."
+          },
+          {
+            "part": "new Constructor(initialValue)",
+            "meaning": "Creates an instance linked to Constructor.prototype and runs the constructor."
+          },
+          {
+            "part": "Object.create(prototypeObject)",
+            "meaning": "Creates an object whose immediate prototype is prototypeObject, which must be an object or null."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "The basic idea",
@@ -1804,6 +2450,74 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-classes",
     "summary": "A class is syntax for creating objects with shared methods and setup. Inheritance lets a child class reuse and extend a parent class.",
+    "syntax": [
+      {
+        "title": "Constructor, method, getter and static method",
+        "language": "javascript",
+        "code": "class Base {\n  constructor(value) { this.value = value; }\n  method(input) { /* method body */ }\n  get current() { return this.value; }\n  static create(value) { return new Base(value); }\n}",
+        "parts": [
+          {
+            "part": "class Base",
+            "meaning": "Declares a class and its constructor binding."
+          },
+          {
+            "part": "constructor(value)",
+            "meaning": "Initializes each new instance with the supplied value."
+          },
+          {
+            "part": "this.value = value",
+            "meaning": "Stores the supplied value on the instance."
+          },
+          {
+            "part": "method(input)",
+            "meaning": "Defines an instance method receiving input."
+          },
+          {
+            "part": "get current()",
+            "meaning": "Defines a getter invoked by reading instance.current."
+          },
+          {
+            "part": "static create(value)",
+            "meaning": "Defines a factory method called on Base itself."
+          },
+          {
+            "part": "new Base(value)",
+            "meaning": "Constructs a new Base instance."
+          }
+        ]
+      },
+      {
+        "title": "Inheritance and super",
+        "language": "javascript",
+        "code": "class Derived extends Base {\n  constructor(value) {\n    super(value);\n    this.extra = value;\n  }\n  method(input) { return super.method(input); }\n}",
+        "parts": [
+          {
+            "part": "class Derived extends Base",
+            "meaning": "Declares a class inheriting from Base."
+          },
+          {
+            "part": "constructor(value)",
+            "meaning": "Declares the derived instance initializer."
+          },
+          {
+            "part": "super(value)",
+            "meaning": "Calls the parent constructor before accessing this."
+          },
+          {
+            "part": "this.extra = value",
+            "meaning": "Adds an instance property after the parent constructor completes."
+          },
+          {
+            "part": "method(input)",
+            "meaning": "Overrides the inherited instance method."
+          },
+          {
+            "part": "super.method(input)",
+            "meaning": "Calls the parent method with the current instance as this."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "A class template",
@@ -1918,6 +2632,46 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-higher-order",
     "summary": "A higher-order function takes a function, returns one, or both. A callback is a function passed in so another function can decide when to run it.",
+    "syntax": [
+      {
+        "title": "Accept a callback",
+        "language": "javascript",
+        "code": "function process(value, callback) {\n  return callback(value);\n}",
+        "parts": [
+          {
+            "part": "function process(value, callback)",
+            "meaning": "Declares a function receiving a value and another function."
+          },
+          {
+            "part": "return",
+            "meaning": "Passes the callback result back to the caller."
+          },
+          {
+            "part": "callback(value)",
+            "meaning": "Invokes the supplied callback with value."
+          }
+        ]
+      },
+      {
+        "title": "Return a function",
+        "language": "javascript",
+        "code": "function createProcessor(configuration) {\n  return function (value) {\n    return transform(value, configuration);\n  };\n}",
+        "parts": [
+          {
+            "part": "createProcessor(configuration)",
+            "meaning": "Receives configuration to retain for later calls."
+          },
+          {
+            "part": "return function (value)",
+            "meaning": "Returns a function whose closure retains access to configuration."
+          },
+          {
+            "part": "transform(value, configuration)",
+            "meaning": "Computes a result using the later argument and retained configuration."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Functions as values",
@@ -2026,6 +2780,58 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-currying-compose",
     "summary": "Currying turns a multi-argument function into a chain of one-argument functions. Function composition connects small functions so one result becomes the next input.",
+    "syntax": [
+      {
+        "title": "Curried arrow function",
+        "language": "javascript",
+        "code": "const curried = first => second => combine(first, second);\nconst result = curried(firstValue)(secondValue);",
+        "parts": [
+          {
+            "part": "first => second =>",
+            "meaning": "Creates a function returning another function, with one argument accepted at each stage."
+          },
+          {
+            "part": "combine(first, second)",
+            "meaning": "Computes the final result from both captured arguments."
+          },
+          {
+            "part": "curried(firstValue)(secondValue)",
+            "meaning": "Calls each stage in sequence to obtain the result."
+          }
+        ]
+      },
+      {
+        "title": "Compose functions from right to left",
+        "language": "javascript",
+        "code": "const compose = (...functions) => input =>\n  functions.reduceRight((value, fn) => fn(value), input);\nconst result = compose(outer, inner)(initialValue);",
+        "parts": [
+          {
+            "part": "...functions",
+            "meaning": "Collects synchronous unary functions into an array."
+          },
+          {
+            "part": "input =>",
+            "meaning": "Returns a function receiving the initial input."
+          },
+          {
+            "part": "functions.reduceRight",
+            "meaning": "Applies the supplied functions from right to left."
+          },
+          {
+            "part": "(value, fn) => fn(value)",
+            "meaning": "Passes the accumulated value into the next function."
+          },
+          {
+            "part": "input",
+            "meaning": "The second argument of reduceRight: the starting value, also returned when no functions were supplied."
+          },
+          {
+            "part": "compose(outer, inner)(initialValue)",
+            "meaning": "Computes outer applied to the result of inner applied to initialValue."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "One argument at a time",
@@ -2134,6 +2940,62 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-immutability",
     "summary": "Immutability means keeping an existing value unchanged and making a new value for a change. It matters because shared data is easier to reason about when one piece of code cannot silently alter it.",
+    "syntax": [
+      {
+        "title": "Shallow copies, deep clone and freeze",
+        "language": "javascript",
+        "code": "const objectCopy = { ...sourceObject };\nconst arrayCopy = [...sourceArray];\nconst deepCopy = structuredClone(sourceValue);\nconst frozen = Object.freeze(targetObject);",
+        "parts": [
+          {
+            "part": "{ ...sourceObject }",
+            "meaning": "Creates a shallow copy of own enumerable properties; nested objects remain shared."
+          },
+          {
+            "part": "[...sourceArray]",
+            "meaning": "Creates a shallow array copy; nested objects remain shared."
+          },
+          {
+            "part": "structuredClone(sourceValue)",
+            "meaning": "Deeply clones supported values, including cycles; unsupported values such as functions cause an error."
+          },
+          {
+            "part": "Object.freeze(targetObject)",
+            "meaning": "Freezes the original object shallowly and returns it; referenced nested objects are not frozen."
+          }
+        ]
+      },
+      {
+        "title": "Array changes that return copies",
+        "language": "javascript",
+        "code": "const sorted = array.toSorted((left, right) => compare(left, right));\nconst reversed = array.toReversed();\nconst replaced = array.with(index, replacement);",
+        "parts": [
+          {
+            "part": "array.toSorted",
+            "meaning": "Returns a sorted array copy without changing the original array."
+          },
+          {
+            "part": "compare(left, right)",
+            "meaning": "Returns a negative number, zero or a positive number to determine the order."
+          },
+          {
+            "part": "array.toReversed()",
+            "meaning": "Returns a new array containing the elements in reverse order."
+          },
+          {
+            "part": "array.with(index, replacement)",
+            "meaning": "Returns a shallow copy with one element replaced; an out-of-range index throws RangeError."
+          },
+          {
+            "part": "index",
+            "meaning": "The position to replace; negative positions count from the end."
+          },
+          {
+            "part": "replacement",
+            "meaning": "The value stored at that position in the returned copy."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "The basic idea",
@@ -2247,6 +3109,62 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-errors",
     "summary": "Error handling lets a program respond to a problem instead of stopping without a useful plan. try, catch, and finally separate normal work, recovery, and cleanup.",
+    "syntax": [
+      {
+        "title": "Try, catch, finally and throw",
+        "language": "javascript",
+        "code": "try {\n  if (invalid) throw new Error(message);\n  /* operation */\n} catch (error) {\n  /* handle error */\n} finally {\n  /* cleanup */\n}",
+        "parts": [
+          {
+            "part": "try",
+            "meaning": "Starts a block whose synchronous exceptions can be caught."
+          },
+          {
+            "part": "invalid",
+            "meaning": "The condition indicating that an error should be thrown."
+          },
+          {
+            "part": "throw new Error(message)",
+            "meaning": "Creates an Error with message and throws it."
+          },
+          {
+            "part": "catch (error)",
+            "meaning": "Handles a thrown value using the local error binding."
+          },
+          {
+            "part": "finally",
+            "meaning": "Runs cleanup when control leaves try or catch, including through return or throw."
+          }
+        ]
+      },
+      {
+        "title": "Custom error class",
+        "language": "javascript",
+        "code": "class CustomError extends Error {\n  constructor(message) {\n    super(message);\n    this.name = 'CustomError';\n  }\n}\nthrow new CustomError(message);",
+        "parts": [
+          {
+            "part": "class CustomError extends Error",
+            "meaning": "Declares an error type inheriting from Error."
+          },
+          {
+            "part": "constructor(message)",
+            "meaning": "Receives the error description."
+          },
+          {
+            "part": "super(message)",
+            "meaning": "Initializes the inherited Error state."
+          },
+          {
+            "part": "this.name = 'CustomError'",
+            "meaning": "Sets the displayed error name."
+          },
+          {
+            "part": "throw new CustomError(message)",
+            "meaning": "Constructs and throws an instance of the custom error type."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Errors are signals",
@@ -2366,6 +3284,85 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-json-dates-regex",
     "summary": "JSON moves simple data as text, Date represents a moment in time, and regular expressions describe text patterns. Each is useful only when you know its limits and conversions.",
+    "syntax": [
+      {
+        "title": "JSON serialization and a reviver",
+        "language": "javascript",
+        "code": "const json = JSON.stringify(value);\nconst restored = JSON.parse(json, function (key, value) {\n  return revive(key, value);\n});",
+        "parts": [
+          {
+            "part": "JSON.stringify(value)",
+            "meaning": "Serializes supported data to JSON; some values are omitted or unsupported."
+          },
+          {
+            "part": "JSON.parse(json, function (key, value)",
+            "meaning": "Parses JSON and calls the reviver for properties and the root."
+          },
+          {
+            "part": "key, value",
+            "meaning": "The property name and parsed value; the root key is empty and child properties are revived first."
+          },
+          {
+            "part": "revive(key, value)",
+            "meaning": "Returns the replacement value; returning undefined removes the property or replaces the root with undefined."
+          }
+        ]
+      },
+      {
+        "title": "Construct dates",
+        "language": "javascript",
+        "code": "const now = new Date();\nconst fromTimestamp = new Date(timestampMilliseconds);\nconst fromText = new Date(isoDateTime);\nconst fromParts = new Date(year, monthIndex, day, hours, minutes, seconds, milliseconds);",
+        "parts": [
+          {
+            "part": "new Date()",
+            "meaning": "Creates a Date representing the current instant."
+          },
+          {
+            "part": "new Date(timestampMilliseconds)",
+            "meaning": "Creates a Date from milliseconds since the Unix epoch."
+          },
+          {
+            "part": "new Date(isoDateTime)",
+            "meaning": "Parses an ISO date-time string; include an explicit offset when the intended instant must be unambiguous."
+          },
+          {
+            "part": "new Date(year, monthIndex, day, hours, minutes, seconds, milliseconds)",
+            "meaning": "Constructs a date using local time components; years zero through 99 map to 1900 through 1999."
+          },
+          {
+            "part": "monthIndex",
+            "meaning": "The zero-based month, with January represented by zero."
+          }
+        ]
+      },
+      {
+        "title": "Regular expression and string operations",
+        "language": "javascript",
+        "code": "const regex = /pattern/i;\nconst matches = regex.test(text);\nconst match = text.match(regex);\nconst replaced = text.replace(regex, replacement);",
+        "parts": [
+          {
+            "part": "/pattern/i",
+            "meaning": "A regular expression literal; replace pattern with the required expression and i enables case-insensitive matching."
+          },
+          {
+            "part": "regex.test(text)",
+            "meaning": "Returns whether the expression matches the string."
+          },
+          {
+            "part": "text.match(regex)",
+            "meaning": "Returns match information or null; a global expression instead returns all full matches."
+          },
+          {
+            "part": "text.replace(regex, replacement)",
+            "meaning": "Returns a new string with the first match replaced; a global expression replaces every match."
+          },
+          {
+            "part": "replacement",
+            "meaning": "A replacement string or callback returning replacement text."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "JSON is data text",
@@ -2480,6 +3477,62 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-map-set",
     "summary": "Map stores key-value pairs with keys of any type, while Set stores unique values. They make membership checks and keyed data clearer than forcing every job into an object or array.",
+    "syntax": [
+      {
+        "title": "Map entries and iteration",
+        "language": "javascript",
+        "code": "const map = new Map(entries);\nmap.set(key, value);\nconst stored = map.get(key);\nconst exists = map.has(key);\nconst removed = map.delete(key);\nconst count = map.size;\nfor (const [entryKey, entryValue] of map) {\n  /* use entryKey and entryValue */\n}",
+        "parts": [
+          {
+            "part": "new Map(entries)",
+            "meaning": "Creates a Map from an iterable of key-value pairs; omit entries for an empty Map."
+          },
+          {
+            "part": "map.set(key, value)",
+            "meaning": "Stores or replaces the value for key and returns the Map."
+          },
+          {
+            "part": "map.get(key)",
+            "meaning": "Returns the stored value or undefined when the key is absent."
+          },
+          {
+            "part": "map.has(key)",
+            "meaning": "Reports whether key exists, even when its stored value is undefined."
+          },
+          {
+            "part": "map.delete(key)",
+            "meaning": "Removes key and returns whether an entry existed."
+          },
+          {
+            "part": "map.size",
+            "meaning": "The number of stored entries."
+          },
+          {
+            "part": "const [entryKey, entryValue] of map",
+            "meaning": "Destructures each entry in insertion order."
+          }
+        ]
+      },
+      {
+        "title": "Set membership",
+        "language": "javascript",
+        "code": "const set = new Set(values);\nset.add(value);\nconst exists = set.has(value);",
+        "parts": [
+          {
+            "part": "new Set(values)",
+            "meaning": "Creates a collection of unique values from an iterable; omit values for an empty Set."
+          },
+          {
+            "part": "set.add(value)",
+            "meaning": "Adds value if absent and returns the Set."
+          },
+          {
+            "part": "set.has(value)",
+            "meaning": "Returns whether value belongs to the Set."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Two useful collections",
@@ -2709,6 +3762,66 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-promises",
     "summary": "A promise is an object for a result that will arrive later or fail. It lets code handle success and errors in a clear chain.",
+    "syntax": [
+      {
+        "title": "Construct a promise",
+        "language": "javascript",
+        "code": "const promise = new Promise((resolve, reject) => {\n  startOperation(\n    value => resolve(value),\n    error => reject(error)\n  );\n});",
+        "parts": [
+          {
+            "part": "new Promise((resolve, reject) =>",
+            "meaning": "Creates a promise and immediately calls its executor synchronously."
+          },
+          {
+            "part": "resolve",
+            "meaning": "Resolves with a value or adopts a promise or thenable."
+          },
+          {
+            "part": "reject",
+            "meaning": "Rejects the promise with a reason."
+          },
+          {
+            "part": "startOperation",
+            "meaning": "A placeholder operation accepting success and failure callbacks."
+          },
+          {
+            "part": "value => resolve(value)",
+            "meaning": "Forwards the successful result to resolve."
+          },
+          {
+            "part": "error => reject(error)",
+            "meaning": "Forwards the failure reason to reject."
+          }
+        ]
+      },
+      {
+        "title": "Chain fulfillment, rejection and cleanup",
+        "language": "javascript",
+        "code": "const chained = promise\n  .then(value => nextOperation(value))\n  .then(result => consume(result))\n  .catch(error => handleError(error))\n  .finally(() => cleanup());",
+        "parts": [
+          {
+            "part": "promise",
+            "meaning": "The promise from which the chain starts."
+          },
+          {
+            "part": ".then(value => nextOperation(value))",
+            "meaning": "Runs on fulfillment; its return value or returned promise determines the next promise."
+          },
+          {
+            "part": ".then(result => consume(result))",
+            "meaning": "Receives the preceding fulfillment result and forwards its own return value."
+          },
+          {
+            "part": ".catch(error => handleError(error))",
+            "meaning": "Handles preceding rejections; returning a value recovers, while throwing rejects the next promise."
+          },
+          {
+            "part": ".finally(() => cleanup())",
+            "meaning": "Runs after settlement; preserves the outcome unless cleanup throws or returns a rejecting promise."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "A result later",
@@ -2823,6 +3936,43 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-async-await",
     "summary": "async and await let promise-based code read in a top-to-bottom style. Error handling still needs try...catch or a returned rejected promise.",
+    "syntax": [
+      {
+        "title": "Await with error handling",
+        "language": "javascript",
+        "code": "async function process(input) {\n  try {\n    const result = await operation(input);\n    return result;\n  } catch (error) {\n    handleError(error);\n    throw error;\n  }\n}",
+        "parts": [
+          {
+            "part": "async function process(input)",
+            "meaning": "Declares a function receiving input and always returning a promise."
+          },
+          {
+            "part": "try",
+            "meaning": "Encloses the awaited operation so failures can be caught."
+          },
+          {
+            "part": "await operation(input)",
+            "meaning": "Pauses this async function until settlement, yielding the fulfillment value or throwing the rejection reason."
+          },
+          {
+            "part": "return result",
+            "meaning": "Fulfills the returned promise with result."
+          },
+          {
+            "part": "catch (error)",
+            "meaning": "Catches synchronous throws and rejection reasons from the awaited operation."
+          },
+          {
+            "part": "handleError(error)",
+            "meaning": "The application-specific error handler."
+          },
+          {
+            "part": "throw error",
+            "meaning": "Rethrows the error so the returned promise rejects."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Promise syntax with a pause",
@@ -3053,6 +4203,43 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-timers",
     "summary": "setTimeout schedules one later callback and setInterval schedules repeated callbacks. Their delay is a minimum waiting time, not a guarantee of exact timing.",
+    "syntax": [
+      {
+        "title": "Schedule and cancel timers",
+        "language": "javascript",
+        "code": "const timeoutId = setTimeout(callback, delayMilliseconds);\nconst intervalId = setInterval(callback, intervalMilliseconds);\nclearTimeout(timeoutId);\nclearInterval(intervalId);",
+        "parts": [
+          {
+            "part": "setTimeout(callback, delayMilliseconds)",
+            "meaning": "Schedules one callback after a runtime-adjusted delay; execution may be later."
+          },
+          {
+            "part": "callback",
+            "meaning": "The function invoked when a timer fires."
+          },
+          {
+            "part": "delayMilliseconds",
+            "meaning": "The requested one-time delay in milliseconds."
+          },
+          {
+            "part": "setInterval(callback, intervalMilliseconds)",
+            "meaning": "Schedules repeated callbacks; actual intervals depend on runtime scheduling."
+          },
+          {
+            "part": "intervalMilliseconds",
+            "meaning": "The requested interval between callbacks in milliseconds."
+          },
+          {
+            "part": "clearTimeout(timeoutId)",
+            "meaning": "Cancels the timeout using its returned handle, which is numeric in browsers and an object in Node."
+          },
+          {
+            "part": "clearInterval(intervalId)",
+            "meaning": "Cancels the interval using its returned handle."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Schedule instead of wait",
@@ -3170,6 +4357,58 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-promise-combinators",
     "summary": "Promise combinators wait for a group of promises using different success rules. Choose all, allSettled, race, or any based on whether you need every result, every report, the first settlement, or the first success.",
+    "syntax": [
+      {
+        "title": "Collect fulfillment values or all outcomes",
+        "language": "javascript",
+        "code": "Promise.all([firstPromise, secondPromise])\n  .then(values => consumeValues(values));\nPromise.allSettled([firstPromise, secondPromise])\n  .then(outcomes => consumeOutcomes(outcomes));",
+        "parts": [
+          {
+            "part": "Promise.all",
+            "meaning": "Fulfills with all fulfillment values in input order, or rejects on the first observed rejection."
+          },
+          {
+            "part": "[firstPromise, secondPromise]",
+            "meaning": "The array of promises to observe."
+          },
+          {
+            "part": ".then(values => consumeValues(values))",
+            "meaning": "Receives the ordered fulfillment values and passes them to a consumer."
+          },
+          {
+            "part": "Promise.allSettled",
+            "meaning": "Fulfills after every input settles, with ordered objects containing status and value or reason."
+          },
+          {
+            "part": ".then(outcomes => consumeOutcomes(outcomes))",
+            "meaning": "Receives every settlement record and passes the records to a consumer."
+          }
+        ]
+      },
+      {
+        "title": "First settlement or first fulfillment",
+        "language": "javascript",
+        "code": "Promise.race([firstPromise, secondPromise])\n  .then(value => consume(value));\nPromise.any([firstPromise, secondPromise])\n  .then(value => consume(value));",
+        "parts": [
+          {
+            "part": "Promise.race",
+            "meaning": "Adopts the first observed settlement, whether fulfillment or rejection; an empty iterable remains pending."
+          },
+          {
+            "part": "[firstPromise, secondPromise]",
+            "meaning": "The array of competing promises; the other operations are not automatically canceled."
+          },
+          {
+            "part": ".then(value => consume(value))",
+            "meaning": "Passes a fulfilled result to consume; rejection needs separate handling."
+          },
+          {
+            "part": "Promise.any",
+            "meaning": "Fulfills on the first observed fulfillment; rejects with AggregateError when every input rejects, including an empty iterable."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "One group, different questions",
@@ -3421,6 +4660,70 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-fetch-abort",
     "summary": "fetch sends an HTTP request and returns a promise for a response. Check HTTP status yourself and use AbortController to cancel work that is no longer needed.",
+    "syntax": [
+      {
+        "title": "Send JSON and check HTTP status",
+        "language": "javascript",
+        "code": "async function request(url, payload) {\n  const options = {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(payload)\n  };\n  const response = await fetch(url, options);\n  if (!response.ok) throw new Error(String(response.status));\n  return await response.json();\n}",
+        "parts": [
+          {
+            "part": "async function request(url, payload)",
+            "meaning": "Declares a request function receiving an address and JSON-serializable data."
+          },
+          {
+            "part": "method: 'POST'",
+            "meaning": "Selects POST as the HTTP request method."
+          },
+          {
+            "part": "headers: { 'Content-Type': 'application/json' }",
+            "meaning": "Identifies the request body as JSON."
+          },
+          {
+            "part": "body: JSON.stringify(payload)",
+            "meaning": "Serializes the payload into the request body."
+          },
+          {
+            "part": "await fetch(url, options)",
+            "meaning": "Waits for response headers; HTTP error statuses alone do not reject fetch."
+          },
+          {
+            "part": "response.ok",
+            "meaning": "Reports whether the HTTP status is between 200 and 299."
+          },
+          {
+            "part": "throw new Error(String(response.status))",
+            "meaning": "Turns an unsuccessful HTTP status into a thrown error."
+          },
+          {
+            "part": "await response.json()",
+            "meaning": "Consumes the response body and parses JSON; rejects if reading or parsing fails."
+          }
+        ]
+      },
+      {
+        "title": "Abort a request",
+        "language": "javascript",
+        "code": "const controller = new AbortController();\nconst pending = fetch(url, { signal: controller.signal });\ncontroller.abort();\npending.catch(error => handleError(error));",
+        "parts": [
+          {
+            "part": "new AbortController()",
+            "meaning": "Creates a controller for canceling operations that accept its signal."
+          },
+          {
+            "part": "fetch(url, { signal: controller.signal })",
+            "meaning": "Starts a request attached to the controller signal."
+          },
+          {
+            "part": "controller.abort()",
+            "meaning": "Signals cancellation; an unfinished fetch or body read normally rejects with AbortError."
+          },
+          {
+            "part": "pending.catch(error => handleError(error))",
+            "meaning": "Handles cancellation or another request failure."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "A request and response",
@@ -3531,6 +4834,62 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-dom",
     "summary": "The DOM is the browser object tree for a web page. JavaScript uses it to find elements and safely change their text, classes, and children.",
+    "syntax": [
+      {
+        "title": "Select elements",
+        "language": "javascript",
+        "code": "const element = document.querySelector(selector);\nconst elements = document.querySelectorAll(selector);",
+        "parts": [
+          {
+            "part": "document.querySelector(selector)",
+            "meaning": "Returns the first matching element or null."
+          },
+          {
+            "part": "selector",
+            "meaning": "A valid CSS selector string; invalid selectors throw SyntaxError."
+          },
+          {
+            "part": "document.querySelectorAll(selector)",
+            "meaning": "Returns a static NodeList of all matching elements."
+          }
+        ]
+      },
+      {
+        "title": "Create, update and append",
+        "language": "javascript",
+        "code": "const element = document.createElement(tagName);\nelement.textContent = text;\nelement.classList.add(className);\nelement.classList.remove(oldClassName);\nelement.classList.toggle(toggleClassName, condition);\nelement.setAttribute(attributeName, attributeValue);\nparent.append(element);",
+        "parts": [
+          {
+            "part": "document.createElement(tagName)",
+            "meaning": "Creates a detached element with the given tag name."
+          },
+          {
+            "part": "element.textContent = text",
+            "meaning": "Replaces the element content with text rather than parsing HTML."
+          },
+          {
+            "part": "element.classList.add(className)",
+            "meaning": "Adds a CSS class token."
+          },
+          {
+            "part": "element.classList.remove(oldClassName)",
+            "meaning": "Removes a CSS class token."
+          },
+          {
+            "part": "element.classList.toggle(toggleClassName, condition)",
+            "meaning": "Adds the class when condition is true and removes it when false."
+          },
+          {
+            "part": "element.setAttribute(attributeName, attributeValue)",
+            "meaning": "Sets the named attribute to the supplied value converted to a string."
+          },
+          {
+            "part": "parent.append(element)",
+            "meaning": "Inserts the element at the end of parent, moving it if already attached."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "The page as objects",
@@ -3653,6 +5012,74 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-dom-events",
     "summary": "Browser events report user actions and can travel through nested elements. Understanding their path lets code delegate work, prevent defaults, and stop unwanted propagation.",
+    "syntax": [
+      {
+        "title": "Register, inspect and remove a listener",
+        "language": "javascript",
+        "code": "const options = { capture: true, passive: false };\nfunction handler(event) {\n  const origin = event.target;\n  const listenerElement = event.currentTarget;\n  event.preventDefault();\n  event.stopPropagation();\n}\nelement.addEventListener(type, handler, options);\nelement.removeEventListener(type, handler, options);",
+        "parts": [
+          {
+            "part": "{ capture: true, passive: false }",
+            "meaning": "Enables capture and permits cancellation; capture false listens during bubbling for events that bubble."
+          },
+          {
+            "part": "handler(event)",
+            "meaning": "The listener function receives the dispatched event object."
+          },
+          {
+            "part": "event.target",
+            "meaning": "The dispatch target as exposed to this listener, possibly retargeted across shadow boundaries."
+          },
+          {
+            "part": "event.currentTarget",
+            "meaning": "The element whose listener is currently running."
+          },
+          {
+            "part": "event.preventDefault()",
+            "meaning": "Cancels the default action when the event is cancelable and the listener is not passive."
+          },
+          {
+            "part": "event.stopPropagation()",
+            "meaning": "Prevents further propagation without stopping other listeners on the current element."
+          },
+          {
+            "part": "element.addEventListener(type, handler, options)",
+            "meaning": "Registers handler for the event type string using the supplied options."
+          },
+          {
+            "part": "element.removeEventListener(type, handler, options)",
+            "meaning": "Removes the matching listener; event type, function identity and capture setting must match."
+          }
+        ]
+      },
+      {
+        "title": "Delegate a bubbling event",
+        "language": "javascript",
+        "code": "container.addEventListener('click', event => {\n  if (!(event.target instanceof Element)) return;\n  const matched = event.target.closest(selector);\n  if (!matched || !container.contains(matched)) return;\n  handleMatch(matched, event);\n});",
+        "parts": [
+          {
+            "part": "container.addEventListener('click', event =>",
+            "meaning": "Listens on a stable ancestor for click events bubbling from descendants."
+          },
+          {
+            "part": "event.target instanceof Element",
+            "meaning": "Checks that the event target supports element methods."
+          },
+          {
+            "part": "event.target.closest(selector)",
+            "meaning": "Finds the nearest matching element, including the target itself."
+          },
+          {
+            "part": "!matched || !container.contains(matched)",
+            "meaning": "Rejects missing matches and matches outside the delegation container."
+          },
+          {
+            "part": "handleMatch(matched, event)",
+            "meaning": "Calls the application handler with the matched element and event."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "An event travels",
@@ -3780,6 +5207,101 @@ export const JAVASCRIPT_NOTES: TopicNotes[] = [
   {
     "topicId": "js-web-storage",
     "summary": "Web storage saves strings in the browser, while cookies can also be sent with HTTP requests. Use storage for appropriate small data and never treat it as secret storage.",
+    "syntax": [
+      {
+        "title": "Store strings in local or session storage",
+        "language": "javascript",
+        "code": "const storage = localStorage;\nconst session = sessionStorage;\nstorage.setItem(key, text);\nconst savedText = storage.getItem(key);\nstorage.removeItem(key);\nstorage.clear();\nsession.setItem(key, text);",
+        "parts": [
+          {
+            "part": "localStorage",
+            "meaning": "Origin-scoped string storage that normally persists across browser sessions."
+          },
+          {
+            "part": "sessionStorage",
+            "meaning": "String storage scoped to the origin and browser tab session."
+          },
+          {
+            "part": "storage.setItem(key, text)",
+            "meaning": "Stores text under key, replacing an existing value."
+          },
+          {
+            "part": "storage.getItem(key)",
+            "meaning": "Returns the stored string or null if the key does not exist."
+          },
+          {
+            "part": "storage.removeItem(key)",
+            "meaning": "Removes the entry for key."
+          },
+          {
+            "part": "storage.clear()",
+            "meaning": "Removes all entries from this storage area."
+          },
+          {
+            "part": "session.setItem(key, text)",
+            "meaning": "Uses the same Storage methods on session storage."
+          }
+        ]
+      },
+      {
+        "title": "JSON round trip for objects",
+        "language": "javascript",
+        "code": "localStorage.setItem(key, JSON.stringify(object));\nconst json = localStorage.getItem(key);\nconst restored = json === null ? null : JSON.parse(json);",
+        "parts": [
+          {
+            "part": "localStorage.setItem(key, JSON.stringify(object))",
+            "meaning": "Serializes a JSON-compatible object and stores the resulting string."
+          },
+          {
+            "part": "localStorage.getItem(key)",
+            "meaning": "Retrieves the stored JSON string or null when absent."
+          },
+          {
+            "part": "json === null ? null : JSON.parse(json)",
+            "meaning": "Keeps missing data as null; otherwise parses the saved JSON, which may throw if malformed."
+          }
+        ]
+      },
+      {
+        "title": "Write, read and expire a cookie",
+        "language": "javascript",
+        "code": "document.cookie = `${cookieName}=${encodeURIComponent(value)}; Path=/; SameSite=Lax; Secure`;\nconst cookies = document.cookie;\ndocument.cookie = `${cookieName}=; Max-Age=0; Path=/; SameSite=Lax; Secure`;",
+        "parts": [
+          {
+            "part": "document.cookie =",
+            "meaning": "Writes one cookie without replacing all other cookies."
+          },
+          {
+            "part": "cookieName",
+            "meaning": "A valid cookie name; use a cookie-safe token."
+          },
+          {
+            "part": "encodeURIComponent(value)",
+            "meaning": "Encodes the value so separators do not change the cookie assignment."
+          },
+          {
+            "part": "Path=/",
+            "meaning": "Scopes the cookie to the site root path."
+          },
+          {
+            "part": "SameSite=Lax",
+            "meaning": "Restricts cookie delivery on cross-site requests while allowing qualifying top-level navigations."
+          },
+          {
+            "part": "Secure",
+            "meaning": "Limits cookie transmission to secure connections, with browser exceptions such as localhost."
+          },
+          {
+            "part": "const cookies = document.cookie",
+            "meaning": "Reads accessible cookies as semicolon-separated name-value pairs; HttpOnly cookies are excluded."
+          },
+          {
+            "part": "Max-Age=0",
+            "meaning": "Expires the cookie; its name, path and domain must match the cookie being removed."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Two storage areas",

@@ -4,6 +4,14 @@
 export interface TopicNotes {
   topicId: string; // the id of the topic in data/roadmap.ts
   summary: string;
+  // The general form to write from memory (only for topics that have one), 1 to 3 forms, each with the meaning of its parts.
+  // The code is valid in its language, with ordinary names where a placeholder would be (for example dependencies).
+  syntax?: {
+    title: string; // for example "With a cleanup function"
+    language: "javascript" | "jsx" | "html" | "css";
+    code: string;
+    parts: { part: string; meaning: string }[];
+  }[];
   explanation: { heading: string; points: string[] }[]; // short numbered points, in the order to learn them
   terms: { term: string; meaning: string }[]; // the keywords, each in one plain sentence
   examples: {
