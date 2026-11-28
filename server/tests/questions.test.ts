@@ -46,6 +46,18 @@ describe("question banks", () => {
     }
   });
 
+  it("has the sets of HTML+CSS level 2 (3 of 18) and level 3 (3 of 15), with 4 and 5 Part C questions in each", () => {
+    for (const [level, size, partC] of [[2, 18, 4], [3, 15, 5]] as const) {
+      const bank = getQuestionBank("css", level);
+      expect(bank?.questions).toHaveLength(size * 3);
+      for (const set of [1, 2, 3]) {
+        const inSet = bank?.questions.filter((question) => question.set === set) ?? [];
+        expect(inSet).toHaveLength(size);
+        expect(inSet.filter((question) => question.partC)).toHaveLength(partC);
+      }
+    }
+  });
+
   it("has the three sets of 21 questions of React level 1, with 3 Part C questions in each", () => {
     const bank = getQuestionBank("react", 1);
     expect(bank?.questions).toHaveLength(63);
@@ -92,8 +104,10 @@ describe("question banks", () => {
   });
 
   it("gives every page and React question a check and keeps it off the screen", () => {
-    const questions = [...(getQuestionBank("css", 1)?.questions ?? []), ...(getQuestionBank("react", 1)?.questions ?? [])];
-    expect(questions).toHaveLength(126);
+    const questions = allBanks()
+      .filter((bank) => bank.skillId === "css" || bank.skillId === "react")
+      .flatMap((bank) => bank.questions);
+    expect(questions).toHaveLength(63 * 2 + 54 + 45);
     for (const question of questions) {
       expect(["page", "react"]).toContain(question.environment);
       expect(question.check).toBeTruthy();
