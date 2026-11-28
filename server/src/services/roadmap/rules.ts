@@ -4,7 +4,7 @@
 
 import { hasNotes } from "../../data/content";
 import { ROADMAP_PROJECTS, ROADMAP_SKILLS } from "../../data/roadmap";
-import type { RoadmapSkill, Tier } from "../../data/roadmap";
+import type { ProjectGroup, RoadmapSkill, Tier } from "../../data/roadmap";
 
 import type { ILevelProgress } from "../../models/RoadmapProgress";
 
@@ -143,7 +143,7 @@ export interface SkillView {
 
 export interface RoadmapView {
   skills: SkillView[];
-  projects: { id: string; name: string; flowsStudied: number; flowsTotal: number; ready: boolean }[];
+  projects: { id: string; name: string; group: ProjectGroup; flowsStudied: number; flowsTotal: number; ready: boolean }[];
 }
 
 export function buildView(progress: ProgressData, now: Date = new Date()): RoadmapView {
@@ -196,7 +196,7 @@ export function buildView(progress: ProgressData, now: Date = new Date()): Roadm
     const flowsStudied = project.flows.filter((flow) => progress.studiedFlows.includes(flow.id)).length;
     const flowsTotal = project.flows.length;
     // ready = every flow studied (the 80% question mark comes with the project questions, later)
-    return { id: project.id, name: project.name, flowsStudied, flowsTotal, ready: false };
+    return { id: project.id, name: project.name, group: project.group, flowsStudied, flowsTotal, ready: false };
   });
 
   return { skills, projects };

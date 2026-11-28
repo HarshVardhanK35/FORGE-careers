@@ -11,7 +11,7 @@ import { usePageTitle } from "../context/PageHeaderContext";
 import { useToast } from "../context/ToastContext";
 import { useNow } from "../hooks/useNow";
 import { api, errorMessage } from "../lib/api";
-import { TIER_LABELS, TIERS } from "../lib/roadmap";
+import { PROJECT_SECTIONS, TIER_LABELS, TIERS } from "../lib/roadmap";
 import type { Roadmap } from "../lib/types";
 
 // grey blocks while the roadmap loads
@@ -164,7 +164,15 @@ export default function SkillsPage() {
         );
       })}
 
-      <ProjectsSection projects={projects} />
+      {/* the sections after the skills: their content comes later; no tests, and he codes in his own editor */}
+      {PROJECT_SECTIONS.map((section) => (
+        <ProjectsSection
+          key={section.group}
+          title={section.title}
+          note={section.note}
+          projects={projects.filter((project) => project.group === section.group)}
+        />
+      ))}
 
       {unlockTarget && unlockPrevious && (
         <ConfirmModal

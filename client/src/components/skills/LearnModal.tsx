@@ -35,6 +35,27 @@ function Notes({ notes }: { notes: TopicNotes }) {
     <div className="flex flex-col gap-6">
       <p className="text-sm leading-relaxed">{notes.summary}</p>
 
+      {/* the syntax: the general form to write from memory, with the meaning of each part (only for topics that have one) */}
+      {notes.syntax && notes.syntax.length > 0 && (
+        <Part title="Syntax">
+          <div className="flex flex-col gap-4">
+            {notes.syntax.map((form, formIndex) => (
+              <div key={formIndex} className="flex flex-col gap-2">
+                <CodeBlock label={form.title} code={form.code} />
+                <dl className="flex flex-col gap-1.5 rounded-xl border border-line bg-canvas p-3 text-sm">
+                  {form.parts.map((item, partIndex) => (
+                    <div key={partIndex}>
+                      <dt className="inline font-mono text-xs text-accent">{item.part}</dt>
+                      <dd className="inline text-muted"> — {item.meaning}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+          </div>
+        </Part>
+      )}
+
       {/* the explanation: short numbered points, in the order to learn them */}
       {notes.explanation.map((section) => (
         <Part key={section.heading} title={section.heading}>

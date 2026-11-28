@@ -8,6 +8,78 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-document-structure",
     "summary": "HTML gives a page its content and structure. Elements describe the pieces, while attributes add details about them.",
+    "syntax": [
+      {
+        "title": "Page skeleton",
+        "language": "html",
+        "code": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Page title</title>\n</head>\n<body><!-- page content --></body>\n</html>",
+        "parts": [
+          {
+            "part": "<!doctype html>",
+            "meaning": "Selects standards mode for an HTML document."
+          },
+          {
+            "part": "<html lang=\"en\">",
+            "meaning": "Wraps the document and declares English as its language."
+          },
+          {
+            "part": "<head>",
+            "meaning": "Contains document metadata."
+          },
+          {
+            "part": "<meta charset=\"utf-8\">",
+            "meaning": "Declares UTF-8 text encoding."
+          },
+          {
+            "part": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+            "meaning": "Uses the device width for the viewport and starts at normal zoom."
+          },
+          {
+            "part": "<title>Page title</title>",
+            "meaning": "Sets the document title shown in the browser tab."
+          },
+          {
+            "part": "<body>",
+            "meaning": "Contains the page content."
+          },
+          {
+            "part": "<!-- page content -->",
+            "meaning": "Marks omitted content with an HTML comment."
+          }
+        ]
+      },
+      {
+        "title": "Elements with attributes",
+        "language": "html",
+        "code": "<div class=\"container\">\n  <span class=\"text\">Text</span>\n</div>",
+        "parts": [
+          {
+            "part": "<div",
+            "meaning": "Starts a generic container that has block display by default."
+          },
+          {
+            "part": "class=\"container\"",
+            "meaning": "Assigns a class name for styling or scripting."
+          },
+          {
+            "part": "<span",
+            "meaning": "Starts a generic text container that has inline display by default."
+          },
+          {
+            "part": "class=\"text\"",
+            "meaning": "Assigns the nested element a class name."
+          },
+          {
+            "part": "</span>",
+            "meaning": "Closes the nested element."
+          },
+          {
+            "part": "</div>",
+            "meaning": "Closes the outer element."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Start with pieces",
@@ -248,6 +320,121 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-links-images-media",
     "summary": "Links connect pages, and images, video, and audio add other ways to share information. Clear labels and suitable alternatives keep that content usable.",
+    "syntax": [
+      {
+        "title": "Link and image attributes",
+        "language": "html",
+        "code": "<a href=\"/destination\" target=\"_blank\" rel=\"noopener noreferrer\">Link text</a>\n<img src=\"image.jpg\" alt=\"Image description\" width=\"640\" height=\"360\">",
+        "parts": [
+          {
+            "part": "<a",
+            "meaning": "Creates a hyperlink when an href attribute is present."
+          },
+          {
+            "part": "href=\"/destination\"",
+            "meaning": "Sets the destination URL."
+          },
+          {
+            "part": "target=\"_blank\"",
+            "meaning": "Opens the destination in a new browsing context, usually a tab."
+          },
+          {
+            "part": "rel=\"noopener noreferrer\"",
+            "meaning": "Prevents opener access and omits referrer information."
+          },
+          {
+            "part": "<img src=\"image.jpg\"",
+            "meaning": "Embeds an image from the given URL."
+          },
+          {
+            "part": "alt=\"Image description\"",
+            "meaning": "Supplies a text alternative; use an empty value for a decorative image."
+          },
+          {
+            "part": "width=\"640\"",
+            "meaning": "Declares the image width in CSS pixels and helps reserve space."
+          },
+          {
+            "part": "height=\"360\"",
+            "meaning": "Declares the image height in CSS pixels and helps establish its aspect ratio."
+          }
+        ]
+      },
+      {
+        "title": "Responsive image sources",
+        "language": "html",
+        "code": "<picture>\n  <source media=\"(min-width: 48rem)\" srcset=\"wide.jpg\">\n  <img src=\"image.jpg\" alt=\"Image description\">\n</picture>\n<img src=\"image.jpg\" alt=\"Image description\"\n     srcset=\"image-small.jpg 480w, image-large.jpg 960w\"\n     sizes=\"(min-width: 48rem) 50vw, 100vw\">",
+        "parts": [
+          {
+            "part": "<picture>",
+            "meaning": "Groups alternate image sources with a required fallback image."
+          },
+          {
+            "part": "<source",
+            "meaning": "Provides a candidate source for the following image."
+          },
+          {
+            "part": "media=\"(min-width: 48rem)\"",
+            "meaning": "Makes this source eligible when viewport width is at least 48 times the initial font size."
+          },
+          {
+            "part": "srcset=\"wide.jpg\"",
+            "meaning": "Supplies the image candidate for this source."
+          },
+          {
+            "part": "<img src=\"image.jpg\" alt=\"Image description\">",
+            "meaning": "Provides the fallback image URL and text alternative."
+          },
+          {
+            "part": "srcset=\"image-small.jpg 480w, image-large.jpg 960w\"",
+            "meaning": "Lists candidate URLs with their intrinsic pixel widths; each w descriptor must match its image."
+          },
+          {
+            "part": "sizes=\"(min-width: 48rem) 50vw, 100vw\"",
+            "meaning": "Declares half-viewport image width at the breakpoint, otherwise full-viewport width, to guide candidate selection."
+          }
+        ]
+      },
+      {
+        "title": "Video with playback controls",
+        "language": "html",
+        "code": "<video controls>\n  <source src=\"video.mp4\" type=\"video/mp4\">\n  <track kind=\"captions\" src=\"captions.vtt\" srclang=\"en\" label=\"English\" default>\n  <a href=\"video.mp4\">Download video</a>\n</video>",
+        "parts": [
+          {
+            "part": "<video controls>",
+            "meaning": "Embeds video with browser playback controls."
+          },
+          {
+            "part": "<source src=\"video.mp4\" type=\"video/mp4\">",
+            "meaning": "Provides a video URL and its media type."
+          },
+          {
+            "part": "<track kind=\"captions\"",
+            "meaning": "Adds synchronized captions for speech and relevant sounds."
+          },
+          {
+            "part": "src=\"captions.vtt\"",
+            "meaning": "Points to the WebVTT caption file."
+          },
+          {
+            "part": "srclang=\"en\"",
+            "meaning": "Declares the caption language."
+          },
+          {
+            "part": "label=\"English\"",
+            "meaning": "Names the track in the language selection interface."
+          },
+          {
+            "part": "default",
+            "meaning": "Requests this track when user preferences do not select another."
+          },
+          {
+            "part": "<a href=\"video.mp4\">Download video</a>",
+            "meaning": "Provides a download link when the video element is unsupported."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Connect one place to another",
@@ -361,6 +548,86 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-forms",
     "summary": "Forms collect information and send it to a destination. Labels, suitable input types, and simple checks help people enter useful values.",
+    "syntax": [
+      {
+        "title": "Form and required input",
+        "language": "html",
+        "code": "<form action=\"/submit\" method=\"post\">\n  <label for=\"field\">Field</label>\n  <input type=\"text\" name=\"field\" id=\"field\" required>\n  <button type=\"submit\">Submit</button>\n</form>",
+        "parts": [
+          {
+            "part": "<form action=\"/submit\" method=\"post\">",
+            "meaning": "Submits successful named controls to the given URL using an HTTP POST request."
+          },
+          {
+            "part": "<label for=\"field\">",
+            "meaning": "Associates the visible label with the control whose id is field."
+          },
+          {
+            "part": "<input",
+            "meaning": "Creates an input control."
+          },
+          {
+            "part": "type=\"text\"",
+            "meaning": "Selects a single-line text input."
+          },
+          {
+            "part": "name=\"field\"",
+            "meaning": "Sets the key used for the submitted value."
+          },
+          {
+            "part": "id=\"field\"",
+            "meaning": "Gives the control a unique document identifier for its label."
+          },
+          {
+            "part": "required",
+            "meaning": "Requires a nonempty value before normal form submission."
+          },
+          {
+            "part": "<button type=\"submit\">",
+            "meaning": "Creates a button that submits its form."
+          }
+        ]
+      },
+      {
+        "title": "Selection and multiline controls",
+        "language": "html",
+        "code": "<form action=\"/submit\" method=\"post\">\n  <label for=\"choice\">Choice</label>\n  <select name=\"choice\" id=\"choice\">\n    <option value=\"option-value\">Option label</option>\n  </select>\n  <label for=\"message\">Message</label>\n  <textarea name=\"message\" id=\"message\" rows=\"4\" cols=\"40\"></textarea>\n  <button type=\"submit\">Submit</button>\n</form>",
+        "parts": [
+          {
+            "part": "<form action=\"/submit\" method=\"post\">",
+            "meaning": "Submits the named controls to the given URL using HTTP POST."
+          },
+          {
+            "part": "<label for=\"choice\">",
+            "meaning": "Labels the control with the matching id."
+          },
+          {
+            "part": "<select name=\"choice\" id=\"choice\">",
+            "meaning": "Creates a selection control with a submission key and unique label target."
+          },
+          {
+            "part": "<option value=\"option-value\">Option label</option>",
+            "meaning": "Defines a selectable label and the value sent when selected."
+          },
+          {
+            "part": "<label for=\"message\">",
+            "meaning": "Labels the textarea with the matching id."
+          },
+          {
+            "part": "<textarea name=\"message\" id=\"message\"",
+            "meaning": "Creates a multiline text control with a submission key and unique label target."
+          },
+          {
+            "part": "rows=\"4\" cols=\"40\"",
+            "meaning": "Requests a visible size of four lines and forty average character widths."
+          },
+          {
+            "part": "<button type=\"submit\">",
+            "meaning": "Submits the form."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Collect named answers",
@@ -485,6 +752,66 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-lists-tables",
     "summary": "Lists group related items. Tables connect values to row and column headings so readers can compare them.",
+    "syntax": [
+      {
+        "title": "Unordered and ordered lists",
+        "language": "html",
+        "code": "<ul>\n  <li>Item text</li>\n</ul>\n<ol>\n  <li>Item text</li>\n</ol>",
+        "parts": [
+          {
+            "part": "<ul>",
+            "meaning": "Groups list items whose order is not significant."
+          },
+          {
+            "part": "<li>",
+            "meaning": "Defines one item in its containing list."
+          },
+          {
+            "part": "<ol>",
+            "meaning": "Groups list items whose order is significant."
+          }
+        ]
+      },
+      {
+        "title": "Table with headers",
+        "language": "html",
+        "code": "<table>\n  <caption>Table title</caption>\n  <thead>\n    <tr><th scope=\"col\">Column label</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>Cell value</td></tr>\n  </tbody>\n</table>",
+        "parts": [
+          {
+            "part": "<table>",
+            "meaning": "Groups tabular data into rows and cells."
+          },
+          {
+            "part": "<caption>",
+            "meaning": "Provides the table title."
+          },
+          {
+            "part": "<thead>",
+            "meaning": "Groups the header rows."
+          },
+          {
+            "part": "<tr>",
+            "meaning": "Defines a table row."
+          },
+          {
+            "part": "<th scope=\"col\">",
+            "meaning": "Defines a header cell."
+          },
+          {
+            "part": "scope=\"col\"",
+            "meaning": "Associates this header with cells in its column."
+          },
+          {
+            "part": "<tbody>",
+            "meaning": "Groups the table body rows."
+          },
+          {
+            "part": "<td>",
+            "meaning": "Defines a data cell."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Group related items",
@@ -563,6 +890,66 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-html-accessibility",
     "summary": "Accessible HTML helps people read and use a page with different devices and abilities. Clear structure and built-in controls solve many common problems.",
+    "syntax": [
+      {
+        "title": "Control labels and accessible names",
+        "language": "html",
+        "code": "<label for=\"search\">Search</label>\n<input type=\"search\" id=\"search\" name=\"query\">\n<button type=\"button\" aria-label=\"Close\">×</button>\n<section aria-labelledby=\"section-title\">\n  <h2 id=\"section-title\">Section title</h2>\n</section>",
+        "parts": [
+          {
+            "part": "<label for=\"search\">",
+            "meaning": "Connects the visible label to the control with id search."
+          },
+          {
+            "part": "type=\"search\"",
+            "meaning": "Selects a single-line search input."
+          },
+          {
+            "part": "id=\"search\"",
+            "meaning": "Provides the unique target of the label association."
+          },
+          {
+            "part": "name=\"query\"",
+            "meaning": "Sets the submission key if the input belongs to a form."
+          },
+          {
+            "part": "type=\"button\"",
+            "meaning": "Prevents the button from submitting a form."
+          },
+          {
+            "part": "aria-label=\"Close\"",
+            "meaning": "Supplies an accessible name when visible button content does not describe its action."
+          },
+          {
+            "part": "<section aria-labelledby=\"section-title\">",
+            "meaning": "Names this section from the referenced heading, making it a region landmark."
+          },
+          {
+            "part": "<h2 id=\"section-title\">",
+            "meaning": "Provides a second-level heading and the unique target for the section name."
+          }
+        ]
+      },
+      {
+        "title": "Landmark and focus targets",
+        "language": "html",
+        "code": "<div role=\"main\" tabindex=\"-1\">\n  <!-- main content -->\n</div>\n<div tabindex=\"0\">Focusable content</div>",
+        "parts": [
+          {
+            "part": "role=\"main\"",
+            "meaning": "Identifies the page main-content landmark; normally prefer the native main element."
+          },
+          {
+            "part": "tabindex=\"-1\"",
+            "meaning": "Allows programmatic focus while excluding this element from sequential keyboard navigation."
+          },
+          {
+            "part": "tabindex=\"0\"",
+            "meaning": "Includes this element in sequential focus order; it adds no keyboard interaction behavior."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Start with usable content",
@@ -681,6 +1068,62 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-selectors",
     "summary": "Selectors tell CSS which HTML elements to style. Combinators connect selectors so a rule can depend on where elements appear.",
+    "syntax": [
+      {
+        "title": "Basic selectors and selector lists",
+        "language": "css",
+        "code": "p { /* declarations */ }\n.item { /* declarations */ }\n#content { /* declarations */ }\n[data-state=\"active\"] { /* declarations */ }\nh1, h2 { /* declarations */ }",
+        "parts": [
+          {
+            "part": "p",
+            "meaning": "Selects elements with this tag name."
+          },
+          {
+            "part": "/* declarations */",
+            "meaning": "Marks where property-value declarations belong inside each rule."
+          },
+          {
+            "part": ".item",
+            "meaning": "Selects elements whose class list contains item."
+          },
+          {
+            "part": "#content",
+            "meaning": "Selects the element whose id is content."
+          },
+          {
+            "part": "[data-state=\"active\"]",
+            "meaning": "Selects elements whose data-state attribute equals active."
+          },
+          {
+            "part": "h1, h2",
+            "meaning": "Applies the rule to either selector in the comma-separated list."
+          }
+        ]
+      },
+      {
+        "title": "Relationship combinators",
+        "language": "css",
+        "code": ".parent .item { /* declarations */ }\n.parent > .item { /* declarations */ }\n.item + .sibling { /* declarations */ }\n.item ~ .sibling { /* declarations */ }",
+        "parts": [
+          {
+            "part": ".parent .item",
+            "meaning": "Selects item-class descendants at any depth within a parent-class element."
+          },
+          {
+            "part": ".parent > .item",
+            "meaning": "Selects item-class elements that are direct children of a parent-class element."
+          },
+          {
+            "part": ".item + .sibling",
+            "meaning": "Selects a sibling-class element immediately following an item-class element with the same parent."
+          },
+          {
+            "part": ".item ~ .sibling",
+            "meaning": "Selects sibling-class elements following an item-class element with the same parent."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Choose the pieces to style",
@@ -799,6 +1242,97 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-cascade-specificity",
     "summary": "The cascade chooses which CSS value wins when rules compete. Specificity and inheritance explain many results that otherwise seem surprising.",
+    "syntax": [
+      {
+        "title": "Inline declarations",
+        "language": "html",
+        "code": "<p id=\"content\" class=\"text\" style=\"color: navy;\">\n  Text\n</p>",
+        "parts": [
+          {
+            "part": "<p",
+            "meaning": "Creates a paragraph, which can also match an element selector."
+          },
+          {
+            "part": "id=\"content\"",
+            "meaning": "Provides the target for an ID selector."
+          },
+          {
+            "part": "class=\"text\"",
+            "meaning": "Provides the target for a class selector."
+          },
+          {
+            "part": "style=\"color: navy;\"",
+            "meaning": "Sets a normal inline declaration, which outranks normal author stylesheet declarations."
+          }
+        ]
+      },
+      {
+        "title": "Specificity, importance and inheritance",
+        "language": "css",
+        "code": "p { color: gray; }\n.text { color: blue; }\n#content { color: green; }\n.override { color: red !important; }\n.child { color: inherit; }",
+        "parts": [
+          {
+            "part": "p",
+            "meaning": "Has specificity 0-0-1, below class and ID selectors when earlier cascade criteria tie."
+          },
+          {
+            "part": "color",
+            "meaning": "Sets the text foreground color."
+          },
+          {
+            "part": ".text",
+            "meaning": "Has specificity 0-1-0, above element selectors and below ID selectors when earlier cascade criteria tie."
+          },
+          {
+            "part": "#content",
+            "meaning": "Has specificity 1-0-0, above class and element selectors when earlier cascade criteria tie."
+          },
+          {
+            "part": ".override",
+            "meaning": "Selects elements assigned the override class."
+          },
+          {
+            "part": "!important",
+            "meaning": "Makes this declaration important; importance is considered before specificity."
+          },
+          {
+            "part": ".child",
+            "meaning": "Selects elements assigned the child class."
+          },
+          {
+            "part": "inherit",
+            "meaning": "Uses the parent element computed value for this property."
+          }
+        ]
+      },
+      {
+        "title": "Ordered cascade layers",
+        "language": "css",
+        "code": "@layer base, components;\n@layer base {\n  .text { color: gray; }\n}\n@layer components {\n  .text { color: navy; }\n}",
+        "parts": [
+          {
+            "part": "@layer base, components;",
+            "meaning": "Establishes layer order; later layers win for normal declarations, while important declarations reverse layer order."
+          },
+          {
+            "part": "@layer base",
+            "meaning": "Places enclosed rules in the base layer."
+          },
+          {
+            "part": ".text",
+            "meaning": "Selects elements assigned the text class."
+          },
+          {
+            "part": "color",
+            "meaning": "Sets the text foreground color."
+          },
+          {
+            "part": "@layer components",
+            "meaning": "Places enclosed rules in the later components layer."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Understand competing instructions",
@@ -921,6 +1455,105 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-box-model",
     "summary": "The box model describes the space an element uses. Box-sizing determines whether a declared size includes its padding and border.",
+    "syntax": [
+      {
+        "title": "Sizing and borders",
+        "language": "css",
+        "code": ".box {\n  box-sizing: border-box;\n  border: 1px solid currentColor;\n}",
+        "parts": [
+          {
+            "part": ".box",
+            "meaning": "Selects elements assigned the box class."
+          },
+          {
+            "part": "box-sizing: border-box",
+            "meaning": "Makes specified width and height include padding and borders, excluding margins."
+          },
+          {
+            "part": "border: 1px solid currentColor",
+            "meaning": "Sets all border widths, styles and colors using the element text color."
+          }
+        ]
+      },
+      {
+        "title": "Padding shorthand lengths",
+        "language": "css",
+        "code": ".all { padding: 1rem; }\n.axes { padding: 1rem 2rem; }\n.three { padding: 1rem 2rem 3rem; }\n.four { padding: 1rem 2rem 3rem 4rem; }",
+        "parts": [
+          {
+            "part": ".all",
+            "meaning": "Names the class selector for the one-value form."
+          },
+          {
+            "part": "padding: 1rem",
+            "meaning": "Sets padding on all four sides; rem units use the root font size."
+          },
+          {
+            "part": ".axes",
+            "meaning": "Names the class selector for the two-value form."
+          },
+          {
+            "part": "padding: 1rem 2rem",
+            "meaning": "Sets vertical padding first, then horizontal padding."
+          },
+          {
+            "part": ".three",
+            "meaning": "Names the class selector for the three-value form."
+          },
+          {
+            "part": "padding: 1rem 2rem 3rem",
+            "meaning": "Sets top, horizontal and bottom padding, in that order."
+          },
+          {
+            "part": ".four",
+            "meaning": "Names the class selector for the four-value form."
+          },
+          {
+            "part": "padding: 1rem 2rem 3rem 4rem",
+            "meaning": "Sets top, right, bottom and left padding, in that order."
+          }
+        ]
+      },
+      {
+        "title": "Margin shorthand lengths",
+        "language": "css",
+        "code": ".all { margin: 1rem; }\n.axes { margin: 1rem 2rem; }\n.three { margin: 1rem 2rem 3rem; }\n.four { margin: 1rem 2rem 3rem 4rem; }",
+        "parts": [
+          {
+            "part": ".all",
+            "meaning": "Names the class selector for the one-value form."
+          },
+          {
+            "part": "margin: 1rem",
+            "meaning": "Sets outer spacing on all four sides; rem units use the root font size."
+          },
+          {
+            "part": ".axes",
+            "meaning": "Names the class selector for the two-value form."
+          },
+          {
+            "part": "margin: 1rem 2rem",
+            "meaning": "Sets vertical margins first, then horizontal margins."
+          },
+          {
+            "part": ".three",
+            "meaning": "Names the class selector for the three-value form."
+          },
+          {
+            "part": "margin: 1rem 2rem 3rem",
+            "meaning": "Sets top, horizontal and bottom margins, in that order."
+          },
+          {
+            "part": ".four",
+            "meaning": "Names the class selector for the four-value form."
+          },
+          {
+            "part": "margin: 1rem 2rem 3rem 4rem",
+            "meaning": "Sets top, right, bottom and left margins, in that order."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Picture a wrapped box",
@@ -1164,6 +1797,35 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-display",
     "summary": "The display property controls how a box joins the page layout. Different hiding methods also affect space, interaction, and reading tools.",
+    "syntax": [
+      {
+        "title": "Display and visibility values",
+        "language": "css",
+        "code": ".block { display: block; }\n.inline { display: inline; }\n.inline-block { display: inline-block; }\n.removed { display: none; }\n.invisible { visibility: hidden; }",
+        "parts": [
+          {
+            "part": ".block { display: block; }",
+            "meaning": "Selects the block class and gives it block-level outer display."
+          },
+          {
+            "part": ".inline { display: inline; }",
+            "meaning": "Selects the inline class and lays it out inline with surrounding text."
+          },
+          {
+            "part": ".inline-block { display: inline-block; }",
+            "meaning": "Selects the inline-block class and creates an inline-level box that accepts width and height."
+          },
+          {
+            "part": ".removed { display: none; }",
+            "meaning": "Selects the removed class and generates no boxes for it or its descendants."
+          },
+          {
+            "part": ".invisible { visibility: hidden; }",
+            "meaning": "Selects the invisible class and hides its boxes while preserving their layout space."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Boxes on a page",
@@ -1281,6 +1943,78 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-positioning",
     "summary": "Positioning changes where an element is placed and whether it keeps its usual space. The right choice lets you attach a badge, pin a control, or keep a heading nearby while scrolling.",
+    "syntax": [
+      {
+        "title": "Relative parent and absolute child",
+        "language": "css",
+        "code": ".container { position: relative; }\n.container > .positioned {\n  position: absolute;\n  top: 1rem;\n  right: 2rem;\n  bottom: 3rem;\n  left: 4rem;\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects the containing element by class."
+          },
+          {
+            "part": "position: relative",
+            "meaning": "Keeps the element in normal flow and establishes a containing block for absolutely positioned descendants."
+          },
+          {
+            "part": ".container > .positioned",
+            "meaning": "Selects a positioned-class element directly inside a container-class element."
+          },
+          {
+            "part": "position: absolute",
+            "meaning": "Removes the element from normal flow and positions it against its absolute-positioning containing block."
+          },
+          {
+            "part": "top: 1rem",
+            "meaning": "Sets the top inset relative to the containing block."
+          },
+          {
+            "part": "right: 2rem",
+            "meaning": "Sets the right inset relative to the containing block."
+          },
+          {
+            "part": "bottom: 3rem",
+            "meaning": "Sets the bottom inset relative to the containing block."
+          },
+          {
+            "part": "left: 4rem",
+            "meaning": "Sets the left inset relative to the containing block."
+          }
+        ]
+      },
+      {
+        "title": "Fixed insets and sticky threshold",
+        "language": "css",
+        "code": ".fixed {\n  position: fixed;\n  inset: 1rem 2rem 3rem 4rem;\n}\n.sticky {\n  position: sticky;\n  top: 0;\n}",
+        "parts": [
+          {
+            "part": ".fixed",
+            "meaning": "Selects elements assigned the fixed class."
+          },
+          {
+            "part": "position: fixed",
+            "meaning": "Removes the element from flow and positions it against its fixed-positioning containing block, usually the viewport."
+          },
+          {
+            "part": "inset: 1rem 2rem 3rem 4rem",
+            "meaning": "Sets top, right, bottom and left offsets, in that order."
+          },
+          {
+            "part": ".sticky",
+            "meaning": "Selects elements assigned the sticky class."
+          },
+          {
+            "part": "position: sticky",
+            "meaning": "Keeps normal-flow space while adjusting position within its containing block relative to the nearest scrollport."
+          },
+          {
+            "part": "top: 0",
+            "meaning": "Sets the top sticky inset to zero."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Start from the usual place",
@@ -1397,6 +2131,42 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-z-index-stacking",
     "summary": "The z-index property helps choose which overlapping box appears in front. Stacking contexts group layers, so a child’s number is not compared with every box on the page.",
+    "syntax": [
+      {
+        "title": "Positioned stacking level",
+        "language": "css",
+        "code": ".layer {\n  position: relative;\n  z-index: 10;\n}",
+        "parts": [
+          {
+            "part": ".layer",
+            "meaning": "Selects elements assigned the layer class."
+          },
+          {
+            "part": "position: relative",
+            "meaning": "Makes the element positioned without removing it from normal flow."
+          },
+          {
+            "part": "z-index: 10",
+            "meaning": "Creates a stacking context at level ten within its parent stacking context."
+          }
+        ]
+      },
+      {
+        "title": "Isolated stacking context",
+        "language": "css",
+        "code": ".container {\n  isolation: isolate;\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects elements assigned the container class."
+          },
+          {
+            "part": "isolation: isolate",
+            "meaning": "Creates a stacking context that groups descendant stacking independently of outside elements."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Picture separate folders",
@@ -1516,6 +2286,58 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-pseudo",
     "summary": "Pseudo-classes select elements by state or position. Pseudo-elements style generated pieces, such as a decorative mark before a label.",
+    "syntax": [
+      {
+        "title": "State and structural pseudo-classes",
+        "language": "css",
+        "code": ".control:hover { /* declarations */ }\n.control:focus-visible { /* declarations */ }\n.item:first-child { /* declarations */ }\n.item:nth-child(2n + 1) { /* declarations */ }\n.item:not(.disabled) { /* declarations */ }",
+        "parts": [
+          {
+            "part": ".control:hover",
+            "meaning": "Selects control-class elements while a pointing device hovers over them."
+          },
+          {
+            "part": ".control:focus-visible",
+            "meaning": "Selects focused control-class elements when the browser determines a visible focus indicator is appropriate."
+          },
+          {
+            "part": ".item:first-child",
+            "meaning": "Selects item-class elements that are their parent first element child."
+          },
+          {
+            "part": ".item:nth-child(2n + 1)",
+            "meaning": "Selects item-class elements in odd positions among all element siblings, counting from one."
+          },
+          {
+            "part": ".item:not(.disabled)",
+            "meaning": "Selects item-class elements whose class list does not include disabled."
+          }
+        ]
+      },
+      {
+        "title": "Generated content before an element",
+        "language": "css",
+        "code": ".label::before {\n  content: \"\";\n  display: inline-block;\n}",
+        "parts": [
+          {
+            "part": ".label",
+            "meaning": "Selects elements assigned the label class."
+          },
+          {
+            "part": "::before",
+            "meaning": "Creates a pseudo-element before the selected element content."
+          },
+          {
+            "part": "content: \"\"",
+            "meaning": "Generates an empty pseudo-element that can be styled."
+          },
+          {
+            "part": "display: inline-block",
+            "meaning": "Gives the pseudo-element an inline-level box that accepts width and height."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Select an existing thing",
@@ -1633,6 +2455,117 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-backgrounds-borders",
     "summary": "Backgrounds fill a box, borders outline it, and shadows add depth. Gradients blend colours without an image file.",
+    "syntax": [
+      {
+        "title": "Background shorthand",
+        "language": "css",
+        "code": ".surface {\n  background: url(\"image.jpg\") center / cover no-repeat padding-box border-box scroll #fff;\n}",
+        "parts": [
+          {
+            "part": ".surface",
+            "meaning": "Selects elements assigned the surface class."
+          },
+          {
+            "part": "background",
+            "meaning": "Sets background longhands together and resets omitted ones to their initial values."
+          },
+          {
+            "part": "url(\"image.jpg\")",
+            "meaning": "Supplies the background image URL."
+          },
+          {
+            "part": "center / cover",
+            "meaning": "Centers the image and scales it to cover the background positioning area."
+          },
+          {
+            "part": "no-repeat",
+            "meaning": "Prevents background image tiling."
+          },
+          {
+            "part": "padding-box border-box",
+            "meaning": "Uses the padding box for positioning and the border box for clipping, in that order."
+          },
+          {
+            "part": "scroll",
+            "meaning": "Makes the background move with its element rather than remain fixed to the viewport."
+          },
+          {
+            "part": "#fff",
+            "meaning": "Sets a white background color beneath the image."
+          }
+        ]
+      },
+      {
+        "title": "Rounded corners and shadows",
+        "language": "css",
+        "code": ".surface {\n  border-radius: 0.5rem;\n  box-shadow: 2px 4px 8px 1px rgb(0 0 0 / 20%);\n}",
+        "parts": [
+          {
+            "part": ".surface",
+            "meaning": "Selects elements assigned the surface class."
+          },
+          {
+            "part": "border-radius: 0.5rem",
+            "meaning": "Rounds all four corners by half the root font size."
+          },
+          {
+            "part": "box-shadow",
+            "meaning": "Draws an outer shadow using the following offsets, blur, spread and color."
+          },
+          {
+            "part": "2px",
+            "meaning": "Sets the horizontal shadow offset; positive values move right."
+          },
+          {
+            "part": "4px",
+            "meaning": "Sets the vertical shadow offset; positive values move down."
+          },
+          {
+            "part": "8px",
+            "meaning": "Sets the nonnegative blur radius."
+          },
+          {
+            "part": "1px",
+            "meaning": "Expands the shadow by this spread distance."
+          },
+          {
+            "part": "rgb(0 0 0 / 20%)",
+            "meaning": "Sets black shadow color at twenty percent opacity."
+          }
+        ]
+      },
+      {
+        "title": "Linear gradient background",
+        "language": "css",
+        "code": ".surface {\n  background-image: linear-gradient(to right, #fff 0%, #000 100%);\n}",
+        "parts": [
+          {
+            "part": ".surface",
+            "meaning": "Selects elements assigned the surface class."
+          },
+          {
+            "part": "background-image",
+            "meaning": "Sets the image layer used for the background."
+          },
+          {
+            "part": "linear-gradient",
+            "meaning": "Creates an image that blends colors along a straight line."
+          },
+          {
+            "part": "to right",
+            "meaning": "Directs the gradient from left to right."
+          },
+          {
+            "part": "#fff 0%",
+            "meaning": "Places a white color stop at the start."
+          },
+          {
+            "part": "#000 100%",
+            "meaning": "Places a black color stop at the end."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Fill and outline a box",
@@ -1714,6 +2647,78 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-transitions-animations",
     "summary": "Transitions smooth a change between two values. Animations can run a named sequence of changes, while reduced-motion preferences help avoid unwanted movement.",
+    "syntax": [
+      {
+        "title": "Transition shorthand",
+        "language": "css",
+        "code": ".element {\n  transition: opacity 200ms ease-in-out 50ms;\n}",
+        "parts": [
+          {
+            "part": ".element",
+            "meaning": "Selects elements assigned the element class."
+          },
+          {
+            "part": "transition",
+            "meaning": "Combines property, duration, easing and delay for a property-value change."
+          },
+          {
+            "part": "opacity",
+            "meaning": "Names the property whose changes should transition."
+          },
+          {
+            "part": "200ms",
+            "meaning": "Sets the transition duration in milliseconds."
+          },
+          {
+            "part": "ease-in-out",
+            "meaning": "Starts and ends the transition slowly."
+          },
+          {
+            "part": "50ms",
+            "meaning": "Delays the transition start by this many milliseconds."
+          }
+        ]
+      },
+      {
+        "title": "Keyframes and animation shorthand",
+        "language": "css",
+        "code": "@keyframes fade {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n.element {\n  animation: fade 1s ease-in-out 0s infinite alternate both running;\n}",
+        "parts": [
+          {
+            "part": "@keyframes fade",
+            "meaning": "Defines named animation keyframes referenced by the animation shorthand."
+          },
+          {
+            "part": "from { opacity: 0; }",
+            "meaning": "Sets the starting keyframe to fully transparent."
+          },
+          {
+            "part": "to { opacity: 1; }",
+            "meaning": "Sets the ending keyframe to fully opaque."
+          },
+          {
+            "part": ".element",
+            "meaning": "Selects the elements receiving the animation."
+          },
+          {
+            "part": "animation: fade",
+            "meaning": "Assigns the keyframes named fade."
+          },
+          {
+            "part": "1s ease-in-out 0s",
+            "meaning": "Sets one-second duration, gradual starting and ending, and zero delay, in that order."
+          },
+          {
+            "part": "infinite alternate",
+            "meaning": "Repeats indefinitely and reverses direction on every other iteration."
+          },
+          {
+            "part": "both running",
+            "meaning": "Applies endpoint styles before and after playback and starts the animation in its running state."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Make a change gradual",
@@ -1796,6 +2801,39 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-flexbox-basics",
     "summary": "Flexbox arranges direct children along one main direction. Its alignment properties help place items and share space in rows or columns.",
+    "syntax": [
+      {
+        "title": "Flex container and alignment",
+        "language": "css",
+        "code": ".container {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  flex-wrap: wrap;\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects elements assigned the container class."
+          },
+          {
+            "part": "display: flex",
+            "meaning": "Creates a block-level flex container whose in-flow children become flex items."
+          },
+          {
+            "part": "flex-direction: row",
+            "meaning": "Runs the main axis along the inline direction."
+          },
+          {
+            "part": "justify-content: space-between",
+            "meaning": "Distributes main-axis free space between items, with the first and last at the edges."
+          },
+          {
+            "part": "align-items: center",
+            "meaning": "Centers items along the cross axis within each flex line."
+          },
+          {
+            "part": "flex-wrap: wrap",
+            "meaning": "Allows items to form additional flex lines."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Put items on a shelf",
@@ -1913,6 +2951,43 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-flexbox-practice",
     "summary": "Flex sizing decides how items share extra room or give up room when space is tight. Wrapping and gaps make the same row useful at different widths.",
+    "syntax": [
+      {
+        "title": "Container gap and item controls",
+        "language": "css",
+        "code": ".container { display: flex; gap: 1rem; }\n.container > .item {\n  flex: 1 1 12rem;\n  align-self: flex-start;\n  order: 1;\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects the flex container by class."
+          },
+          {
+            "part": "display: flex",
+            "meaning": "Creates a flex formatting context for the container children."
+          },
+          {
+            "part": "gap: 1rem",
+            "meaning": "Sets gaps between items and flex lines without adding outer spacing."
+          },
+          {
+            "part": ".container > .item",
+            "meaning": "Selects item-class direct children of the container."
+          },
+          {
+            "part": "flex: 1 1 12rem",
+            "meaning": "Sets grow factor, shrink factor and initial main size, in that order."
+          },
+          {
+            "part": "align-self: flex-start",
+            "meaning": "Overrides container alignment for this item, aligning it to the cross-start edge."
+          },
+          {
+            "part": "order: 1",
+            "meaning": "Sets visual ordering; lower numbers appear first, without changing document or keyboard order."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Start with a shared shelf",
@@ -2030,6 +3105,54 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-grid-basics",
     "summary": "CSS Grid arranges direct children in rows and columns together. You define tracks, add gaps, and let items fill cells or place them across chosen lines.",
+    "syntax": [
+      {
+        "title": "Grid tracks and gaps",
+        "language": "css",
+        "code": ".container {\n  display: grid;\n  grid-template-columns: 200px 1fr 2fr;\n  grid-template-rows: 80px 1fr;\n  gap: 1rem 2rem;\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects elements assigned the container class."
+          },
+          {
+            "part": "display: grid",
+            "meaning": "Creates a block-level grid container whose in-flow children become grid items."
+          },
+          {
+            "part": "grid-template-columns: 200px 1fr 2fr",
+            "meaning": "Defines a fixed column followed by flexible columns with one and two shares of available space."
+          },
+          {
+            "part": "grid-template-rows: 80px 1fr",
+            "meaning": "Defines a fixed first row and a flexible second row."
+          },
+          {
+            "part": "gap: 1rem 2rem",
+            "meaning": "Sets row gaps first and column gaps second."
+          }
+        ]
+      },
+      {
+        "title": "Item placement using grid lines",
+        "language": "css",
+        "code": ".item {\n  grid-column: 1 / 3;\n  grid-row: 2 / span 2;\n}",
+        "parts": [
+          {
+            "part": ".item",
+            "meaning": "Selects the element that must be a grid item for these placements to apply."
+          },
+          {
+            "part": "grid-column: 1 / 3",
+            "meaning": "Places the item between column lines one and three, spanning two columns."
+          },
+          {
+            "part": "grid-row: 2 / span 2",
+            "meaning": "Starts at row line two and spans two rows."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Draw a table of spaces",
@@ -2148,6 +3271,78 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-grid-practice",
     "summary": "Grid arranges content in rows and columns. Named areas and flexible columns help you build page layouts and card lists with less repeated CSS.",
+    "syntax": [
+      {
+        "title": "Automatically fitting columns",
+        "language": "css",
+        "code": ".container {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects the grid container by class."
+          },
+          {
+            "part": "display: grid",
+            "meaning": "Creates a grid formatting context."
+          },
+          {
+            "part": "grid-template-columns",
+            "meaning": "Defines the column track list."
+          },
+          {
+            "part": "repeat",
+            "meaning": "Repeats the supplied track definition."
+          },
+          {
+            "part": "auto-fit",
+            "meaning": "Creates as many tracks as fit and collapses empty repeated tracks."
+          },
+          {
+            "part": "minmax(12rem, 1fr)",
+            "meaning": "Gives each track a twelve-rem minimum and a flexible maximum sharing available space."
+          }
+        ]
+      },
+      {
+        "title": "Named grid areas and automatic placement",
+        "language": "css",
+        "code": ".container {\n  display: grid;\n  grid-template-areas:\n    \"header header\"\n    \"sidebar content\";\n  grid-auto-flow: row;\n}\n.header { grid-area: header; }\n.sidebar { grid-area: sidebar; }\n.content { grid-area: content; }",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects the grid container by class."
+          },
+          {
+            "part": "display: grid",
+            "meaning": "Creates a grid formatting context."
+          },
+          {
+            "part": "grid-template-areas",
+            "meaning": "Defines named rectangular areas using one quoted string per row and equal cell counts."
+          },
+          {
+            "part": "\"header header\"",
+            "meaning": "Names a header area spanning both columns in the first row."
+          },
+          {
+            "part": "\"sidebar content\"",
+            "meaning": "Names separate sidebar and content areas in the second row."
+          },
+          {
+            "part": "grid-auto-flow: row",
+            "meaning": "Places items without explicit positions by filling rows and adding rows as needed."
+          },
+          {
+            "part": ".header { grid-area: header; }",
+            "meaning": "Selects the header-class grid item and places it in the header area."
+          },
+          {
+            "part": ".sidebar { grid-area: sidebar; }\n.content { grid-area: content; }",
+            "meaning": "Selects sidebar-class and content-class grid items and places each in its matching named area."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Start with a shelf",
@@ -2403,6 +3598,50 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-mobile-first-media",
     "summary": "Mobile-first CSS starts with styles that work in a narrow space. Media queries add changes when the browser has more room or the user has a particular preference.",
+    "syntax": [
+      {
+        "title": "Base rule and minimum-width query",
+        "language": "css",
+        "code": ".container { padding: 1rem; }\n@media (min-width: 48rem) {\n  .container { padding: 2rem; }\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects elements assigned the container class."
+          },
+          {
+            "part": "padding: 1rem",
+            "meaning": "Provides base padding at all viewport sizes."
+          },
+          {
+            "part": "@media (min-width: 48rem)",
+            "meaning": "Applies enclosed rules when viewport width is at least 48 times the initial font size."
+          },
+          {
+            "part": "padding: 2rem",
+            "meaning": "Overrides the base padding when the media condition matches."
+          }
+        ]
+      },
+      {
+        "title": "Orientation query",
+        "language": "css",
+        "code": "@media (orientation: landscape) {\n  .container { padding: 2rem; }\n}",
+        "parts": [
+          {
+            "part": "@media (orientation: landscape)",
+            "meaning": "Applies enclosed rules when viewport width is greater than viewport height."
+          },
+          {
+            "part": ".container",
+            "meaning": "Selects elements assigned the container class."
+          },
+          {
+            "part": "padding: 2rem",
+            "meaning": "Sets padding to twice the root element font size."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Start with a small shelf",
@@ -2529,6 +3768,66 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-fluid-sizing",
     "summary": "Fluid sizes adjust to the space available. Image sizing rules preserve useful proportions, while responsive image choices can reduce unnecessary downloads.",
+    "syntax": [
+      {
+        "title": "Bounded and compared sizes",
+        "language": "css",
+        "code": ".element {\n  font-size: clamp(1rem, 2vw, 2rem);\n  width: min(100%, 60rem);\n  min-height: max(12rem, 30vh);\n}",
+        "parts": [
+          {
+            "part": ".element",
+            "meaning": "Selects elements assigned the element class."
+          },
+          {
+            "part": "font-size: clamp(1rem, 2vw, 2rem)",
+            "meaning": "Sets font size using minimum, preferred and maximum values, in that order."
+          },
+          {
+            "part": "2vw",
+            "meaning": "Equals two percent of the viewport width."
+          },
+          {
+            "part": "width: min(100%, 60rem)",
+            "meaning": "Chooses the smaller of the containing block width and sixty root font sizes."
+          },
+          {
+            "part": "min-height: max(12rem, 30vh)",
+            "meaning": "Chooses the larger value as minimum height."
+          },
+          {
+            "part": "30vh",
+            "meaning": "Equals thirty percent of the viewport height."
+          }
+        ]
+      },
+      {
+        "title": "Responsive image box and fitting",
+        "language": "css",
+        "code": "img {\n  width: 100%;\n  height: auto;\n  aspect-ratio: 16 / 9;\n  object-fit: cover;\n}",
+        "parts": [
+          {
+            "part": "img",
+            "meaning": "Selects image elements."
+          },
+          {
+            "part": "width: 100%",
+            "meaning": "Makes the image box as wide as its containing block."
+          },
+          {
+            "part": "height: auto",
+            "meaning": "Lets the browser calculate height using the preferred aspect ratio."
+          },
+          {
+            "part": "aspect-ratio: 16 / 9",
+            "meaning": "Sets the box preferred width-to-height ratio to sixteen divided by nine."
+          },
+          {
+            "part": "object-fit: cover",
+            "meaning": "Scales image content to fill the box while preserving its own ratio and cropping overflow."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Choose sizes with limits",
@@ -2608,6 +3907,39 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-container-queries",
     "summary": "Container queries change styles according to the space around a component. They let the same component adapt inside a narrow sidebar or a wide main area.",
+    "syntax": [
+      {
+        "title": "Named inline-size container query",
+        "language": "css",
+        "code": ".container {\n  container-type: inline-size;\n  container-name: panel;\n}\n@container panel (min-width: 30rem) {\n  .child { padding: 2rem; }\n}",
+        "parts": [
+          {
+            "part": ".container",
+            "meaning": "Selects elements assigned the container class."
+          },
+          {
+            "part": "container-type: inline-size",
+            "meaning": "Establishes inline-axis size containment and enables inline-size queries on descendants."
+          },
+          {
+            "part": "container-name: panel",
+            "meaning": "Assigns a name used to select an eligible query container."
+          },
+          {
+            "part": "@container panel (min-width: 30rem)",
+            "meaning": "Applies descendant rules when the nearest eligible panel container width is at least thirty rem."
+          },
+          {
+            "part": ".child",
+            "meaning": "Selects child-class descendants evaluated against an eligible ancestor container."
+          },
+          {
+            "part": "padding: 2rem",
+            "meaning": "Sets padding when the container condition matches."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Measure the surrounding box",
@@ -2685,6 +4017,43 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-custom-properties",
     "summary": "Custom properties store reusable CSS values under names you choose. Changing a few shared values can update a whole theme or one small part of a page.",
+    "syntax": [
+      {
+        "title": "Root variables, fallbacks and overrides",
+        "language": "css",
+        "code": ":root {\n  --text-color: #222;\n}\n.element {\n  color: var(--text-color);\n  background-color: var(--surface-color, #fff);\n}\n.theme-dark { --text-color: #eee; }",
+        "parts": [
+          {
+            "part": ":root",
+            "meaning": "Selects the document root element."
+          },
+          {
+            "part": "--text-color: #222",
+            "meaning": "Defines an inherited custom property with a dark color value."
+          },
+          {
+            "part": ".element",
+            "meaning": "Selects elements that consume the custom properties."
+          },
+          {
+            "part": "color: var(--text-color)",
+            "meaning": "Uses the computed custom property value as the text color."
+          },
+          {
+            "part": "background-color: var(--surface-color, #fff)",
+            "meaning": "Uses the surface property, or white if that property is missing or guaranteed-invalid."
+          },
+          {
+            "part": ".theme-dark",
+            "meaning": "Selects the element whose custom property override is inherited by descendants."
+          },
+          {
+            "part": "--text-color: #eee",
+            "meaning": "Overrides the inherited text color property with a light color."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Give repeated values names",
@@ -3125,6 +4494,70 @@ export const HTML_CSS_NOTES: TopicNotes[] = [
   {
     "topicId": "hc-css-accessibility",
     "summary": "Accessible CSS helps people see, navigate, and understand a page using different tools and settings. Clear focus, readable colors, careful hiding, and reduced motion all support that goal.",
+    "syntax": [
+      {
+        "title": "Visible focus outline",
+        "language": "css",
+        "code": ".control:focus-visible {\n  outline: 2px solid #005fcc;\n  outline-offset: 2px;\n}",
+        "parts": [
+          {
+            "part": ".control",
+            "meaning": "Selects elements assigned the control class."
+          },
+          {
+            "part": ":focus-visible",
+            "meaning": "Matches focus when the browser determines a visible focus indicator is appropriate."
+          },
+          {
+            "part": "outline: 2px solid #005fcc",
+            "meaning": "Draws a solid blue focus outline; choose a color with sufficient contrast against adjacent backgrounds."
+          },
+          {
+            "part": "outline-offset: 2px",
+            "meaning": "Separates the outline from the element border by two CSS pixels."
+          }
+        ]
+      },
+      {
+        "title": "Visually hidden noninteractive text",
+        "language": "css",
+        "code": ".visually-hidden {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip-path: inset(50%);\n  white-space: nowrap; border: 0;\n}",
+        "parts": [
+          {
+            "part": ".visually-hidden",
+            "meaning": "Hides noninteractive text visually while keeping it available to assistive technology; reveal focusable content when focused."
+          },
+          {
+            "part": "position: absolute",
+            "meaning": "Removes the element from normal flow."
+          },
+          {
+            "part": "width: 1px;\n  height: 1px;",
+            "meaning": "Reduces the box to one CSS pixel in each dimension."
+          },
+          {
+            "part": "padding: 0",
+            "meaning": "Removes inner spacing."
+          },
+          {
+            "part": "margin: -1px",
+            "meaning": "Offsets the tiny box with negative outer spacing."
+          },
+          {
+            "part": "overflow: hidden",
+            "meaning": "Clips content extending outside the box."
+          },
+          {
+            "part": "clip-path: inset(50%)",
+            "meaning": "Clips the visible region inward from every edge until no area remains."
+          },
+          {
+            "part": "white-space: nowrap; border: 0;",
+            "meaning": "Prevents text wrapping and removes the border."
+          }
+        ]
+      }
+    ],
     "explanation": [
       {
         "heading": "Keep a visible place marker",
